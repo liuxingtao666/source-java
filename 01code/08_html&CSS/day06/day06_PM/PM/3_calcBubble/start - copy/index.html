@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head><title>计算器</title>
+	<meta charset="utf-8">
+		<script src="index.js"></script>
+	</head>
+	<body>
+    <div onclick="parentFun()">
+		<input type="button" value="1" onclick="calculate(this.value,event)"/>
+		<input type="button" value="2" onclick="calculate(this.value,event)"/>
+		<input type="button" value="3" onclick="calculate(this.value,event)"/>
+		<input type="button" value="4" onclick="calculate(this.value,event)"/><br/>
+		<input type="button" value="C" onclick="calculate(this.value,event)"/>
+		<input type="button" value="+" onclick="calculate(this.value,event)"/>
+		<input type="button" value="-" onclick="calculate(this.value,event)"/>
+		<input type="button" value="=" onclick="calculate(this.value,event)"/><br />
+		<input type="text" width="25em" id="txtData" readonly></input>
+	</div>
+	</body>
+</html>

@@ -1,0 +1,19 @@
+﻿#root {
+		position:absolute;
+		height:100px;
+		width:150px;
+		background-color:#F4F4F4;
+		border:1px solid #333;
+		left:20px; 
+		top:20px;
+}
+
+#handle {
+		margin:2px;
+		padding:2px;
+		width:142px;
+		color:white;
+		background-color:navy;
+		font-family:verdana, sans-serif;
+		font-size:10px;
+}

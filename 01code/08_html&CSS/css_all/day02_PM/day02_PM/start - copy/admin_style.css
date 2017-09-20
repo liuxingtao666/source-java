@@ -1,0 +1,33 @@
+#operate{text-align:right;}
+.btn_add{
+	width:73px;
+	height:26px;
+	background-image:url(images/btn_bg.png);
+	color:#fff;
+	border:0;
+	cursor:pointer;
+}
+.btn_add:hover{background-position:center;}
+.btn_add:active{background-position:bottom;}
+
+#header img{float:left;}
+
+#navi ul{list-style-type:none;
+	width:960px; margin:0 auto;
+}
+#navi li{float:left;}
+#navi a{width:78px;height:87px;display:block;
+	text-align:center;
+	line-height:87px;
+	color:#fff;
+	font-size:16px;
+	font-weight:bold;
+	text-decoration:none;
+}
+#navi a:hover{
+	background-color:#0ea7d8;
+}
+#main{position:relative;}
+#result_info{position:absolute;top:90px;left:250px}
+
+#adv{position:fixed;right:10px;bottom:100px}

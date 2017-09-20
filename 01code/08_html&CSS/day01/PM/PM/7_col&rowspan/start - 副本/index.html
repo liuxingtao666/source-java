@@ -1,0 +1,30 @@
+﻿<html>
+    <head>
+        <title>复杂表头合并</title>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+			<table border="1px">
+					<caption>Your Content Here</caption>
+					<tr>
+						<!--Step1:垂直合并前两行，第一列和最后一列两个单元格：在第一个单元格和最后一个单元格加rowspan属性。2代表合并两行。因为垂直合并，所以需要将下方两个被合并的单元格标记删除，因此删掉第二行首尾两个td。-->
+						<!--Step2:水平方向合并中间两个单元格，那么，删除右侧单元格，在左侧单元格中加colspan属性。2代表合并2个单元格。-->
+						<!--Step3:模仿第一个th，上下合并两个单元格 -->
+						<!--Step4:第二行由于第一行的合并，只需要建中间两个单元格即可 -->
+  						<th                    ></th>  						
+  						<th                    >A common header for two subheads</th>
+						<th                    ></th>
+						<th                    >Header 3</th>
+					<tr>
+						<th></th><th>Header 1</th><th>Header 2</th><th></th>
+					</tr>
+					<tr>
+  						<th>Thing A</th>
+  						<td>data A1</td>
+  						<td>data A2</td>
+  						<td>data A3</td>
+					</tr>
+				</table>            
+    </body>
+</html>
+﻿

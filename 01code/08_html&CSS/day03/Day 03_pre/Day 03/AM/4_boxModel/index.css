@@ -1,0 +1,28 @@
+﻿body{ background-color:#FFD100; }
+#wshl,#kimi{ border:1px solid green; 
+			float:left; 
+			background-size:100% 100%}
+div p{
+	border: 3px double red;
+	width:100%;
+	height:100%;
+}
+#wshl{
+	background-image:url(images/wangshl.png);
+	width:168px;
+	height:192px;
+	margin-top:57px;
+	/*Step1*/
+	/*padding:200px 0 200px 0;*/ /*或*/ /*padding:200px 0;*/
+	/*Step2*/
+	/*padding:200px 250px;*/
+	/*Step3*/
+	/*margin-right:100px;*/
+}
+#kimi{
+	background-image:url(images/kimi.png);
+	width:160px;
+	height:249px;
+	/*Step4*/
+	/*margin-left:100px;*/
+}

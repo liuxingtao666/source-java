@@ -1,0 +1,22 @@
+﻿六、Margin合并专题！（扩展自学）DEMO：Extend_Margin
+    <!--Step0:看初始效果 -->
+现象：margin-left都正常，但粉色的margin-top，橙色的margin-bottom消失了。而且，上下两个容器之间本来应该是两倍Margin，但是现在看来也只剩一倍了
+        i、垂直方向两个margin相遇，将合并为1个
+    /*Step1为灰色容器div增加边框！*/
+    border:1px solid red;
+    （加上边框后发现，粉色的margin-top和橙色的margin-bottom又出现了。好像被边框拦了一下）
+    /*Step2去掉容器div的边框样式，增加padding样式25px*/
+    padding:25px;
+    （加上Padding后发现，容器div的padding和子div的margin都规规矩矩的出现了，并且Margin和padding没有出现合并的迹象。）
+    /*Step3:去掉padding属性，定义overflow:hidden*/
+    overflow:hidden;
+    （发现容器之间依然合并，子div之间依然合并，但子div与容器之间不再合并)
+    	ii、垂直方向(top、bottom),如果有padding、border、overflow:hidden的影响，则父子间不会合并。
+
+    /*Step4:去掉overflow:hidden属性，将下方容器的margin-top设置为50px*/
+    margin-top:50px;        
+    （发现上下两个容器间的距离明显变为50px，说明什么？一个50px，一个25px，取哪个？对！取最大的一个）
+    /*Step5:将上方容器的margin-bottom设置为-25px*/
+    margin-bottom:-25px;
+    （发现上下两个容器间的距离明显变成25-25=0了。）
+	iii、如果相邻同级两个margin都是正值，则取两值中最大的；如果一正一负，则相互吸引，最终值为相减的结果。如果两者都为负数，则绝对值大的减绝对值小的，得到的负数为新的Margin潜入的距离。

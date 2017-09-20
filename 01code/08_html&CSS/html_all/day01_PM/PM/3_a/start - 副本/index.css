@@ -1,0 +1,57 @@
+﻿body{
+	background-color:#DDFEE3;
+}
+div{
+	background-position:center; 
+	background-repeat:no-repeat;
+}
+div div{
+	height:30px;
+}
+#a{
+	background-image: url(images/a.jpg); 
+	height:420px;
+}
+#b{
+	background-image: url(images/b.png); 
+	height:507px;
+}
+#c{
+	background-image: url(images/c.png); 
+	height:62px;
+}
+#钟表{
+	background-image: url(images/zhongbiao.png); 
+	height:538px;
+}
+#汽车{
+	background-image: url(images/qiche.png); 
+	height:607px;
+}
+#美食{
+	background-image: url(images/meishi.png); 
+	height:601px;
+}
+#保健{
+	background-image: url(images/baojian.png); 
+	height:597px;
+}
+#酒饮{
+	background-image: url(images/jiuyin.png); 
+	height:599px;
+}
+#母婴{
+	background-image: url(images/muying.png); 
+	height:531px;
+}
+#list{
+	background-image: url(images/hdj.png);
+	position:fixed;
+	top:38%;
+	right:2%;
+	height:425px;
+	width:120px;
+}
+#first{
+	height:160px;
+}

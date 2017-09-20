@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head><title>encodeURI/decodeURI</title>
+		<meta charset="utf-8"/>
+		<script>
+			var str = "http://tts6.tarena.com.cn/index.html?name=张三";
+			//Step1:使用encodeURI方法对包含中文的URL进行编码，编码结果还放在str变量中
+			str = encodeURI(str);
+			alert("encodeURI:str=" + str);
+			//Step2:使用decodeURI方法将str解码为原始内容，结果还保存在str变量中
+			str = decodeURI(str);
+			alert("decodeURI:str=" + str);
+		</script>
+	</head>
+	<body>
+		<h1>var str = "http://tts6.tarena.com.cn/index.html?name=张三";</h1>
+	</body>
+</html>

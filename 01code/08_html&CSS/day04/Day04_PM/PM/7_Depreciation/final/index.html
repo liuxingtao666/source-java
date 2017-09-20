@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head><title>资产折旧计算</title>
+		<meta charset="utf-8"/>
+		<script src="index.js">
+	</script>
+	</head>
+	<body style="font-size:24px;">
+		采购价：<input id="txtPrice" type="text" value="10000" /><br />
+		折旧率：<input id="txtRate" type="text" value="0.15" /><br/>
+		年限：<input id="txtYear" type="text" value="5" /><br/>
+		<p>计算方法：10000 * （1-折旧率）的year次方<br/>
+		如：第一年的折旧为10000 * （1-15%）的1次方<br/>
+		第二年的折旧为10000*（1-15%）*（1-15%），也就是10000*（1-15%）的2次方<br/>
+		...依次类推</p>
+	    <input type="button" value="计算" onclick="calculateDepreciation();" /><br/>
+	</body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+    <head>
+		<title>Document</title>
+        <meta charset="UTF-8">		
+ </head>
+ <body>
+	<form>
+		<h2>增加管理员</h2>
+		<table width="600px">
+                <tr>
+                    <td width="80px">姓名：</td>
+                    <td width="180px">
+						<input name="userName" maxlength="10"/><span>*</span>
+					</td>
+                    <td>10个字符以内的字母、数字和下划线的组合</td>
+                </tr>				
+                <tr>                	
+                    <td>密码：</td>		    
+                    <td>
+						<input type="password" name="pwd" maxlength="6"/> <span>*</span>
+					</td>
+                    <td>6位数字</td>
+                </tr>				
+				<tr>
+                    <td>重复密码：</td>
+                    <td>
+						<input type="password" maxlength="6"/><span>*</span>
+					</td>
+                    <td>两次密码必须相同</td>
+                </tr>
+				<tr>
+					<td>性别：</td>
+					<td>
+<input id="radFem" type="radio" name="sex" value="femal"/><label for="radFem">女士</label>
+<input id="radMal" type="radio" name="sex" value="mal"/><label for="radMal">男士</label>
+					</td><td></td>
+				</tr>
+				<tr>
+					<td>角色：</td>
+					<td>
+					<fieldset>
+					<legend>选择管理员</legend>
+<input type="checkbox" name="roles" value="sa"/>超级管理员<br/>
+<input type="checkbox" name="roles" value="stu"/>学生管理员<br/>
+<input type="checkbox" name="roles" value="tech"/>教师管理员
+					</fieldset>
+					</td>
+				</tr>
+				<tr>
+				    <td>状态：</td>
+					<td>
+<select name="status">
+	<option value="enable">启用</option>
+	<option value="disable">停用</option>
+	<option value="deleted">删除</option>
+</select>
+					</td>
+				</tr>
+				<tr>
+				    <td>所属中心：</td>
+					<td>
+<select name="center" size="5" multiple>
+	<option value="zgc">中关村中心</option>
+	<option value="tam">天安门中心</option>
+	<option value="xjh">徐家汇中心</option>
+	<option value="ty">太原中心</option>
+	<option value="sz">深圳中心</option>
+	<option value="gz">广州中心</option>
+</select>
+					</td>
+				</tr>
+	            <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="保存"  />
+                        <input type="reset" value="重填" />
+                    </td>
+					<td></td>
+                </tr>
+	    </table>
+	</form>
+ </body>
+</html>

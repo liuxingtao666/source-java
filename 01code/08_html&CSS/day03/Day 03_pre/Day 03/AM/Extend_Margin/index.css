@@ -1,0 +1,20 @@
+﻿.parent{
+	margin:25px auto;	width:200px;	background-color:gray;
+	/*Step1为容器div增加边框！*/
+	/*border:1px solid red;*/
+	/*Step2去掉容器div的边框样式，增加padding样式25px*/
+	/*padding:25px;*/
+	/*Step3:去掉padding属性，定义overflow:hidden*/
+	overflow:hidden;
+}
+.child{
+	margin:25px;width:50px;height:50px;
+}
+#parent2{
+	/*Step4:去掉overflow:hidden属性，将下方容器的margin-top设置为50px*/
+	/*margin-top:50px;*/
+}
+#parent1{
+	/*Step5:将上方容器的margin-bottom设置为-25px*/
+	/*margin-bottom:-25px;*/
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head><title>自我介绍</title>
+		<meta charset="utf-8"/>
+		<link rel="Stylesheet" href="index.css"/>
+		<script>
+			var hmm = {name:"Han Meimei",age:18
+						,intrSelf:function(){intrSelfFun();}}
+
+			var intrSelfFun = function () {
+				var dialog = document.getElementById("dialog");
+				dialog.innerHTML = "i am " + this.name + ",i am " + this.age + " years old.";
+				dialog.style.display="block";
+			};
+		</script>
+	</head>
+	<body>
+		<div id="parentDiv">
+			<div id="hmm" onclick="hmm.intrSelf()">
+			</div>
+			<div id="dialog">
+			</div>
+		</div>
+	</body>
+</html>

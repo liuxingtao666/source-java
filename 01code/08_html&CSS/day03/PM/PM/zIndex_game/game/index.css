@@ -1,0 +1,99 @@
+﻿body{
+	height:11921px;
+	width:99%;
+	background-image:url("images/backSpace.jpg");
+	background-position:bottom center;
+	background-repeat:no-repeat;
+	margin:0 auto;
+}
+#cohete2,#fuego2{
+	position:fixed;		
+	left:580px;
+	width:185px;
+	background-position:top center;
+	background-repeat:no-repeat;
+	left:0;
+	right:0;
+	margin:auto;
+}
+
+#plataforma_eng,#base_eng{
+	position:absolute;
+	left:0px;
+	background-position:bottom center;
+	width:100%;
+}
+#base_eng{	
+	height:567px;	
+	top:11400px;	
+	background-image:url("images/base_eng.png");	
+}
+#plataforma_eng{
+	background-image:url("images/plataforma_eng.png");
+	top:5px;
+	height:1308px;
+	z-index:100;
+}
+.banda_eng{
+	z-index:50;
+	height:395px;
+	background-image:url(images/banda_eng.png);
+}
+/*火箭*/
+#cohete2{
+	background-image:url("images/cohete2.png");	
+	height:325px;
+	z-index:10;
+	top:250px;
+}
+/*火焰*/
+#fuego2{
+	background-image:url("images/fuego2.gif");
+	height:46px;
+	top:525px;
+	z-index:9;
+}
+
+#nube{
+	position:absolute;
+	width:470px;
+	height:256px;
+	top:10000px;
+	/*浮动元素水平居中*/
+	left:0;
+	right:0;
+	margin:auto;
+}
+#nube1,#nube2,#nube3{
+	position:absolute;
+	width:188px;
+	height:64px;
+	background-image:url(images/nube2.png);
+}
+#nube1{
+	top:0;
+	left:0;
+	z-index:11;
+}
+#nube2{
+	top:64px;
+	left:200px;
+	z-index:9
+}
+#nube3{
+	right:188px;
+	bottom:0;
+	z-index:11;
+}
+
+#ipad{
+	position:absolute;
+	width:336px;
+	height:587px;
+	background-image:url("images/plataforma02_marco.png");
+	top:8000px;
+	left:0;
+	right:0;
+	margin:auto;
+	z-index:50;
+}

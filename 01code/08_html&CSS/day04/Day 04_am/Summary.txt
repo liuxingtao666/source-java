@@ -1,0 +1,123 @@
+﻿一、javascript概述：
+    1、javascript：客户端脚本语言
+        What：运行在浏览器上，纯文本的内容
+        Why：可以给网页添加交互功能，省事，省时间，省流量
+	交互：获取页面数据--浏览器处理数据--浏览器返回处理结果提示信息。
+        特点：类java和c对语法
+	    自上向下解释执行
+	    使用文本编写，直接嵌入HTML中执行
+    2、Javascript应用场景：
+	表单验证；客户端数据计算；特效动画
+    3、first javascript:
+        1)、事件中：鼠标在浏览器中触发的操作：
+	如：单击，焦点转移，鼠标滑过
+	  语法:on事件名="js语句"
+	缺点：不可重用；不适合复杂逻辑
+        2)、head中的<script>标签下：页面中专门集中放置js语句的区域。
+	语法：
+	    step1：
+	    <script>
+		function method1(){
+		     js语句;	
+		}
+	    </script>
+	    step2：
+	           on事件名="方法名()"
+	缺点：仅当天页面可用。无法全网站公用。
+        3)、js文件：专门保存js脚本的独立文件。纯文本
+	范围：全网站公用。
+	步骤：Step1：新建文本文件，扩展名为js
+	        Step2：网页中引入外部js文件
+	        <script src="js文件路径"></script>
+    4、javascript调试：
+        When：页面加载时，或单击按钮时，希望出现的效果没有出现，说明出错！要打开错误控制台调试
+        How：工具-->Web开发者-->错误控制台
+	如IE：F12
+二、基础语法：
+    1、变量：
+        动态类型：变量的类型不必提前限定，后续赋值什么类型，会自动认为是什么类型
+        声明：var 变量名=值
+	如：var count=0;
+	变量作用域：——同java
+    2、数据类型：
+        1)、String：表示字符串，首尾由单引号或双引号包裹
+	拼接：
+	    var str="bye";alert(str+str);//byebye
+	    var n="5";alert(n+n);//55
+        2)、Number：所有数字
+	强调：不区分整数和小数
+	       64位浮点数格式，相当于double
+	计算：var n=5;alert(n+n);//10
+        3)、Boolean：只有两个值true和false
+        4)、隐式转换：
+	如：var s1="a"; var s2="b"; 
+	     var n1=1; var n2=2;
+	     var b1=true; var b2=false;
+	     alert(n1+s2);//1b 
+	    强调：数字+字符串：数字转为字符串
+	     alert(b1+b1);//2
+	    强调：布尔类型做加法：都被转为数字计算
+	     alert(n2+b1);//3
+	    强调：数字+布尔：布尔类型转为数字
+	     alert(s1+b1);//atrue
+	    强调：字符串+布尔：布尔转为字符串
+        5)、显示转换：使用函数转换数据类型——直观、规范、可控
+	i、查看变量类型：
+	When：不确定变量类型时使用
+	语法：typeof(变量)：返回类型的名称
+	Ii、转换为字符串：变量.toString()：所有数据类型均可以转为字符串类型。
+	iii、转换为整数：
+	    语法：parseInt(变量)
+	    说明：数字或以数字开头的变量可以转为数字
+	          如果不能转，返回NaN（not a number）
+	    如：parseInt("6.12");//6
+	         parseInt("");//NaN
+	         parseInt(22.5);//22
+	         parseInt("1234abcd");//1234
+		parseInt("12px")+2=14+"px"
+	         parseInt(true);//NaN
+	     说明：**自动去除前后空格；**自动去除数字后的字母。
+	iv、转换为浮点数：
+	     语法：parseFloat
+	     如：parseFloat("6.12");//6.12
+	          parseFloat("6.12abcd");//6.12
+        6)、验证是否数字：
+	When：验证用户的输入是否为数字时使用
+	语法：isNaN(变量)
+	       is not a number：返回true——不是数字
+			     返回false——是数字		如：isNaN("")//false**
+	     isNaN(22.5)//false
+	     isNaN("10")//false 可以被强制转为整数
+	     isNaN("1234blue")//true**
+	     isNaN(true)//false** 可以隐式转换为1
+	     isNaN(NaN)//true
+	     alert(NaN==NaN)//false
+	**vs parseInt:
+	1234abcd：isNaN认为不是数字，但parseInt可以强制转换。
+	true：isNaN认为是数字，但parseInt，无法转换
+	"true"：isNaN返回true，不是数字
+        7)、DEMO：
+	i、如何获取页面控件：
+	    语法：
+	var 变量名 = document.getElementById("id值")
+		    在页面中. 按id选择一个元素("id值")
+	ii、控件的内容：
+	    语法：
+	     控件对象.value:得到控件的内容文本
+	    强调：文本框的value永远是"内容"字符串
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

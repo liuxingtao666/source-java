@@ -1,0 +1,82 @@
+<!Doctype html>
+<html>
+    <head>
+        <title>管理员列表</title>
+        <meta charset="utf-8" />
+		<link rel="stylesheet" href="admin_style_am.css"/>
+		<link rel="stylesheet" href="dialog.css"/>
+		<link rel="stylesheet" href="admin_style.css"/>	
+		
+    </head>
+    <body>
+		<div id="header">
+			<a href="#">退出</a>
+			<img src="images/logo.png"/>
+		</div>
+        <div id="navi">
+			<ul>
+				<li><a href="#">主页</a></li>
+				<li>
+				<a href="#">角色管理</a>
+				</li>
+				<li><a href="#">管理员</a>
+				</li>
+			</ul>
+		</div>
+        <div id="main">
+			<!--删除和修改的操作提示-->
+            <div id="result_info">
+			    <img src="images/close.png"/> 
+			    <span>修改成功！</span>
+            </div>
+            <div id="operate" class="subdiv">
+			<input type="button" value="增加" class="btn_add"/>
+			</div>   
+            <div id="data" class="subdiv">
+				<table id="datalist">
+					<tr>
+						<th><input type="checkbox"/><span>全选</span></th>
+						<th>管理员ID</th>
+						<th>姓名</th>                            
+						<th>拥有角色</th>
+						<th></th>
+					</tr>                      
+					<tr>
+						<td><input type="checkbox" /></td>
+						<td>1</td>
+						<td>贾强</td>                            
+						<td>超级管理员、角色管理员、账单管理员</td>
+						<td>
+							<input type="button" value="修改" class="btn_modify"/>
+							<input type="button" value="删除" class="btn_delete"/>
+						</td>
+					</tr>
+					<tr>
+						<td><input type="checkbox" /></td>
+						<td>2</td>
+						<td>贾强</td>
+						<td>超级管理员、帐务账号管理员</td>
+						<td>
+							<input type="button" value="修改" class="btn_modify"/>
+							<input type="button" value="删除" class="btn_delete"/>
+						</td>
+					</tr>                          
+				</table>
+			</div>
+            <div id="pages" class="subdiv">
+				<a href="#">上一页</a>
+				<a href="#">1</a>
+				<a href="#" class="currentPage">2</a>
+				<a href="#">3</a>
+				<a href="#">4</a>
+				<a href="#">5</a>
+				<a href="#">下一页</a>
+			</div>
+        </div>
+        <div id="footer">
+			<p>版权所有&copy;加拿大达内IT培训集团公司 </p>
+		</div>
+		<!--广告 -->
+		<div id="adv"></div>
+    </body>
+</html>

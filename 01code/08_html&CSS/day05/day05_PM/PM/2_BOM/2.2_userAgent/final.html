@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+	<head><title>浏览器类型与版本</title>
+		<meta charset="utf-8"/>
+		<script>
+			var userAgent = navigator.userAgent;	
+			document.write("<h1>" + userAgent + "</h1>");
+			var browserName = "unknown";
+			if (userAgent.indexOf("Firefox") > -1) { browserName = "Firefox"; }
+			else if(userAgent.indexOf("MSIE") > -1) {browserName = "IE";}
+			document.write("<h1>Your browser is " + browserName + "</h1>");
+			if(browserName != "unknown"){
+				var index=userAgent.indexOf(browserName) + browserName.length + 1;
+				var version=parseFloat(userAgent.substring(index,index + 4));
+				document.write("<h1>Your version is "+version + "</h1>");
+			}
+		</script>
+	</head>
+	<body></body>
+</html>

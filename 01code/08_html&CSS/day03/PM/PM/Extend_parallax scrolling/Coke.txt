@@ -1,0 +1,19 @@
+﻿滚动视觉差：背景图片是否随页面滚动而滚动：DEMO：Extend_parallax scrolling：
+    语法：background-attachment : scroll（默认）/fixed;——扩展！
+    Step1: 在网页上放一个div，id为label
+    Step2: 设置div的宽度为1200px,高度为336px,背景图片为coke-label.jpg。使背景仅水平平铺
+        #label{width: 1200px; height: 336px; background-image: url(coke-label.jpg); background-repeat: repeat-x; }
+    Step3: 此时浏览页面，横向滚动页面，发现背景随滚动而滚动
+    Step4: 设置背景固定：background-attachment:fixed;
+    Step5: 此时浏览页面，发现背景不随页面滚动而滚动
+    Step6: 将body宽度改为1500px，将label宽度改为与可乐瓶图片等宽194px，使用设置body的padding-left，将label向右推800px
+	body{ width:1500px; padding-left:800px;  }
+	#label{	width: 194px;
+		......    
+	}
+    Step7: 此时浏览页面，滚动页面，就是背景始终固定，而小前景视窗移动，产生错位效果
+    Step8: 在label元素中添加img元素将可乐瓶图片挂到label中。在css中添加样式，设置其宽度和高度与可乐瓶图片一样
+	img{ width:194px; height:336px; }
+    Step9: 再次浏览，转动效果出来了。
+    Step10: 发现可乐瓶底部，有约15px的背景空白，我们将label的背景向下移动15px,弥补空白区域*/
+    	background-position:0 15px;    

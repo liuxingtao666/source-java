@@ -1,0 +1,25 @@
+﻿<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Bubble Test</title>
+		<link rel="stylesheet" href="example.css"/>
+		<script>
+			function highlight(elem,e) {
+				elem.style.backgroundColor='yellow';
+				var srcObj = e.target || e.srcElement;
+				alert("this: "+elem.className
+					 +" ; target: "+ srcObj.className);
+				elem.style.backgroundColor = '';
+				e.cancelBubble = true;
+			}
+		</script>
+	</head>
+	<body>
+		<div class="d1" onclick="highlight(this,event)">1  
+			<div class="d2" onclick="highlight(this,event)">2
+				<div class="d3" onclick="highlight(this,event)">3 
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

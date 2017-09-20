@@ -1,0 +1,16 @@
+﻿<html>
+	<head>
+		<script>
+			document.write("可用高度：" + screen.availHeight);
+			document.write("可用宽度：" + screen.availWidth);
+			function goForward(){
+				//history.forward();
+				history.go(1);
+			}
+		</script>
+	</head>
+	<body>
+		<a href="1_historyForward.html"><h1>Go</h1></a>
+		<input type="button" value="Forward" onclick="goForward()">
+	</body>
+</html>

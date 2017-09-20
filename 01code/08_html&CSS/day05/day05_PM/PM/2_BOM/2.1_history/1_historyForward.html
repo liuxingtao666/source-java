@@ -1,0 +1,25 @@
+﻿<html>
+	<head>
+		<script>
+			document.write("可用高度：" + screen.availHeight);
+			document.write("可用宽度：" + screen.availWidth);
+			var date = new Date();
+			document.write("<h1>"+date.toLocaleString()+"</h1>");
+			function goBack(){
+				//history.back();
+				history.go(-1);
+			}
+			function refresh(){
+				history.go(0);
+			}
+			function goTTS(){
+				location.href="http://tts6.tarena.com.cn";
+			}
+		</script>
+	</head>
+	<body>
+		<input type="button" value="Back" onclick="goBack()">
+		<input type="button" value="刷新" onclick="refresh()">
+		<input type="button" value="Go to TTS" onclick="goTTS()">
+	</body>
+</html>

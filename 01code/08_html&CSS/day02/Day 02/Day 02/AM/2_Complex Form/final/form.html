@@ -1,0 +1,104 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+		<title>Document</title>
+ </head>
+ <body>
+	<form>
+		<h2>增加管理员</h2>		
+		<table width="600px">
+                <tr>
+                    <td width="80px">姓名：</td>
+                    <td width="180px">
+						<input name="username" maxlength="10"/><span>*</span>
+					</td>
+                    <td>10个字符以内的字母、数字和下划线的组合</td>
+                </tr>				
+                <tr>                	
+                    <td>密码：</td>		    
+                    <td>
+						<input type="password" name="pwd" /><span>*</span>
+					</td>
+                    <td>6位数字</td>
+                </tr>				
+				<tr>
+                    <td>重复密码：</td>
+                    <td>
+						<input type="password" /><span>*</span>
+					</td>
+                    <td>两次密码必须相同</td>
+                </tr>	
+				<tr>
+                    <td>性别：</td>
+                    <td>
+                        <input type="radio" id="radFemal" name="sex" value="femal" checked/><label for="radFemal">女士</label>
+                        <input type="radio" id="radMal" name="sex" value="mal"/><label for="radMal">男士</label>
+                    </td>
+                    <td></td>
+                </tr>	
+                <tr>
+                    <td>角色：</td>
+                    <td>
+                        <fieldset>
+                            <legend>请选择</legend>
+                            <input type="checkbox" id="chbSa" name="roles" value="sa"/><label for="chbSa">超级管理员</label><br />
+							<input type="checkbox" id="chbStu" name="roles" value="stu"/><label for="chbStu">学生管理员</label><br />
+                            <input type="checkbox" id="chbTech" name="roles" value="tech"/><label for="chbTech">教师管理员</label>
+                        </fieldset>
+						<span>*</span>
+                    </td>
+                    <td>至少选择一个</td>
+                </tr>
+                <tr>
+                    <td>状态：</td>
+                    <td>
+                        <select name="status">
+                            <option value="enable" selected>启用</option>
+                            <option value="disable">停用</option>
+                            <option value="deleted">删除</option>
+                        </select>
+                    </td>
+					<td>
+					</td>
+                </tr>	
+				<tr>
+					<td>所属基地：</td>
+					<td>
+						<select name="belongTo" size="5" multiple>
+                            <option value="zgc">中关村中心</option>
+                            <option value="qhy">清华园中心</option>
+                            <option value="hdy">海淀园中心</option>
+							<option value="bfjd">北方实训基地</option>
+							<option value="tam">天安门中心</option>
+							<option value="pjy">潘家园中心</option>
+							<option value="yyc">亚运村中心</option>
+                        </select>
+					</td>
+					<td>
+					</td>
+				</tr>
+                <tr>
+                    <td>头像：</td>
+                    <td colspan="2"><input type="file" /></td>
+                </tr>               
+                <tr>
+                    <td>描述：</td>
+                    <td colspan="2">
+                        <textarea cols="30" rows="5" name="memo" style="resize:none"></textarea>
+                    </td>                    
+                </tr>                
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" value="保存"  />
+                        <input type="reset" value="重填" />
+                    </td>
+					<td>
+					</td>
+                </tr>
+	    </table>
+	    <input type="hidden" name="id" value="253"/>
+	</form>
+ </body>
+</html>
