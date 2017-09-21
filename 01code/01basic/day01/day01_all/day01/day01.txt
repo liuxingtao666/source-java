@@ -1,0 +1,194 @@
+刘苍松
+15601035818
+liucangsong@gmail.com
+liucs@tarena.com.cn
+
+
+复习： Windows 文件系统
+  路径(path): C:\windows\system32\etc
+  盘符
+  C:\ C盘的根目录
+   |-- windows  文件夹
+   |    |-- system32
+   |    |     |-- etc
+   |    |         |-- hosts 文件
+   |-- users
+        |-- Robin 用户的家 
+	|-- Tom 
+
+   
+  D:\  D盘的根目录
+
+Linux 的文件系统
+  / 根目录
+  |-- etc 文件夹
+  |    |-- hosts 文件
+  |-- home
+  |    |-- soft01 用户的主目录(user home)
+  |-- mnt
+  |    |-- sdcard  挂载点
+  |    |-- cdrom
+  |    |-- usb0
+  |-- opt
+       |-- eclipse
+             |-- eclispe 程序
+  
+挂载点：就是文件夹
+用户的主目录: 是当前用户的家，
+    "家"里是啥都能干的地方 
+
+文件夹 == 目录
+
+启动Eclispe 
+   工作空间 workspace：/home/soft01/workspace
+   是写软件的保存目录
+
+如果用Eclipse 开发Java应用
+ 1) 创建Java项目（Java Project）
+    File -> New -> Project -> Java Project
+
+    向导界面：
+    Project Name: 实际项目名 JSD1402_FMD
+    Project Layout: 项目的布局(文件夹结构)
+      选择：2 将原文件与编译后的文件分开放置
+ 
+ 2) 项目文件夹结构，项目文件夹存在工作空间中
+   
+   JSD1402_FDM
+     |-- src 是源文件夹，是Java源程序的目录
+     |-- bin 是输出文件夹，是编译后的文件存储目录
+
+   JRE System Library 是 Java 系统API库
+
+Java 程序执行原理：
+Java 源程序先经过编译器编译为 字节码文件(.class
+文件)，字节码经过"Java虚拟机（JVM）"的翻译，翻译
+为具体硬件（CPU）平台能够执行的指令和数据，
+最终执行出结果。体现出一次编译到处运行：跨平台
+
+JVM 不是跨平台的软件, JVM是软件，是C开发的
+注意要点：
+ 1）计算机只能处理数据！
+ 2）Java是先编译在执行的。
+
+JDK > JRE > JVM 
+  c:\Program files\JAVA\jdk1.6.0_30
+  
+  /opt/jdk JDK Java 开发工具包
+   |-- bin 开发工具（编译器javac，打包工具jar...）
+   |-- lib tools.jar java开发工具程序
+   |-- jre JRE Java运行(时)环境，可以执行.class
+        |-- bin JVM Java虚拟机
+	|-- lib rt.jar Java 系统API库 JRE System Library
+
+Java 系统API库: 是SUN提供的现成程序“零件”仓库。
+  如: java.lang.System.class
+
+在Windows 安装JDK
+  1）下载JDK，注意版本
+   X86 == 32位
+   32位OS：32位Win7 WinXP 
+   32位OS：只能安装32位JDK
+   如果是32位OS需要下载：Windows X86 版本JDK。
+ 
+   64位OS：Win7   Win8
+   可以安装32位JDK 也可以安装64位JDK
+   X64 == 64位
+   下载：Windows X64 版本JDK。
+  2）安装 （下一步）* n
+  c:\Program files\JAVA\jdk1.6.1xxx
+
+  3) 环境变量的配置（以后讲）
+
+关于Java的版本
+  1995 Java 1.0
+  1998 Java 1.2  商品名称 Java 2
+  2001 Java 1.5  商品名称 Java 5
+       Java 1.6           Java 6
+       Java 1.7           Java 7
+
+安装Eclipse 
+  1) 下载 JDT Java 开发版本的Eclipse
+   注意： X86  X64 
+
+   32位OS + X86(32位) JDK + X86(32位) Eclipse
+   64位OS + X86(32位) JDK + X86(32位) Eclipse
+   64位OS + X64(32位) JDK + X64(32位) Eclipse
+  2）安装，绿色软件，释放即可！
+
+MAC的安装
+  1）安装JDK 执行java命令 自动安装
+  2）下载Mac 64位的Eclispe
+
+如何使用Java的 API 
+  使用 java.util.Scanner 类 从控制台获取数据
+ 
+ 1) 导入 API : import java.util.Scanner;
+   在package 语句以后 class 之前
+   就是声明：java代码中需要使用Scanner
+   注意：java.lang中的API自动import
+ 2) 在代码中使用API，如何使用API可以参考 
+   API的手册。
+   注意：API手册可以到 Oracle网站下载。
+
+
+变量
+  值可以变化的数据单元
+  在软件中可以代表值可以变化的数据
+
+ Java 是强类型语言
+  1) 变量必须有明确的类型
+  2) 变量必须声明并且初始化以后才能使用！
+  初始化：第一次赋值
+  3) 变量有明确的作用域，有效范围
+  4) 在同一个作用域中，变量不能重复定义！
+
+  如果违反：有编译错误！是初学者常见的现象！
+
+ 生活中变量：代词就是一种变量
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,100 @@
+回顾
+  数组：数组变量，数组，数组元素
+  
+  int a = get(new int[]{2,3,4});
+  a = get(new int[3]);
+  a = get(null);
+  a = get(new int[1]);
+  
+  public static int get(int[] ary){
+     //ary 的长度？
+     //ary 有[1]元素吗
+     return ary[1];
+  }
+  
+  方法：是业务功能，是算法封装
+    方法3个要素+1方法体：
+     设计：返回值，方法名，参数，方法体
+ 
+ 现有的算法方法
+    toString
+    equals
+    sort
+    binarySearch
+    
+1 猜字符游戏
+  1) 业务规则描述：猜测“随机生成”的字符系列（5个）,
+    根据“用户输入”的字符序列“检查”是否猜测成功，
+    如果不成功就“提示”猜中情况，继续猜测。
+     
+  2) 找到数据，计算机只能处理数据
+     被猜测数据：char[] answer
+   用户输入数据：char[] input 
+   猜测次数：int times 
+   猜测结果：int count 数量，int location 位置   
+     
+  3) 分析数据如何计算，将计算过程封装为方法
+    A “生成”5个不重复的随机字符 answer
+    B 初始化times
+    C “获得”用户输入的 数据input
+    D times++
+    E “检查”answer 和 input 的匹配情况 {数量,位置}
+    F “提示”检查结果（times，数量，位置）
+    G 如果检查结果是 5 5 游戏就结束了！
+    H 返回 C
+  4) 算法设计
+    a 利用main方法完成 A ~ H
+    b A 有输入，有输出，有过程，有名字
+          输入 5 个
+          输出 char[] 
+          有名字   generate
+          过程：随机算法
+      public static char[] generate(int n){}
+    c C 获得用户输入: 
+      public static char[] getInput(){}
+    d E 设计为方法，检查用户输入
+      public static int[] check(
+      	char[] answer, char[] input){}      
+    e F 设计方法 显示检查结果
+      public static void show(int times, 
+      	int count, int location){} 
+   
+  5) 概要编码       
+  
+  6) 详细编码：
+    A 在main方法中实现主流程
+  7) 整合测试
+  
+  8) 总结： 
+    1) 明确业务需求
+    2) 业务分析，找到数据
+    3) 分析业务流程
+    4) 概要设计方法
+    5) 详细实现方法（算法设计） 
+  
+ 2 数组的复制：
+   1) 在已经存在的数组间复制
+     System.arraycopy() 是使用c语言实现的
+     Java 很多API的底层使用了这个复制算法！
+     如："Abc"+"def" -> "Abcdef"  
+   
+   2) 将数组复制为新的数组
+   Arrays.copyOf(原数组, 复制长度) 返回值是新数组
+   int[] ary0 = {3,4,5};
+   int[] ary = Arrays.copyOf(ary0, 4); 
+   
+   3) 数组的“扩展”（数组“扩容”，数组“变长”等）
+  
+    业务： 实现数组扩容，并且追加新元素
+    如：原数组 {3,4,5} 追加为 {3,4,5,9}
+    实现：先复制扩展出新位置，在末尾(length-1)添加元素
+ 
+ 排序性能比较。
+  
+  
+  
+  
+  
+  
+  
+  
