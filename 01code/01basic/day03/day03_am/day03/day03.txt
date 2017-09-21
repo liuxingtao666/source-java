@@ -1,0 +1,156 @@
+回顾
+  数据类型：基本类型和引用类型
+  基本类型：是计算机处理数据的单元，是数据处理的
+  基本规则
+  有8种： 
+  整数：byte short int long  补码==有符号数
+  浮点数：float   double     IEEE 754 标准
+  布尔类型：boolean
+     注意: true 和 false 是布尔类型字面量
+  字符类型： char   
+
+  运算符
+  
+1 运算符 数学运算  \  % 
+  1) 整数除法是整除运算
+     浮点数除法是浮点除
+     
+   数学除法： 5/3 = 得 1 余 2
+    System.out.println(5/3);//1
+    
+    double d = 5/2;
+    double d = 5D/2;
+     
+    double price = 55.99;
+    
+    System.out.println(price * (80/100));
+    System.out.println(price * (80.0/100));
+  
+  2) % 取余数 运算  
+  
+     数学除法： 5/3 = 得 1 余 2
+    
+   System.out.println(5%3);//2
+  
+   System.out.println(-4%3);//得 -1 余 -1
+   System.out.println(-3%3);//得 -1 余 0
+   System.out.println(-2%3);//得 0 余 -2
+   System.out.println(-1%3);//得 0 余 -1
+   System.out.println(0%3);//得 0 余 0
+   System.out.println(1%3);//得 0 余 1
+   System.out.println(2%3);//得 0 余 2
+   System.out.println(3%3);//得 1 余 0
+   System.out.println(4%3);//得 1 余 1
+   System.out.println(5%3);//得 1 余 2
+   System.out.println(6%3);//得 2 余 0
+   //...
+   
+2 自增（减）运算 ++ -- 
+   运算规则：将当前整数变量的值增加1
+   int a;
+   a++;//编译错误
+   a = 1;
+   a++;//a增加1
+   ++a;//a增加1
+   System.out.println(a);//3
+   
+  表达式：就是变量和运算符组成的算式 
+  表达式经过计算也是有值的。
+   
+   byte b1=1;
+   byte b2=2;
+   int i = b1+b2;
+   //经过运算以后，表达式b1+b2的值是：int类型3
+   //变量b1的值是：byte 类型的1
+   
+   a=1;
+   //a++ 是自增表达式：运算过程
+   // a++ 称为后++：先取值，再增加
+   //1) 先取a的值1作为"a++表达式"的值1
+   //2) 再将a的值1增加1 a为2 
+   System.out.println(a++);//输出a++表达式的值1
+   System.out.println(a);//输出a的值2
+   a=1;
+   a = a++;//计算顺序：先计算a++表达式，将
+   //表达式的值赋值给a
+   // ++运算 1) 先取a的值1作为a++表达式的值1
+   // ++运算 2) 再将a的值1增加1 a为2 
+   // =赋值运算  将"表达式a++的值"1 赋值给a a为1
+   System.out.println(a);//1
+   
+  a=1;
+  //++a; //先++ 先增加a，然后取值
+  //1) 首先将a的值1 增加1 a为2
+  //2) 将a的值2 作为++a表达式的值2
+  System.out.println(++a);//2
+  System.out.println(a);//2
+  
+3 关系运算  > >= < <= == !=
+  关系运算的结果是 true、false 
+4 逻辑运算 && || ! 
+   逻辑运算的参数是boolean类型结果也是boolean类型 
+   && 与运算  表示"并且"关系的 
+      true && true  -> true
+      false && true -> false
+      true && false -> false
+      false && false -> false
+   || 或运算 表示或者关系
+      true || true  -> true
+      false || true -> true
+      true || false -> true
+      false || false -> false
+   ! 非运算
+      ! false  -> true
+      ! true   -> false   
+  业务案例: 判定一个字符ch是否为大写英文字符
+  分析：ch 的值 是 A B .... Z 之间的字符 
+                 65      90 
+   如果：65 <= ch <= 90 那么 ch 就是英文字符
+   即：ch>=65 && ch<=90 成立 ch 就是英文字符
+  实现：
+    char ch = 'B';//66  '中'
+    // 66>=65 && 66<=90
+    // true   && true
+    // true
+    if(ch>='A' && ch<='Z'){
+    	System.out.println(ch+"是英文字符");
+    }else{
+        System.out.println(ch+"不是英文字符");
+    }
+ 
+   
+     
+    
+   
+      
+      
+   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+   
+  
+  
+  
+  
+  
+  
+   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

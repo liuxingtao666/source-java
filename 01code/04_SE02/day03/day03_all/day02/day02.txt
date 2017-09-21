@@ -1,0 +1,205 @@
+回顾
+ 1 File 文件系统操作：管理文件、文件夹 
+ 2 RamdomAccessFile: 管理文件内容
+   文件内容是什么：byte序列
+   read() 读一个byte
+   write() 写一个byte
+   
+   基本类型的 读写方法
+ 	
+   不是很方便扩展，没有现成的API扩展
+   读取图片
+   
+ 3 流 API 有非常多的扩展 API，提供了非常多的
+   文件格式读取方式
+    read() 读一个byte
+    write() 写一个byte  
+ 4 BufferedInputStream
+   BufferedOutputStream
+   
+   默认会开辟 8K byte 的缓冲区
+   
+   缓冲（缓存）流 
+ 
+
+1 流的扩展 DataInputStream 
+        DataOutputStream
+  为基本的byte流扩展出 基本类型的IO读写方法。
+         
+2 图像的读写 ImageIO 类
+  为基本流"扩展"出 图像的读写方法
+  
+3 文字的读写
+  1) Java 的字符数据：是一个16位无符号整数unicode
+  2) 字符串：是字符序列，是用字符字符数组存储的
+    也就是：一串16位整数
+  3) 文件：是byte序列，是一串8位整数序列。
+  4) 必须将文字经过编码（拆分）处理，才能写入到文件
+  
+    以上是文字的编码和解码，的根本原因
+  文字编码：有国家和地区问题。
+  5）常见文字编码方案： GBK GB2312 UTF-8
+    BIG5 UTF-16BE
+  6）文字的编码方案，都是文字的拆分和组合方案
+    拆分：文字的编码，将char序列拆分为 byte序列
+    组合: 文字的解码，将byte序列组合为char序列
+    
+  7) Java 提供了文字的编码和解码的API
+    String 提供了 编码和解码API
+    InputStreamReader
+    OutputStreamWriter
+  8) 常见编码介绍
+   A UTF-16BE：是定长2byte方案，将每个16位char
+    从中间切开，为两个byte，非常好理解。
+    优点：便于计算，好理解
+    缺点：英文和中文等，都是2byte，英文的高字节是00
+    ‘A’ ：           00000000  01000001
+    UTF-16BE ：00000000， 01000001
+     英文浪费一半存储空间。
+     只能支持 65535个字符。
+     
+   B GBK（GB2312）：是变长编码方案，1~2个Byte
+   英文：1个byte，中文2个Byte，支持文字数量：英文
+   和2万多中文。其中GB2312是子集支持6000+中文
+   优点：节省空间，是中国地区的最优编码
+   缺点：只能支持中文，不兼容Unicode，需要查表转换
+   
+   C UTF-8：变长方案，1~n字节 英文是1byte，
+   中文：3个byte， 支持全部的unicode（非常多的字符）
+   优点：节省空间，是全球的最优编码，可以直接转换为
+   unicode 
+   缺点：中文的长度是3个字节，纯中文文件，长度长
+    
+  BIG5 类似于 GBK 是台湾地区的本地编码方案
+  
+ 9）Java 中支持编码的API 
+  编码： 将char序列（String） 编码为byte数组
+   
+  String 的 getBytes() 是本地默认编码
+  将字符串编码为byte数组
+  本地默认编码：Windows XP 编码是 GBK
+           Linux 可能是 UTF-8
+  提示：跨系统软件要明确指定编码
+  String 的 getBytes("编码方案")按照指定编码
+  将String编码为byte数组
+  
+ 解码： 将byte序列解析为String（Char序列）
+  字符串的构造器
+   new String(byte[] ary) 是用默认本地
+   编码将byte数组解码为字符串
+   new String(byte[] ary, 编码)是用指定
+   编码将byte数组解码为字符串
+ 
+ Java 提供了一套与 文字编码有关的流 
+   Reader:读取文件 byte转换（解码）为char 
+   Writer：写出char转换（编码）为byte到文件
+   
+   InputStreamReader 是流的扩展，是依赖于
+   基本的Byte流。
+   提供了read()方法，从byte流中读取数据并且解码
+   为一个字符数据。返回的是int类型，但是低16位有效
+  实际数据是字符类型，范围：0~65535 返回-1是结束
+  
+   OutputStreamWriter 是流扩展，也依赖一个
+   基本的byte输出流。
+   提供了write(int) 方法将int的低16位（char）
+   经过编码以后的byte序列写入到流
+
+ 10) 以行为单位读写文本文件，是"最常用"的文本读写
+    方式。一次从文本文件中读写一行文字。
+    读取一行的API: BufferedReader readLine
+              Scanner  nextLine
+   写出一行的API：PrintWriter println
+        PrintStream println 不建议使用 
+              
+  也是高级流，也依赖于基本流。
+  
+  PrintWriter 提供了简化版的构造器
+  File file = new File(filename);
+  PrintWriter out=new PrintWriter(file);  
+ 
+小结：
+  1 FileOutputStream: 基本Byte流，文件写出
+    FileInputStream：基本Byte流，文件读取
+  2 DataOutputStream: 
+            依赖基本输出Byte流，扩展出基本类型读取
+    DateInputStream：
+            依赖基本输入Byte流，扩展了基本类型写出方法
+  3 BufferedOutputStream:
+          依赖于基本输出Byte流，扩展出缓冲处理，提高O
+    BufferedInputStream:
+         依赖基本输入Byte流，扩展出缓冲，提高了i的性能
+  4 OutputStreamWriter:
+       依赖于基本输出Byte流, 扩展了文本编码处理
+    InputStreamReader： 
+       依赖基本输入Byte流，扩展出文字解码处理
+  5 PrintWriter：
+       依赖一个字符输出流Writer， 最终还是依赖基本
+       的Byte流。扩展出 println()按行写文本。
+    BufferedReader:
+       依赖一个字符输入流Reader，最终还是依赖基本
+       的Byte输入流。扩展出readLine方法。
+  
+  6 ImageIO 也是高级流，依赖于基本的byte流
+  
+  使用原则：
+   1）要了IO解数据内容情况。
+   2）使用基本流打开
+   3）使用”适合“高级流扩展基本流。
+   4）使用高级流读写。
+ 
+4 对象输入输出流：将对象写入到基本流，从基本流中
+   读取对象。 是Java API提供的方法。
+   注意：使用API必须按照API的约定使用。
+   1）对象的本质是数据
+   2）对象的输出：就是将对象的数据编码为byte序列
+   写入到基本的byte流中，称为：对象的序列化
+   3) 对象的输入：从基本的Byte流中读取byte数据
+   重写解码为对象数据，称为：对象的反序列化
+   4）java提供了对象输出（对象序列化）的API
+   ObjectInputStream 对象输入流
+      readObject()
+   ObjectOutputStream 对象输出流
+      writeObject()
+   5） Java 的对象序列化API要求，被系列化（被IO）
+   的对象必须实现 序列化接口！对象的属性也需要实现
+   序列化接口。java 的API基本都实现了序列化接口
+   序列化接口中没有”显示“的方法需要实现。
+   不必了解！：序列化接口有两个隐含方法
+   
+   6）很多的系统缓存程序使用序列化来临时保存
+   对象数据到硬盘。建议：类都实现序列化接口!
+   
+       
+作业：3中办法将4个方块写入到硬盘，在读取回来
+  1 使用Data IO 将方块按照 整数写入到文件，再
+    读取回来，为4个方块对象
+  2 使用文本写出4个方块，每行是一个方块数据
+    如,文本文件 cells.txt 
+     0,4
+     0,3
+     0,5
+     1,4
+  3 使用对象序列化，写出4个方块对象
+    读取4个方块对象
+    
+            
+  
+       
+      
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

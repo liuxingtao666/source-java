@@ -1,0 +1,55 @@
+java网络编程
+
+TCP: TCP传输需要验证，保证数据包完整 
+UDP: UDP传输不需要验证。
+
+互联网常见通信模型
+C/S ：客户端-服务端
+客户端是根据需求独立开发的。用户体验更好。但是缺点是不易维护。
+
+B/S：浏览器 - 服务器
+
+有点易于维护，但是用户体验不如C/S
+
+java中网络通信API
+
+Socket:运行在客户端的Socket
+Socket称为套接字，封装了IP，端口等信息。用于通信的类。
+
+ServerSocket运行在服务端的Socket
+
+连接的过程总是客户端发起连接。
+Socket -->  ServerSocket
+
+线程池:
+线程池一般有两个作用：
+1：重用线程   防止频繁创建销毁线程带来系                统负担
+
+2：控制线程数量  防止线程数量过多，导致                    线程过度切换，给系统带                    来崩溃的风险。
+
+ExecutorService线程池类
+该类用于管理线程池
+
+线程池的实现策略:
+线程池使用Executors创建.
+
+Executors.newCachedThreadPool()
+该线程池默认是个空的，当有任务需要处理时，线程池会首先选择池中的空闲线程，若没有则创建新线程。
+
+Executors.newFixedThreadPool(int size)
+创建一个固定大小的线程池。当线程池中所有线程都运行时，新的任务需要在其内部维护的一个队列中排队等待。
+
+Executors.newScheduledThreadPool(int size)
+创建一个固定大小的线程池，并可以在指派任务时设置延迟时间。
+
+Executors.newSingleThreadExecutor()
+创建单线程模式。
+
+
+
+
+
+
+
+
+

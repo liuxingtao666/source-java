@@ -1,0 +1,105 @@
+1 Object 是任何类型的父类型
+  1) 任何类型在默认时候都继承于Object
+  2) Object 定义的变量可以引用任何类型的实例
+  3) 体现了两种关系：
+    A 一切皆对象==啥都是东西
+    B Object实例可以任何类型：对象是多态的
+  4) Object 定义了很多重要基础方法，被子类继承
+2 toString() 返回对象的文本描述 
+   在字符串连接时候，直接输出对象时候，等
+   会调用toString方法
+  1) Object 的toString() 方法的返回值
+      类名@散列值  是没有用途的 默认实现
+      散列值：不是对象的内存地址！
+  2) 为了方便测试（输出对象），“经常”要重写
+  toString方法。 
+3 Object equals 方法
+  1) 用于比较对象是否相等。
+    A 比较是否是同一个对象（同一个体）使用 ==
+    B 比较两个不同的对象，在逻辑上是否一样
+      需要使用 equals 方法。
+   如:  
+     Point p1 = new Point(3,4); //Point点
+     Point p2 = p1;
+     Point p3 = new Point(3,4);
+     System.out.println(p1==p2);//比较p1和p2
+     //变量的直接值（地址值）是否一样
+     System.out.println(p1==p3);//false
+     System.out.println(p1.equals(p3));//false
+  2) 建议重写equals方法实现对象是否相等比较
+    来自Sun的建议。
+  3) 常用模板化的实现
+4 hashCode() 方法：建议与equals一起重写！
+   hashCode 是为散列表算法设计的方法
+   "散列表算法" 以后在集合详细讲解。
+  1) 当两个对象equals相等时候，有相同的hashCode
+  2) 当两个对象不equals时候，hashCode尽可能不同
+  3) hashCode 可以一样， 会造成散列表算法性能下降
+  4) hashCode 的值是一个整数就可以
+  如: p1(3,4)  p2(3,4) p3(4,3) p4(1,2)
+  	public int hashCode() {
+		return x*10000+y;
+	}
+
+5 java的API大多重写了  toString equals hashCode 
+  如：String  BigInteger Integer Double ...
+  什么是API：是Java系统带来的类！
+  1) 比较两个API对象是否相等应该调用equals
+  2) 不能用==比较两个对象是否相等
+
+6 String 类
+  1) 是及其重要的API，所有文字输出都使用String
+  2) 所有字符串字面量"XXX" 都是String类型的对象
+  如： String s = "abc";  
+    "abc" 字符串字面量（直接量）
+    s 是字符串引用变量
+      字符串变量s引用字符串字面量对象"abc"
+  3) 字符串对象是不可改变的对象。
+  4) 字符串引用变量的值可以改变。 
+  5) 字符串的本质（内部）是字符数组
+    字符串的内部数据是用字符数组存储的
+    字符数组是字符串的数据
+    字符数组的内容不可改变！
+  6) String 提供大量的操作算法用于简化编程  
+   这些算法本质上就是对这个字符数组的操作
+    字符串API功能：查询，修改，替换等。
+   如果：这个操作是改变了字符串内容，一定返回新对象
+   原字符串对象是不变的！
+   
+   字符串API=字符数组 + 操作方法（算法）
+   
+ 7)字符串常用API方法：
+    查询字符串的长度 length()方法
+    查找某个位置的字符 chatAt(index)   
+    查找某个字符在字符串中的位置 indexOf()
+    检查以XXX为开头或者结尾的方法 startsWith()
+    endsWith()
+   比如检查一个字符串是否是 以get开头的命令
+   
+  修改字符串内容(如果改变内容就返回新字符串)
+   将字符串内容改为大写字符 toUpperCase() 
+   将字符串的两端“空白”去掉的方法 trim()
+   “空白”：包括 空格 回车 换行 tab等！
+  替换字符（在正则表达式时候讲）返回新字符串
+  
+  取子字符串（字符串的一部分）
+  如: liucangsong@gmail.com
+     012345678901234567890 
+  substring(0,11) 可以取出人名了。
+  substring(12) 可以取出主机名
+  java中所有API范围的系统：[开始，结束)
+  返回结果的长度是: 结束-开始
+  
+静态字符串现象（明天）
+正则表达式      
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

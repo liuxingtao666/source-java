@@ -1,0 +1,23 @@
+File   
+
+IO : Input and Output 输入输出
+
+java.io.File
+该类用于描述文件系统中的一个文件或目录
+
+File:通过它我们可以获取其描述的文件或目录     的属性信息
+
+在项目根目录下创建test.txt文件
+
+File还可以操作文件或目录
+实现创建和删除文件或目录
+
+
+
+RandomAccessFile  
+用于读写文件内容的类
+
+
+
+
+

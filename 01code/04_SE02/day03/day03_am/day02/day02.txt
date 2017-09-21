@@ -1,0 +1,117 @@
+回顾
+ 1 File 文件系统操作：管理文件、文件夹 
+ 2 RamdomAccessFile: 管理文件内容
+   文件内容是什么：byte序列
+   read() 读一个byte
+   write() 写一个byte
+   
+   基本类型的 读写方法
+ 	
+   不是很方便扩展，没有现成的API扩展
+   读取图片
+   
+ 3 流 API 有非常多的扩展 API，提供了非常多的
+   文件格式读取方式
+    read() 读一个byte
+    write() 写一个byte  
+ 4 BufferedInputStream
+   BufferedOutputStream
+   
+   默认会开辟 8K byte 的缓冲区
+   
+   缓冲（缓存）流 
+ 
+
+1 流的扩展 DataInputStream 
+        DataOutputStream
+  为基本的byte流扩展出 基本类型的IO读写方法。
+         
+2 图像的读写 ImageIO 类
+  为基本流"扩展"出 图像的读写方法
+  
+3 文字的读写
+  1) Java 的字符数据：是一个16位无符号整数unicode
+  2) 字符串：是字符序列，是用字符字符数组存储的
+    也就是：一串16位整数
+  3) 文件：是byte序列，是一串8位整数序列。
+  4) 必须将文字经过编码（拆分）处理，才能写入到文件
+  
+    以上是文字的编码和解码，的根本原因
+  文字编码：有国家和地区问题。
+  5）常见文字编码方案： GBK GB2312 UTF-8
+    BIG5 UTF-16BE
+  6）文字的编码方案，都是文字的拆分和组合方案
+    拆分：文字的编码，将char序列拆分为 byte序列
+    组合: 文字的解码，将byte序列组合为char序列
+    
+  7) Java 提供了文字的编码和解码的API
+    String 提供了 编码和解码API
+    InputStreamReader
+    OutputStreamWriter
+  8) 常见编码介绍
+   A UTF-16BE：是定长2byte方案，将每个16位char
+    从中间切开，为两个byte，非常好理解。
+    优点：便于计算，好理解
+    缺点：英文和中文等，都是2byte，英文的高字节是00
+    ‘A’ ：           00000000  01000001
+    UTF-16BE ：00000000， 01000001
+     英文浪费一半存储空间。
+     只能支持 65535个字符。
+     
+   B GBK（GB2312）：是变长编码方案，1~2个Byte
+   英文：1个byte，中文2个Byte，支持文字数量：英文
+   和2万多中文。其中GB2312是子集支持6000+中文
+   优点：节省空间，是中国地区的最优编码
+   缺点：只能支持中文，不兼容Unicode，需要查表转换
+   
+   C UTF-8：变长方案，1~n字节 英文是1byte，
+   中文：3个byte， 支持全部的unicode（非常多的字符）
+   优点：节省空间，是全球的最优编码，可以直接转换为
+   unicode 
+   缺点：中文的长度是3个字节，纯中文文件，长度长
+    
+  BIG5 类似于 GBK 是台湾地区的本地编码方案
+  
+ 9）Java 中支持编码的API 
+  编码： 将char序列（String） 编码为byte数组
+   
+  String 的 getBytes() 是本地默认编码
+  将字符串编码为byte数组
+  本地默认编码：Windows XP 编码是 GBK
+           Linux 可能是 UTF-8
+  提示：跨系统软件要明确指定编码
+  String 的 getBytes("编码方案")按照指定编码
+  将String编码为byte数组
+  
+ 解码： 将byte序列解析为String（Char序列）
+  字符串的构造器
+   new String(byte[] ary) 是用默认本地
+   编码将byte数组解码为字符串
+   new String(byte[] ary, 编码)是用指定
+   编码将byte数组解码为字符串
+ 
+ Java 提供了一套与 文字编码有关的流 
+   Reader:读取文件 byte转换（解码）为char 
+   Writer：写出char转换（编码）为byte到文件
+   
+   
+   
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

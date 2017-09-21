@@ -1,0 +1,122 @@
+Collection 
+List:
+Set:
+
+List独有方法:
+根据下标操作
+add remove set get
+
+Collection.iterator
+为while设计的
+
+泛型:
+参数化类型
+
+
+Queue队列
+队列存取元素必须遵循先进先出原则
+
+栈
+保存一组数据。存取元素遵循先进后出原则
+FILO (First Input Last Output)
+
+栈根据其存取元素的顺序总结了一个特点，其对操作有可追溯性。
+
+Arrays.sort
+
+集合的排序
+集合的排序讨论的是List集合。因为其有序。
+
+自然排序:按照由小到大的顺序
+
+对象间如何比较大小？
+若想让两个相同类型的对象间进行大小比较，那么我们需要当该类实现Comparable接口
+并重写比较方法。来确定比较规则。
+
+
+java中很多类都实现了Comparable接口
+比如包装类，String等
+他们都已经定义好了比较大小的规则，当我们进行排序时，若该比较规则不能满足我们对于排序的需求时，我们可以使用比较器
+
+比较器接口:Comparator
+实现该接口来定义额外的比较大小的规则。
+Collections提供了一个重载的sort方法，可以根据我们提供的比较器进行比较后再做自然排序。
+
+Set集合
+不可重复集
+
+Set常见实现类:HashSet  TreeSet
+HashSet:使用散列表实现
+TreeSet:使用二叉树实现
+
+HashSet在存放元素时需要依靠元素的hashCode方法的返回值。
+hashCode是在Object中定义的方法。
+
+方法定义:
+int hashCode()
+
+重写hashcode需要注意一下几点:
+1:当对象内容没有发生改变的前提下，多次调用hashCode方法返回的整数不应发生改变。
+
+2:当两个对象equals方法比较结果为true时，这两个对象的hashcode值必须相同。
+
+3:当两个对象的equasl比较为false时，并不要求hashcode值必须不同。但是最好不同，否则可能影响散列表的性能。
+
+4:当重写equals方法时应当连同重写hashCode
+
+因为hashcode对hashset的操作影响很深。
+所以我们使用时要注意:
+当元素存入集合后，尽可能不要修改元素内容，因为修改后可能会使得其hashcode值发生变化，从而导致检索失败。
+
+
+
+Map 表
+Map是一个可以理解为是多行两列的表格
+
+常用的实现类:HashMap  散列表
+还有一个是TreeMap使用二叉树实现。
+
+Map中有一个要求:
+Value可以存放重复元素，但是Key要求唯一.
+Map中不能出现两个key的equals为true的情况。
+
+
+Map中存取元素的方法:
+
+V put(K k,V v):根据给定的Key存入对应的Value。put方法的返回值是，当key在map中不存在，那么返回值为null,若key已经存在，则是替换value操作，会将被替换的value返回。
+
+
+V get(Object k):根据Key获取对应的Value
+
+Map的性能调优
+Capacity 容量：HashMap中散列数组的大小
+
+Initial capacity 初始容量:
+创建HashMap时初始化的散列数组的大小，默认为16。
+
+size 大小:HashMap中存放的数据量
+
+load factor 加载因子:默认值0.75
+size/capacity得到的比值。
+
+遍历Map
+遍历Map有三种方式:
+1:遍历所有的key
+2:遍历所有的key-value对
+3:遍历所有的value(不常用)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

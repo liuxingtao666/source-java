@@ -1,0 +1,69 @@
+刘苍松
+15601035818
+liucangsong@gmail.com
+liucs@tarena.com.cn
+
+
+复习： Windows 文件系统
+  路径(path): C:\windows\system32\etc
+  盘符
+  C:\ C盘的根目录
+   |-- windows  文件夹
+   |    |-- system32
+   |    |     |-- etc
+   |    |         |-- hosts 文件
+   |-- users
+        |-- Robin 用户的家 
+	|-- Tom 
+
+   
+  D:\  D盘的根目录
+
+Linux 的文件系统
+  / 根目录
+  |-- etc 文件夹
+  |    |-- hosts 文件
+  |-- home
+  |    |-- soft01 用户的主目录(user home)
+  |-- mnt
+  |    |-- sdcard  挂载点
+  |    |-- cdrom
+  |    |-- usb0
+  |-- opt
+       |-- eclipse
+             |-- eclispe 程序
+  
+挂载点：就是文件夹
+用户的主目录: 是当前用户的家，
+    "家"里是啥都能干的地方 
+
+文件夹 == 目录
+
+启动Eclispe 
+   工作空间 workspace：/home/soft01/workspace
+   是写软件的保存目录
+
+如果用Eclipse 开发Java应用
+ 1) 创建Java项目（Java Project）
+    File -> New -> Project -> Java Project
+
+    向导界面：
+    Project Name: 实际项目名 JSD1402_FMD
+    Project Layout: 项目的布局(文件夹结构)
+      选择：2 将原文件与编译后的文件分开放置
+ 
+ 2) 项目文件夹结构，项目文件夹存在工作空间中
+   
+   JSD1402_FDM
+     |-- src 是源文件夹，是Java源程序的目录
+     |-- bin 是输出文件夹，是编译后的文件存储目录
+
+   JRE System Library 是 Java 系统API库
+
+
+
+
+
+
+
+

@@ -1,0 +1,82 @@
+Object一切皆对象
+多态:父类的引用接收子类对象
+
+
+包装类
+基本类型不能参与面向对象的开发，因为他们不是以对象的形式存在，也没有继承关系。
+为此，java提供了8个基本类型的包装类
+包装类的主要作用就是用每一个实例来封装一个基本类型数据，使基本类型数据以对象的形式存在，从而可以参与面向对象的开发。
+
+基本类型                包装类
+int		   java.lang.Integer
+char		   Character
+byte		   Byte
+short		   Short
+long		   Long
+float		   Float
+double                  Double
+boolean                 Boolean
+
+java从1.5之后推出了一个新的特性
+自动拆装箱
+自动拆箱:可以自动将包装类转换为基本类型
+自动装箱:可以自动将基本类型转换为包装类
+
+通过包装类我们可以获取某种基本类型的取值
+范围
+包装类支持两个常量
+MAX_VALUE:该基本类型所允许的最大值
+MIN_VALUE:最小值
+
+包装类还可以将字符串转换为其表示的基本类型数据:
+静态方法: ParseXXX()
+
+和数字相关的其它类
+BigDecimal:大浮点数
+支持四个运算的方法:
+BigDecimal add(BigDecimal d)
+BigDecimal subtract(BigDecimal d)
+BigDecimal multiply(BigDecimal d)
+BigDecimal divide(BigDecimal d)
+
+
+BigInteger用于描述长整型。
+
+数组可以保存一组数据，但是使用数组带来了一些类维护数组操作的复杂工作。
+
+java提供了另一种解决方案，集合框架
+Collection：所有集合的父接口
+Collection派生了两个子接口:
+List:可重复集--相同的对象可以重复添加
+Set:不可重复集--相同的对象不可重复添加
+相同的判断是依靠元素的equals比较的。
+
+
+Collection定义的方法:
+int size():获取集合的元素个数
+boolean add(E e):向集合中添加元素
+boolean remove(Object o):删除给定的元素
+boolean isEmpty():判断集合是否不含有元素
+void clear():清除集合中所有元素
+boolean contains(Object o):集合中是否含有		         给定元素
+boolean addAll(Collection c):
+将给定的集合中的所有元素添加到当前集合中
+
+boolean removeAll(Collection c)
+删除当前集合中与给定集合相同的元素
+(删除交集)
+
+Iterator iterator():获取迭代器
+
+fancq@tarena.com.cn
+
+QQ:11716818
+
+sina微博
+范传奇_Xiloer
+
+
+JBOX2D  开源的一个物理引擎
+
+
+
