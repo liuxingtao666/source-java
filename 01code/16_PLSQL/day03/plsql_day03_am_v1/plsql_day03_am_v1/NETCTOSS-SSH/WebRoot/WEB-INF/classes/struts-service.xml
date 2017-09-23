@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+
+	<!-- 业务账号模块配置信息 -->
+	<package name="service"
+		namespace="/service"
+		extends="common">
+		<!-- 打开增加页面 -->
+		<action name="toAddService"
+			class="com.tarena.action.service.ToAddServiceAction">
+			<result name="success"> 
+				/WEB-INF/service/add_service.jsp
+			</result>
+		</action>
+		<!-- 查询账务账号，复用SearchRecommenderAction -->
+		<action name="searchAccount"
+			class="com.tarena.action.account.SearchRecommenderAction">
+			<result name="success" type="json">
+				<param name="root">
+					account
+				</param>
+			</result>
+		</action>
+		<!-- 打开修改页面 -->
+		<action name="toUpdateService"
+			class="com.tarena.action.service.ToUpdateServiceAction">
+			<result name="success">
+				/WEB-INF/service/update_service.jsp
+			</result>
+		</action>
+		<!-- 修改保存 -->
+		<action name="updateService"
+			class="com.tarena.action.service.UpdateServiceAction">
+			<result name="success" type="redirectAction">
+				<!-- 指定要重定向的目标action -->
+				<param name="actionName">
+					toUpdateService
+				</param>
+				<!-- 
+					给目标action传参，其中
+					name指定参数的key，param
+					内容指定参数值，参数值可以
+					从当前配置的action中取出。
+				-->
+				<param name="id">
+					${service.id}
+				</param>
+			</result>
+		</action>
+	</package>
+
+</struts>

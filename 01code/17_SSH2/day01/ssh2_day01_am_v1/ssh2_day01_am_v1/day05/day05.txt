@@ -1,0 +1,26 @@
+一、quartz任务调度组件
+	1、quartz组件是Apache开源项目，可以定制调度
+		任务，并且该任务是可配置的。Spring对这个组件
+		有良好的支持，即可以通过Spring容器管理该组件，
+		并自启动该组件。
+	2、使用步骤
+		1）导包
+			--由于项目中已有的包
+				commons-collections-2.1.1.jar
+				与quartz中的包
+				commons-collections-3.1.jar
+				重复，那么去掉项目中版本低的包，
+				加入quartz这个高版本的包。
+			--由于项目中已经有jta.jar的包，版本
+				与quartz中的这个包一致，因此quartz
+				中的这个包就不要引入到项目中。
+		2）创建一个任务组件
+			--写一个任务方法
+				public void xxx() {
+					// 任务逻辑
+				}
+			--将任务组件声明到Spring容器中
+		3）在applicationContext.xml中做配置
+			--将任务组件包装成任务
+			--给包装后的任务设置触发时机
+			--声明quartz工厂，将任务设置给工厂管理
