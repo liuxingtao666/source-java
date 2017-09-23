@@ -1,0 +1,27 @@
+1、将中文保存到数据库需要注意的问题
+	(1)数据库本身要支持中文，即要设置好支持中文的
+	字符集。
+		比如，在mysql数据库中创建一个数据库时，
+		create database jsd1402db
+		default character set utf8;
+	(2)jdbc驱动程序要能够进行正确的编码和解码。
+		当插入中文数据时，要做编码(unicode-->某种
+		本地字符集),有些jdbc驱动默认情况下，会按照
+		iso-8859-1去编码，所以会有乱码。
+		可以明确告诉jdbc驱动如何去做编码和解码:
+		jdbc:mysql://localhost:3306/jsd1402db?
+		useUnicode=true&characterEncoding=utf8;
+
+2、servlet的生命周期
+	(1)什么是servlet的生命周期?
+		servlet容器如何创建servlet对象,如何对刚刚
+	创建的servlet对象进行初始化,如何调用其方法来
+	处理请求，以及如何销毁servlet对象的整个过程。
+	(2)生命周期分成哪几个阶段?
+		1)实例化
+		2)初始化
+		3)就绪
+		4)销毁
+		
+	
+		

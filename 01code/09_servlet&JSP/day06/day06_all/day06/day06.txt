@@ -1,0 +1,86 @@
+1、转发
+	(1)什么是转发?
+		一个web组件(servlet/jsp)将未完成的处理
+	交给另外一个web组件继续完成。
+		最常见的情况：
+			servlet获得数据之后，转发给一个jsp去展现。
+	(2)如何转发?
+		step1,将数据绑订到request对象上。
+		request.setAttribute(String name,Object obj);
+		另外，request对象提供了另外两个方法来配合使用
+			Object request.getAttribute(String name);	
+			request.removeAttribute(String name);
+		step2,获得转发器
+			RequestDispatcher rd = 
+						request.getRequestDispatcher(String url);
+			url:是转发的目的地。
+		step3,转发
+				rd.forward(request,response);	
+	(3)转发的特点
+		a,转发的目的地有限制，必须是同一个应用。	
+		b,转发之后，浏览器地址栏的地址不变。
+		c,转发所涉及的各个web组件会共享同一个
+		request和同一个response对象。
+		
+2、路径问题
+	(1)什么是路径问题?
+		链接、表单提交、重定向、转发这几种情况下
+	如何填写路径(地址)。
+	(2)相对路径
+		不以"/"开头的路径。
+	(3)绝对路径
+		以"/"开头的路径。
+	(4)如何写绝对路径
+		链接、表单提交、重定向从应用名开始写；
+	转发从应用名之后开始写。
+		不要直接写绝对路径，要使用以下方法获得应用名：
+		String request.getContextPath();
+
+3、比较重定向和转发
+	(1)能否共享request对象
+		重定向：不行。
+		转发：可以。
+		说明：重定向是两次请求。
+				当容器收到请求之后，会创建request对象
+				和response对象，当响应发送完毕，容器
+				会立即删除request和response对象。
+	(2)重定向的地址是任意的，而转发必须是同一个
+	应用内部的某个地址。
+	(3)重定向之后，浏览器地址栏的地址会变，而
+	转发不变。
+	(4)转发是一件事未完成，而重定向是一件事已经做完。
+
+4、状态管理
+	(1)什么是状态管理?
+		将浏览器与web服务器之间多次交互当做一个
+	整体来看待，并且将多次交互所涉及的数据保存
+	下来。
+	(2)如何进行状态管理?
+		1)客户端的状态管理：将状态保存在客户端
+		(浏览器)。比如cookie技术。
+		2)服务器端的状态管理:将状态保存在服务器端。
+		比如 session技术。
+	(3)cookie技术
+		1)什么是cookie?
+			服务器临时保存在浏览器端的少量的数据。
+		2)cookie的工作原理
+			当浏览器向服务器发送请求时，服务器会将少量
+		的数据以set-cookie消息头的方式发送给浏览器，
+		浏览器会将这些数据临时保存下来；
+			当浏览器再次访问服务器时，会将之前保存的
+		数据以cookie消息头的方式发送给服务器。
+		3)如何添加cookie?
+			Cookie c = new Cookie(String name,
+			String value);
+			response.addCookie(c);
+		4)如何查询cookie?
+			
+		
+		
+		
+	
+	
+		
+	
+		
+		

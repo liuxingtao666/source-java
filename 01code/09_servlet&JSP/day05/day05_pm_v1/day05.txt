@@ -1,0 +1,115 @@
+1、将中文保存到数据库需要注意的问题
+	(1)数据库本身要支持中文，即要设置好支持中文的
+	字符集。
+		比如，在mysql数据库中创建一个数据库时，
+		create database jsd1402db
+		default character set utf8;
+	(2)jdbc驱动程序要能够进行正确的编码和解码。
+		当插入中文数据时，要做编码(unicode-->某种
+		本地字符集),有些jdbc驱动默认情况下，会按照
+		iso-8859-1去编码，所以会有乱码。
+		可以明确告诉jdbc驱动如何去做编码和解码:
+		jdbc:mysql://localhost:3306/jsd1402db?
+		useUnicode=true&characterEncoding=utf8;
+
+2、servlet的生命周期
+	(1)什么是servlet的生命周期?
+		servlet容器如何创建servlet对象,如何对刚刚
+	创建的servlet对象进行初始化,如何调用其方法来
+	处理请求，以及如何销毁servlet对象的整个过程。
+	(2)生命周期分成哪几个阶段?
+		1)实例化
+			a,什么是实例化
+				容器创建servlet对象。
+			b,什么时候进行实例化
+				情况1：容器收到请求之后，才会创建
+							servlet对象。
+				情况2: 容器在启动之后，会立即创建
+							servlet对象。需要给这个servlet
+							配置<load-on-startup>参数。
+							该参数是一个大于等于0的整数。
+							值越小，优先级越高(先被创建)。
+				注意:容器在默认情况下，对于某个类型的
+				servlet,只会创建唯一的一个实例。
+		2)初始化
+			a,什么是初始化
+				容器在创建好servlet对象之后，会立即调用
+				该对象的init方法。
+			b,初始化方法(init)只会执行一次。
+			c,一般情况下，我们不用写init方法，因为
+			GenericServlet已经提供了init方法的实现:
+			GenericServlet的init方法是这样实现的:
+				将容器传递进来的ServletConfig对象保存
+			下来，并且提供了一个getServletConfig方法来
+			获得这个对象。
+			d,可以override init()方法来实现自己的初始化
+			处理逻辑。
+			e,初始化参数
+				<init-param>
+  					<param-name>company</param-name>
+  					<param-value>北京达内科技有限公司</param-value>
+  				</init-param>
+  				ServletConfig.getInitParameter("company");
+		3)就绪
+			a,什么是就绪
+				容器调用servlet对象service方法来处理请求。
+			b,HttpServlet已经提供了service方法的实现:
+				会依据请求类型分别调用doGet或者doPost方法。
+				所以，我们在写servlet时，有两个选择:
+				选择1：override HttpServlet的service方法。
+				选择2: override HttpServlet的doGet/doPost
+				方法。
+		4)销毁
+			a,什么是销毁
+				容器在删除servlet对象之前，会调用
+				该对象的destroy方法。
+			b,destroy方法只会执行1次。
+			c,一般不需要写自己的destroy方法，因为
+			GenericServlet已经提供了实现。
+			可以通过override destroy方法来实现自己的
+			销毁逻辑。
+	(3)生命周期相关的几个接口与类(了解)
+		1)Servlet接口
+			a,init(ServletConfig config);
+			b,service(ServletRequest req,
+			ServletResponse res);
+			c,destroy();
+		2)GenericServlet抽象类
+			实现了init,destroy方法。
+		3)HttpServlet抽象类
+			继承GenericServlet，并且实现了service方法。	
+	
+3、jsp(java server page)
+	(1)jsp是什么?	
+		sun公司制订的一种服务器端动态页面技术规范。
+		因为使用servlet,虽然也可以生成动态页面，但是，
+	过于繁琐(需要使用out.println语句),并且难以维护(
+	修改页面，就需要修改java源代码),所以，sun公司
+	才制订了jsp规范。
+		jsp其实就是一个以".jsp"为后缀的文件，该文件
+	的内容主要是html和少量的java代码。jsp文件会被
+	容器转换成一个servlet然后执行。
+	(2)如何写一个jsp文件?
+		step1,先写一个以".jsp"为后缀的文件。
+		step2,在该文件里面，可以添加如下的内容:
+			1)html(css,javascript)：直接写即可。
+			2)java代码:
+				a, java代码片断
+					<%  java代码  %>
+			3)	隐含对象
+				a,什么是隐含对象?
+					在jsp文件里面可以直接使用的对象，
+				比如out,request,response。
+				b,为什么可以直接使用这些隐含对象?
+					因为容器会自动添加获得这些对象的
+				代码。
+	(3)jsp是如何执行的?
+		第一个阶段:容器会将jsp文件转换成一个
+		servlet类。
+			a,html(css,javascript)  ---> 放到service
+			方法里面，使用out.write输出(write方法
+			会将null转换成""输出)。
+			b,<%     %>  ----> 放到service方法，照搬。
+			
+		第二个阶段:容器会将这个servlet类进行编译，
+		之后会按照一般的servlet对象去调用。

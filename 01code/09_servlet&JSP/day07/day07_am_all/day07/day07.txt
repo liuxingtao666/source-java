@@ -1,0 +1,83 @@
+5)cookie的生存时间
+	cookie.setMaxAge(int seconds);
+	注意：
+		a,单位是秒
+		b,seconds > 0: 当cookie的生存时间大于指定的
+			秒数，浏览器会删除这个cookie。浏览器会
+			将cookie保存在硬盘上。
+		  seconds = 0：立即删除cookie。
+		  		比如，要删除一个名称为"uid"的cookie:
+		  			Cookie c = new Cookie("uid","");
+		  			c.setMaxAge(0);
+		  			response.addCookie(c);
+		  seconds < 0: 缺省值,浏览器会将cookie保存在
+		  		内存里面。只要浏览器不关闭，cookie就一
+		  		直存在。
+6)编码问题
+	cookie只能保存合法的ascii字符串。如果需要保存
+中文，需要将中文转换成合法的ascii字符串的形式。
+	String URLEncoder.encode(String str,String code);
+	String URLDecoder.decode(String str,String code);
+7)路径问题
+	a,浏览器在向服务器发请求时，会比较cookie
+	的路径是否与请求地址匹配，只有匹配的cookie
+	才会发送。
+	b,cookie的路径默认情况下等于添加该cookie的
+	组件的路径，比如:
+		/web07/biz01/addCookie.jsp添加了一个名叫
+	"userId"的cookie,则该cookie的路径等于
+	"/web07/biz01/"。
+	c,要访问的路径(请求地址)必须是cookie的路径
+	或者其子路径，浏览器才会将该cookie发送出去。
+	d,可以修改cookie的路径
+		cookie.setPath(String path);
+		比如,经常
+			cookie.setPath("/appname");
+8)cookie的限制
+	a,cookie可以被用户禁止。
+	b,cookie只能保存少量的数据(大约4k)。
+	c,cookie数量也有限制(浏览器在本地大约能保存
+	300个左右的cookie)。
+	d,cookie不安全，如果要将敏感数据保存在cookie
+	里面，必须加密。
+	e,cookie只能保存字符串。
+	
+2、session(会话)
+	(1)session是什么?
+		浏览器访问服务器时，服务器会创建一个对象
+	(该对象称之为session对象，有一个唯一的id号，
+	称之为sessionId),服务器在默认情况下，会将这个
+	sessionId以cookie的方式发送给浏览器；
+		当浏览器再次访问服务器时，会将之前保存的
+	sessionId发送过来，服务器就可以依据sessionId
+	找到之前创建的session对象。
+	(2)如何获得一个session对象?
+		1)方式一
+			HttpSession s = 
+			request.getSession(boolean flag);
+			a,当flag=true时
+				服务器会检查请求当中有没有sessionId,
+			如果没有sessionId,服务器会创建一个session
+			对象;
+				如果有sessionId,服务器会依据这个session
+			Id查找对应的session对象，如果找到了，则
+			返回;找不到，则创建一个新的session对象。
+			b,当flag=false时
+				服务器会检查请求当中有没有sessionId,
+			如果没有sessionId,返回null；
+				如果有sessionId,服务器会依据这个session
+			Id查找对应的session对象，如果找到了，则
+			返回;找不到，返回null。
+		2)方式二
+			HttpSession s = 
+				request.getSession();
+			等价于 request.getSession(true)。
+	(3)绑订数据相关的方法
+			setAttribute(String name,Object obj);
+			Object getAttribute(String name);
+			removeAttribute(String name);
+			
+			
+			
+		
+	

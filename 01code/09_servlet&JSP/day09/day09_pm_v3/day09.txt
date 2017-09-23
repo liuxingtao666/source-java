@@ -1,0 +1,122 @@
+(4)过滤器的初始化参数
+	step1,在web.xml文件当中，使用
+	<init-param>配置初始化参数
+	step2,使用FilterConfig对象提供的
+	String getInitParameter(String paranName);
+(5)过滤器的优点
+	a,可以不用修改原有代码，为系统增加新的功能。
+	b,可以将多个web组件相同的逻辑集中写在一个类里面
+	(过滤器)，方便代码的维护。
+
+1、监听器
+	(1)什么是监听器?
+		servlet规范当中定义的一种特殊的组件，用来监听
+	servlet容器产生的事件并进行相应的处理。
+		事件主要有两类:
+			a,生命周期相关的事件:容器创建或者销毁了
+			request,session,servletContext(servlet上下文)
+			时产生的事件。
+			b,绑订相关的事件:调用了request,session,servlet
+			Context的setAttribute,removeAttribute时产生
+			的事件。
+	(2)如果写一个监听器?
+		step1,写一个java类，实现相应的监听器接口
+		(比如HttpSessionListener接口)。
+		step2,在监听器接口方法中，编写相应的处理逻辑。
+		step3,注册(web.xml文件当中添加相应的配置)。
+	(3)ServletContext接口
+		1)servlet上下文
+			容器启动之后，会为每一个web应用创建唯一的
+		一个符合ServletContext接口要求的对象，称之为
+		servlet上下文。
+			该对象有两个特点：
+				a,唯一性:一个web应用对应一个servlet上下文。
+				b,一直存在:只要容器不关闭，应用没有被
+				卸载，servlet上下文就一直存在。
+		2)如何获得servlet上下文对象
+			a,GenericServlet提供了getServletContext方法。
+			b,ServletConfig提供了getServletContext方法。
+			c,HttpSession提供了getServletContext方法。
+			d,FilterConfig提供了getServletContext方法。
+		3)作用
+			a,绑订数据
+				setAttribute,getAttribute,removeAttribute
+			绑订到servlet上下文上的数据有两个特点：
+				a1,随时可以访问(一直存在)
+				a2,全局(所有组件都可以访问)
+			注意:
+				request,session,servlet上下文都提供了
+			绑订数据相关的方法,区别如下:
+				a1,生存时间不一样。
+				request < session < servlet上下文。
+					在满足使用条件的情况下，应该优先使用
+				生命周期短的。
+				a2,访问的范围不一样。
+					request < session < servlet上下文。
+					request对象上绑订的数据，只有同一个请求
+				所涉及的组件可以访问(比如转发，过滤器与
+				对应的servlet/jsp)。
+					session对象上绑订的数据，只有同一个
+				会话所涉及的组件可以访问。
+					servlet上下文上绑订的数据，同一个应用
+				 上的所有组件均可访问。
+			b,访问全局的初始化参数
+				 String getInitParameter(String paranName);		
+			c,通过逻辑路径获得实际部署时的物理路径
+				 String getRealPath(String path);
+				 
+	练习：
+			当Servlet上下文被创建，则启动一个任务
+		(每隔2秒钟，输出当前的系统时间),当Servlet
+		上下文被销毁，则任务取消。
+			提示:
+					写一个java类，实现ServletContextListener。
+					创建任务可以使用(Timer,TimerTask)。
+		www.sourceforge.net   quartz(定时任务处理框架)
+		www.github.com
+
+2、servlet线程安全问题
+	(1)为什么说servlet会有线程安全问题?
+		a,servlet默认是单例(对于某个类型的
+		servlet,容器只会创建一个实例)。
+		b,容器在收到请求之后，会启动一个线程来处理。
+		比如，有多个请求同时访问某个servlet，此时，
+	就会有多个线程同时调用该servlet对象的service方法。
+	如果这些线程修改servlet对象的属性，就有可能发
+	生线程安全问题。
+	(2)如何解决?
+		a,加锁 
+			可以使用synchronized加锁。
+		b,让servlet实现SingleThreadModel接口。
+			实现了该接口的servlet,容器会为每一个请求
+		创建一个对应的实例。
+			不建议使用，因为如果请求过多，可能会产生
+		过多的servlet实例，影响性能。
+		
+3、上传文件(扩展)
+	step1,设置表单的提交方式为"post",还要设置表单的
+	enctype属性值为"multipart/form-data"。
+	step2,在服务器端，不能够使用
+	request.getParameter方法来获得任何参数值，
+	要使用
+		InputStream request.getInputStream()
+	获得一个输入流，然后分析该输入流来获得
+	表单参数值。
+		因为直接分析该输入流比较复杂，所以我们一
+	般使用一些开源的工具来分析，比如，可以使用
+	commons-fileupload.jar来分析。
+	
+	
+		
+		
+		
+		
+		
+		
+		
+					
+			
+
+		
+	
+		

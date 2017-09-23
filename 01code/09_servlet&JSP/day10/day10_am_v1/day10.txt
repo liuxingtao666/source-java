@@ -1,0 +1,153 @@
+servlet小结
+1,servlet基础
+	(1)什么是servlet?
+	(2)什么是servlet容器(tomcat)?
+	(3)如何开发一个servlet?
+	(4)http协议(了解)
+		a,什么是http协议?
+		b,请求数据包与响应数据包的结构
+		c,什么是状态码?,常见的状态码?
+		d,什么是消息头?
+		e,两种请求方式(get/post)的特点?
+2,servlet核心
+	(1)表单处理
+		a,如何获得请求参数值?
+			String request.getParameter(String paranName);
+			String[] request.getParameterValues(String paranName);
+		b,如何获得中文参数值?
+			step1,要确保表单所在的页面按照指定的字符集
+			打开。
+				html : <meta http-equiv="content-type" 
+				content="text/html;charset=utf-8">
+				jsp:  <%@page pageEncoding="utf-8" 
+				contentType="text/html;charset=utf-8"%>
+			step2,服务器端，按照指定的字符集解码。
+				方式一:  request.setCharacterEncoding("utf-8");
+				方式二:  new String(str.getBytes("iso-8859-1"),
+				"utf-8");
+		(2)servlet输出中文，要注意什么?
+				response.setContentType(
+				"text/html;charset=utf-8");	
+		(3)容器如何处理请求资源路径?
+		(4)如何让一个servlet处理多种请求?
+				String request.getRequestURI();
+		(5)转发与重定向
+			a,什么是重定向?
+			b,如何重定向?
+				response.sendRedirect(String url);
+			c,重定向的特点?
+			d,什么是转发?
+			e,如何转发?
+				request.setAttribute(String name,Object obj);
+				RequestDispatcher rd = 
+				request.getRequestDispatcher(String url);
+				rd.forward(request,response);
+			f,转发的特点?
+			g,转发与重定向的比较?
+		(6)servlet的生命周期
+			a,什么是servlet的生命周期
+			b,分成哪几个阶段
+				b1,实例化(什么时候实例化,load-on-startup
+				参数)
+				b2,初始化(什么时候初始化,如何实现自己的初
+				始化逻辑,初始化参数)
+				b3,就绪(doGet方法与doPost方法)
+				b4,销毁
+			c,相关的几个接口与类
+				Servlet接口,GenericServlet抽象类,
+				HttpServlet抽象类,ServletConfig接口。
+		(7)线程安全问题
+			a,为什么说servlet会有线程安全问题
+			b,如何解决			
+3,状态管理
+	(1)什么是状态管理?
+	(2)cookie
+		a,什么是cookie?
+		b,cookie是如何工作的?
+		c,如何添加一个cookie?
+			Cookie c = new Cookie(String name,
+			String value);
+			response.addCookie(c);
+		d,生存时间
+			setMaxAge(int seconds)
+		e,编码问题
+			String URLEncoder.encode(String str,String code);
+			String URLDecoder.decode(String str,String code);
+		f,路径问题
+			setPath(String path);
+		g,cookie有哪些限制
+	(3)session
+		a,什么是session?
+		b,如何获得一个session对象
+			HttpSession s = request.getSession(boolean flag);
+			HttpSession s = request.getSession();
+		c,常用的几个方法
+			String getId();
+			setAttribute,getAttribute,removeAttribute
+		d,session超时
+			setMaxInactiveInterval(int seconds)
+		e,删除session对象
+			invalidate()
+		f,如果禁止cookie,如何继续使用session?(了解)
+			url重写(response.encodeURL,response.encodeRedirectURL)
+		g, cookie与session的比较。
+4,数据库访问
+	(1)servlet如何使用jdbc访问数据库
+	(2)dao
+5,过滤器与监听器
+	(1)什么是过滤器
+	(2)如何写一个过滤器
+	(3)过滤器的初始化参数
+	(4)过滤器的优先级
+	(5)过滤器的优点
+	(6)什么是监听器
+	(7)如何写一个监听器
+	(8)ServletContext
+		a,什么是servlet上下文
+		b,如何获得servlet上下文
+		c,作用
+6,典型案例与扩展
+	员工信息管理
+	登录
+	session验证
+	验证码
+	
+一,jsp基础 
+	1,jsp是什么?
+	2,如何写一个jsp?
+		step1,写一个以".jsp"为后缀的文件
+		step2,添加
+			(1)html (css,js) : 直接写
+			(2)java代码:
+				1) <%    %>
+				2) <%=   %>
+				3)  jsp声明 (a1.jsp)
+					 <%!    %>  
+			(3)指令
+				1)什么是指令
+				2)	page
+					a,import
+					b,pageEncoding
+					c,contentType
+					d,session(a2.jsp):true(缺省)/false,当值
+							为false,容器不再添加获得session对
+							象的代码了。
+					e,errorPage(a3.jsp):指定一个错误处理页面。
+					f,isErrorPage(a4.jsp):true/false(缺省)，如果值是
+							true，表示这是一个错误处理页面。只
+							要当该属性值为true，才能使用exception
+							隐含对象。
+				3)include
+				4)taglib
+	3,jsp是如何执行的?
+		step1,容器要将.jsp文件转换成一个servlet类。
+			html      ---->   service方法，使用out.write
+								输出。
+			<%   %>  ---->   service方法,照搬。
+			<%=  %>  ---->   service方法,使用out.print
+								输出。
+			<%!   %>  ---->   为servlet添加新的属性或者
+										新的方法。
+		step2,将servlet类编译，然后实例化、初始化、
+			就绪调用。
+	

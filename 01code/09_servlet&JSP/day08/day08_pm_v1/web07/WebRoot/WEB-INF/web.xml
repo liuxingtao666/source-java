@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+  <servlet>
+    <servlet-name>Find_AddCookieServlet</servlet-name>
+    <servlet-class>web.Find_AddCookieServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SomeServlet</servlet-name>
+    <servlet-class>web.SomeServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>A</servlet-name>
+    <servlet-class>web.A</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>B</servlet-name>
+    <servlet-class>web.B</servlet-class>
+  </servlet>
+
+
+  <servlet-mapping>
+    <servlet-name>Find_AddCookieServlet</servlet-name>
+    <url-pattern>/find_addCookie</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SomeServlet</servlet-name>
+    <url-pattern>/some</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>A</servlet-name>
+    <url-pattern>/a</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>B</servlet-name>
+    <url-pattern>/b</url-pattern>
+  </servlet-mapping>
+  
+</web-app>

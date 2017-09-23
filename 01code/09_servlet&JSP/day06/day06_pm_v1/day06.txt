@@ -1,0 +1,41 @@
+1、转发
+	(1)什么是转发?
+		一个web组件(servlet/jsp)将未完成的处理
+	交给另外一个web组件继续完成。
+		最常见的情况：
+			servlet获得数据之后，转发给一个jsp去展现。
+	(2)如何转发?
+		step1,将数据绑订到request对象上。
+		request.setAttribute(String name,Object obj);
+		另外，request对象提供了另外两个方法来配合使用
+			Object request.getAttribute(String name);	
+			request.removeAttribute(String name);
+		step2,获得转发器
+			RequestDispatcher rd = 
+						request.getRequestDispatcher(String url);
+			url:是转发的目的地。
+		step3,转发
+				rd.forward(request,response);	
+	(3)转发的特点
+		a,转发的目的地有限制，必须是同一个应用。	
+		b,转发之后，浏览器地址栏的地址不变。
+		c,转发所涉及的各个web组件会共享同一个
+		request和同一个response对象。
+		
+2、路径问题
+	(1)什么是路径问题?
+		链接、表单提交、重定向、转发这几种情况下
+	如何填写路径(地址)。
+	(2)相对路径
+		不以"/"开头的路径。
+	(3)绝对路径
+		以"/"开头的路径。
+	(4)如何写绝对路径
+		链接、表单提交、重定向从应用名开始写；
+	转发从应用名之后开始写。
+		不要直接写绝对路径，要使用以下方法获得应用名：
+		String request.getContextPath();
+		
+	
+		
+		

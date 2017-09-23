@@ -1,0 +1,59 @@
+1、mysql的简单使用
+	(1)登录mysql数据管理系统(使用root用户)
+		mysql -uroot;
+	(2)查看当前有哪些数据库
+		show databases;
+	(3)创建一个数据库(设置缺省字符集为utf-8)
+		create database jsd1402db default
+		character set utf8;
+	(4)使用某个数据库
+		use jsd1402db;
+	(5)查看当前数据库有哪些表
+		show tables;
+	(6)建表
+		create table t_emp(
+			id int primary key auto_increment, 
+			name varchar(50),
+			salary double,
+			age int
+		);
+		insert into t_emp(name,salary,age) 
+		values('tom',10000,22);
+		说明:
+			auto_increment:自增长列，当插入一条记录时，
+			数据库自动为这一列赋值。
+2、servlet如何访问数据库(使用jdbc)
+	step1,将jdbc驱动(.jar文件)放到WEB-INF\lib下。
+	step2,使用jdbc访问数据库，需要注意异常的处理。
+		类的加载:
+			jvm委托类加载器(类加载器也是一个对象)查找
+		类的字节码文件，并且将字节码文件的内容读入到
+		方法区，然后将读入的信息封装成一个class对象。
+		
+	练习：写一个ListEmpServlet,该Servlet会查询t_emp
+	表，将所有员工的信息(id,name,salary,age)以表格的
+	方式展现给用户(先不考虑中文问题)。
+		提示：
+			step1,使用jdbc查询数据库。
+			step2,对ResultSet进行遍历，使用out.println
+			语句输出每一个员工的信息。
+			
+3、重定向
+	(1)什么是重定向
+		服务器通知浏览器向一个新地址发请求。			
+		服务器一般会通过向浏览器发送302状态码及一个
+	Location消息头(值是一个地址，一般称之为重定向
+	地址)，浏览器收到之后，会立即向重定向地址发
+	请求。
+	(2)如何重定向
+		response.sendRedirect(String url);
+		url:重定向地址。
+	(3)重定向的特点
+		a,重定向的地址是任意的。
+		b,重定向之后，浏览器地址栏的地址会发生变化。
+	(4)重定向之前，容器会先清空response上缓存的数据。
+		
+	
+	
+		
+		

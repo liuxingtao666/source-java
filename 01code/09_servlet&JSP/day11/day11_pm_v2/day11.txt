@@ -1,0 +1,113 @@
+1,jsp标签与el表达式
+	(1)什么是jsp标签?
+		因为直接在jsp文件里面写java代码，不方便
+	页面的维护(比如，将jsp文件交给美工去修改就很不
+	方便),所以，sun公司制订了jsp标签技术规范。
+		jsp标签类似于html中的标签(比如,<c:if>),标签对
+	应一个标签类，容器遇到jsp标签之后，会查找对应的
+	标签类然后执行里面的代码。
+		使用jsp标签来代替直接在jsp文件当中写java代码，
+	有两个好处:
+		a,页面很好维护(比如，美工看到的只是几个标签,
+		修改很方便)
+		b,页面更简洁，并且，jsp标签可以复用。
+	(2)什么是el表达式?
+		el表达式是一套简单的计算规则，计算的结果
+	用于给jsp标签的属性赋值，也可以直接输出。
+	(3)el表达式的使用
+		1)访问bean的属性
+			a,方式一     (a1.jsp)
+				${user.name}
+				容器依次从pageContext,request,session,
+			application中查找绑订名为"user"的对象，找
+			到之后，调用该对象的"getName"方法并输出；
+			如果找不到，则输出""。
+			  	与直接写java代码相比，有两个优点：
+			  		更简洁，另外，会将null转换成""输出。
+			 	注意：
+			 		如果要指定查找范围，可以使用pageScope,
+			 	requestScope,sessionScope,applicationScope。
+			 		比如   ${sessionScope.user.name}
+			 b,方式二  (a2.jsp)
+			 	 ${user["name"]}
+			 	 注意：
+			 	 	允许[]里面出现绑订名。
+			 	 	允许[]里面出现下标，用于访问数组中的
+			 	 	某个元素。
+		2)进行一些简单的运算,运算的结果一般用于给
+			jsp标签的属性赋值,也可以直接输出。(a3.jsp)
+			a,算术运算: "+","-","*","/","%",注意,
+			在el表达式中，"+"只能求和。
+			b,关系运算:">","<","==","!=",">=","<="
+			c,逻辑运算:"&&","||","!"
+			d,empty运算:判断集合是否为空或者是否是一个
+			空字符串。
+			3)读取请求参数值 (a4.jsp)
+				${param.username}
+					等价于
+						request.getParameter("username");
+				${paramValues.city}
+					等价于
+						request.getParameterValues("city");
+	(4)jstl(java standard taglib)核心标签
+		1)	使用步骤
+			step1,将jstl的jar文件拷贝到WEB-INF\lib下
+			(如果使用的是javaee5.0以上，不用拷贝了)。
+			step2,使用taglib指令引入标签。
+				uri:命名空间(namespace,就是一个字符串，
+				用来区分同名的元素)
+				prefix:命名空间的前缀。
+		2)核心标签
+			a,if   (a5.jsp)
+				<c:if test="" var="" scope="">
+					标签体
+				</c:if>
+				当test属性值为true，容器会执行标签体的
+				内容。
+				var属性：指定一个绑订名,绑订值是test
+				属性值，绑订范围由scope属性来指定(
+				"page","request","session","application)。
+			b,choose   (a6.jsp)
+				<c:choose>
+					<c:when test="">
+					</c:when>
+					...
+					<c:otherwise>
+					</c:otherwise>
+				</c:choose>
+				when可以出现1次或者多次，otherwise
+				可以出现0次或者1次。
+			c,forEach	  (a7.jsp)
+				<c:forEach items="" var="" 
+				varStatus="">
+				</c:forEach>
+				items属性用来指定要遍历的集合。
+				var属性用来指定一个绑订名,绑订范围是
+				pageContext,该标签每次从集合当中取一个
+				对象作为绑订值。
+				varStatus属性用来指定一个绑订名,绑订范围是
+				pageContext,绑订值是一个由容器创建的对
+				象，该对象提供了获得当前迭代的状态的方法：
+					getIndex(): 获得当前迭代的对象的下标，
+					下标从0开始。
+					getCount():获得当前是第几次迭代(从1开始)
+	
+	练习：将员工列表页面(empList.jsp)中的java代码
+	使用jsp标签和el表达式替换掉。
+	
+	(5)自定义标签 (hello.jsp)
+		step1,写一个java类，继承SimpleTagSupport类。
+		step2,在doTag方法里，编写处理逻辑。
+		step3,在.tld文件里面，描述标签。
+		<body-content></body-content>
+		empty: 该标签没有标签体。
+		scriptless:该标签有标签体，但是，标签体
+		里面不能够出现java代码(<% %> <%= %> <%! %>)。
+		JSP:该标签有标签体，并且，标签体里面可以出
+		现java代码。只有复杂标签技术支持，简单标签
+		技术只支持empty,scriptless。
+	(6)jsp标签的运行过程
+		容器依据标签的命名空间找到标签的描述文件
+		(.tld文件),然后依据标签的名称找到标签类，
+		接下来，将标签类实例化，然后调用标签实例的
+		相应方法。

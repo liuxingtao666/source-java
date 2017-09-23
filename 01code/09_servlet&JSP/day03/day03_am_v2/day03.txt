@@ -1,0 +1,37 @@
+1、mysql的简单使用
+	(1)登录mysql数据管理系统(使用root用户)
+		mysql -uroot;
+	(2)查看当前有哪些数据库
+		show databases;
+	(3)创建一个数据库(设置缺省字符集为utf-8)
+		create database jsd1402db default
+		character set utf8;
+	(4)使用某个数据库
+		use jsd1402db;
+	(5)查看当前数据库有哪些表
+		show tables;
+	(6)建表
+		create table t_emp(
+			id int primary key auto_increment, 
+			name varchar(50),
+			salary double,
+			age int
+		);
+		insert into t_emp(name,salary,age) 
+		values('tom',10000,22);
+		说明:
+			auto_increment:自增长列，当插入一条记录时，
+			数据库自动为这一列赋值。
+2、servlet如何访问数据库(使用jdbc)
+	step1,将jdbc驱动(.jar文件)放到WEB-INF\lib下。
+	step2,使用jdbc访问数据库，需要注意异常的处理。
+		类的加载:
+			jvm委托类加载器(类加载器也是一个对象)查找
+		类的字节码文件，并且将字节码文件的内容读入到
+		方法区，然后将读入的信息封装成一个class对象。
+	
+			
+		
+	
+		
+		

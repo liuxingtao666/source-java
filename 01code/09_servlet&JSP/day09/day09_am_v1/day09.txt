@@ -1,0 +1,30 @@
+(4)过滤器的初始化参数
+	step1,在web.xml文件当中，使用
+	<init-param>配置初始化参数
+	step2,使用FilterConfig对象提供的
+	String getInitParameter(String paranName);
+(5)过滤器的优点
+	a,可以不用修改原有代码，为系统增加新的功能。
+	b,可以将多个web组件相同的逻辑集中写在一个类里面
+	(过滤器)，方便代码的维护。
+
+1、监听器
+	(1)什么是监听器?
+		servlet规范当中定义的一种特殊的组件，用来监听
+	servlet容器产生的事件并进行相应的处理。
+		事件主要有两类:
+			a,生命周期相关的事件:容器创建或者销毁了
+			request,session,servletContext(servlet上下文)
+			时产生的事件。
+			b,绑订相关的事件:调用了request,session,servlet
+			Context的setAttribute,removeAttribute时产生
+			的事件。
+	(2)如果写一个监听器?
+		step1,写一个java类，实现相应的监听器接口
+		(比如HttpSessionListener接口)。
+		step2,在监听器接口方法中，编写相应的处理逻辑。
+		step3,注册(web.xml文件当中添加相应的配置)。
+	
+		
+	
+		

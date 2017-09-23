@@ -1,0 +1,21 @@
+5)cookie的生存时间
+	cookie.setMaxAge(int seconds);
+	注意：
+		a,单位是秒
+		b,seconds > 0: 当cookie的生存时间大于指定的
+			秒数，浏览器会删除这个cookie。浏览器会
+			将cookie保存在硬盘上。
+		  seconds = 0：立即删除cookie。
+		  		比如，要删除一个名称为"uid"的cookie:
+		  			Cookie c = new Cookie("uid","");
+		  			c.setMaxAge(0);
+		  			response.addCookie(c);
+		  seconds < 0: 缺省值,浏览器会将cookie保存在
+		  		内存里面。只要浏览器不关闭，cookie就一
+		  		直存在。
+6)编码问题
+	cookie只能保存合法的ascii字符串。如果需要保存
+中文，需要将中文转换成合法的ascii字符串的形式。
+	String URLEncoder.encode(String str,String code);
+	String URLDecoder.decode(String str,String code);
+	

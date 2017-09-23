@@ -1,0 +1,53 @@
+1、dao(data access object  数据访问对象)
+	(1)什么是dao?
+		封装了数据访问逻辑的模块。
+	(2)如何写一个dao?
+		step1,写一个实体类
+			实体类与表对应，一般来说，表有哪些字段，
+		实体类就会有相应的属性，属性的类型与字段的类
+		型要匹配，并且这些属性有对应的get/set方法。
+			有了实体类之后，就可以将数据库中的记录
+		转换成内存当中的一个对象，方便程序访问。
+		step2,写一个java类，封装数据访问逻辑。
+		
+ 员工列表:
+ 	step1,写一个实体类Employee
+ 	step2,写一个DAO类(EmployeeDAO)，提供了
+ 	List<Employee> findAll()方法。
+ 	step3,测试该方法(可以使用junit来测试)。			
+ 	step4,将ListEmpServlet当中的jdbc代码使用
+ 	EmployeeDAO来替换。
+ 	
+2、servlet容器如何处理请求资源路径
+	比如,在浏览器地址栏输入:
+	http://ip:port/web04_2/abc.html
+	step1,容器依据应用名("/web04_2")找到应用所在
+	的文件夹。
+	step2,容器会假设访问的是一个servlet,容器会去
+	web.xml文件当中去查找有没有对应的servlet。
+		匹配过程:
+			a,精确匹配:
+				要求<url-pattern>的值必须是/abc.html。
+			b,通配符匹配:
+				使用"*"匹配0个或者多个字符。
+				比如:
+					<url-pattern>/*</url-pattern>
+			c,后缀匹配:
+				使用"*."开头，后接任意的一个字符串。
+				比如:
+					<url-pattern>*.do</url-pattern>
+				匹配所有的以".do"结尾的请求。
+	step3,如果没有匹配的servlet,容器会认为访问的是
+	一个文件，然后查找该文件并返回(如果找不到，
+	返回404)。
+	
+3、如何让一个servlet处理多种请求?
+	step1,使用后缀匹配。
+		比如:
+			<url-pattern>*.do</url-pattern>
+	step2,分析请求资源路径，然后依据分析的结果
+	来进行相应的处理。
+		//获得请求资源路径
+		String request.getRequestURI();
+		
+		

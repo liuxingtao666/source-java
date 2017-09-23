@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4" 
+	xmlns="http://java.sun.com/xml/ns/j2ee" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee 
+	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+  <!-- 全局的初始化参数 -->
+  <context-param>
+  	<param-name>address</param-name>
+  	<param-value>花果山</param-value>
+  </context-param>
+  <!-- 过滤器的配置 -->
+  <!-- 监听器的配置 -->
+  <listener>
+  	<listener-class>web.CountListener</listener-class>
+  </listener>
+  <!-- servlet的配置 -->
+  <servlet>
+    <servlet-name>A</servlet-name>
+    <servlet-class>web.A</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>B</servlet-name>
+    <servlet-class>web.B</servlet-class>
+  </servlet>
+
+
+  <servlet-mapping>
+    <servlet-name>A</servlet-name>
+    <url-pattern>/a</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>B</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  <!-- 配置首页 -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

@@ -1,0 +1,83 @@
+(4)过滤器的初始化参数
+	step1,在web.xml文件当中，使用
+	<init-param>配置初始化参数
+	step2,使用FilterConfig对象提供的
+	String getInitParameter(String paranName);
+(5)过滤器的优点
+	a,可以不用修改原有代码，为系统增加新的功能。
+	b,可以将多个web组件相同的逻辑集中写在一个类里面
+	(过滤器)，方便代码的维护。
+
+1、监听器
+	(1)什么是监听器?
+		servlet规范当中定义的一种特殊的组件，用来监听
+	servlet容器产生的事件并进行相应的处理。
+		事件主要有两类:
+			a,生命周期相关的事件:容器创建或者销毁了
+			request,session,servletContext(servlet上下文)
+			时产生的事件。
+			b,绑订相关的事件:调用了request,session,servlet
+			Context的setAttribute,removeAttribute时产生
+			的事件。
+	(2)如果写一个监听器?
+		step1,写一个java类，实现相应的监听器接口
+		(比如HttpSessionListener接口)。
+		step2,在监听器接口方法中，编写相应的处理逻辑。
+		step3,注册(web.xml文件当中添加相应的配置)。
+	(3)ServletContext接口
+		1)servlet上下文
+			容器启动之后，会为每一个web应用创建唯一的
+		一个符合ServletContext接口要求的对象，称之为
+		servlet上下文。
+			该对象有两个特点：
+				a,唯一性:一个web应用对应一个servlet上下文。
+				b,一直存在:只要容器不关闭，应用没有被
+				卸载，servlet上下文就一直存在。
+		2)如何获得servlet上下文对象
+			a,GenericServlet提供了getServletContext方法。
+			b,ServletConfig提供了getServletContext方法。
+			c,HttpSession提供了getServletContext方法。
+			d,FilterConfig提供了getServletContext方法。
+		3)作用
+			a,绑订数据
+				setAttribute,getAttribute,removeAttribute
+			绑订到servlet上下文上的数据有两个特点：
+				a1,随时可以访问(一直存在)
+				a2,全局(所有组件都可以访问)
+			注意:
+				request,session,servlet上下文都提供了
+			绑订数据相关的方法,区别如下:
+				a1,生存时间不一样。
+				request < session < servlet上下文。
+					在满足使用条件的情况下，应该优先使用
+				生命周期短的。
+				a2,访问的范围不一样。
+					request < session < servlet上下文。
+					request对象上绑订的数据，只有同一个请求
+				所涉及的组件可以访问(比如转发，过滤器与
+				对应的servlet/jsp)。
+					session对象上绑订的数据，只有同一个
+				会话所涉及的组件可以访问。
+					servlet上下文上绑订的数据，同一个应用
+				 上的所有组件均可访问。
+			b,访问全局的初始化参数
+				 String getInitParameter(String paranName);		
+			c,通过逻辑路径获得实际部署时的物理路径
+				 String getRealPath(String path);
+				 
+	练习：
+			当Servlet上下文被创建，则启动一个任务
+		(每隔2秒钟，输出当前的系统时间),当Servlet
+		上下文被销毁，则任务取消。
+			提示:
+					写一个java类，实现ServletContextListener
+			
+		
+		
+		
+					
+			
+
+		
+	
+		
