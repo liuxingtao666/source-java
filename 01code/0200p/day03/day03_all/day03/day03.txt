@@ -1,0 +1,236 @@
+回顾
+  继承：父子类型的关系
+ 继承的特点：
+   1) 子类继承父类的属性和方法，所有子类共享了
+   父类定义的属性和方法，简化了子类的定义
+   2) 父类型定义变量可以引用子类的实例，形成
+   多态关系，多态系统。
+   3) 重写：子类“修改”了父类的行为。
+   4) super：在子类方法中调用父类定义的属性和方法
+     super() 调用父类的构造器
+     this() 调用本类的其它构造器
+     
+ 关于toString()方法
+  1) Java 所有的类都继承（间接继承）于Object
+    如果类没有声明父类型，就继承于Object
+    逻辑上就是“啥都是东西！”
+  2) Object 定义的toString()方法被子类继承了
+    finalized()
+    A 任何对象（东西）都可以用文字描述。
+    B 当调用一个对象的toString()方法就返回
+      对这个对象的文字描述。
+    C 一般在类中要“重写”（修改）为具体的描述
+ 
+ 重写 == 覆盖
+ 
+ finalized() 是Object类上定义的方法，在对象
+ 销毁时候调用一次。不建议重写
+ 
+ 避免循环引用      
+    
+ 对象的创建： 使用new 运算
+ 对象的销毁：当没有任何变量引用这个对象时候
+   销毁对象，是有延迟的，不是立即销毁。
+ 
+
+1 继承与构造器
+  1) 构造器不能继承，子类不能继承父类构造器。
+  2) 子类“一定”调用父类构造器
+    A 如果没有直接调用，Java在子类构造器中，默认
+    （自动）调用父类无参数构造器
+    B 可以使用super() 调用父类的构造器。
+    C 违反了规则有编译错误。
+   super() 只能在子类构造器中使用
+   super() 只能用在子类构造器的第一行
+  
+   this() 只能用在构造器中，调用本类的其它构造器
+   this() 只能用在构造器的第一行
+   this() super() 互斥
+   
+   this() 的用途 重用构造器
+   
+   class Airplane{
+     int x, y, width,height;
+     public Airplane(int x,int y, int w, int h){
+     	super();
+     	this.x=x;this.y=y;width=w;height=h;
+     }
+     public Airplane(int w, int h){
+        this(0,0,w,h);
+        y=-h;
+        Random r = new Random();
+        x = r.nextInt(285-w);    
+     }
+   } 
+
+2 对象的实例化过程
+  对象的创建过程，也就是对象的属性实例化过程
+
+3 Java的编译器类型检验规则：Java编译器根据变量
+  类型检查是否能够访问属性和方法。如果这个变量
+  上没有属性或方法的定义， 就会出现编译错误。
+  Java在编译时候， 是没有任何对象的！
+  对象是在运行期间在堆中创建的。
+  简单说：引用变量在运行期间动态绑定到对象。
+  在运行期间根据对象的类型调用方法
+ 
+4 Java 只根据变量的类型访问属性
+  当父子类型具有相同属性时候，Java根据访问属性
+  的变量类型，访问相应的属性。
+  
+  注意：一般不建议在子类中定义与父类相同的属性
+  
+  案例：人 与 骗子
+ 
+  面向对象的3大特征： 封装 继承 多态  
+5 访问控制 封装
+   public 
+   private 私有  隐私 
+   
+   day03.pm    package
+         |-- Demo07
+         |    |--main
+         |-- Foo
+         |    |-- private int a
+         |    |-- int b  默认的
+         |    |-- protected int c
+         |    |-- public int d
+         |-- Goo extends Koo
+              |-- test(){super. a b c d}
+   day03.pm.sub       
+             |-- Koo 
+                  |-- private int a
+                  |-- int b  默认的
+                  |-- protected int c
+                  |-- public int d
+
+6 static (一份大家共享) 静态的  
+ 1) static 代码块
+   A 在类中定义的代码块，使用static修饰
+   B 在类的加载期间执行，只执行一次
+   C 常用于初始化系统资源（图片，配置文件，音乐）
+ 
+ 2) static 属性
+   A 是属于类的属性变量，被全体对象共享的变量
+   B 静态属性是只有一份的变量
+   C 常用于一份的变量
+   
+   每个对象一个的变量：实例变量
+   
+   猫的年龄：实例变量  
+   猫的个数: 静态变量
+    
+ 3) static 方法: 
+   1) 在类中定义，使用static修饰的方法
+   2) 是属于类的方法，不用创建对象，直接
+   使用类型调用。
+   3) 因为没有“调用者(调用方法的对象)” 所以没有
+   隐含参数this，在方法不能访问当前对象(this)的
+   属性、方法。
+   4) 常用于 工具方法 或者 工厂方法
+   5) 常见静态的API方法： 
+     Arrays.sort() 
+     Arrays.equals() 
+     Arrays.toString() 
+     Math.sqrt() 
+     ... 
+   
+    案例：点 Point(x,y)到点的距离
+     计算：A当前点 (this)到另外一点(other)的距离
+       distance:距离
+       
+       B 计算两个点(p1, p2)之间的距离
+        
+   class Point{
+     int x, y;
+     //构造器
+     public double distance(
+            /*Point this*/ Point other){
+       //? 有两个点对象 this other
+       //勾股定理
+     }
+     public static double distance(
+     		Point p1, Point p2){
+        //? 有两个点对象 p1 p2
+        //勾股定理
+     }
+   }
+   
+7 工厂方法: 创建对象（东西）的方法，方法的返回值
+是一个新对象。
+  
+  案例：随机创建7种方块之一
+  1) 返回值：Tetromino 类型，是多态的结果
+  2) 方法名：randomOne （随机的某一个）
+  3) 参数：无
+  4) 是静态方法，因为与任何对象无关
+  5) 算法：
+     A 使用随机数 type = [0,7)
+     B switch(type)
+     C case 0: return new T();
+       ...
+
+8 final 最终的
+  1) 修饰类 final class
+     A final class 不能被子类继续，不能再有子类了
+     B 优点：可以避免子类对父类的修改
+            缺点：不能再用子类进行修改了
+     C Java的核心（及其重要的）API 是finel类型的
+      String  Integer Math Double Long ...       
+     如： 
+      class MyString extends String{}//编译错误
+     D 工作中不建议使用final类的！ 
+    
+  2) 修饰方法 final method
+    A 在声明方法时候使用 final 修饰
+    B 不能再子类中重写 父类的 final 方法
+    C 优点：保护方法不被子类修改
+          缺点：子类不能重写修改方法了！
+    D 工作中不建议使用！      
+  
+  3) 修饰变量，final 变量
+    A final 可以修饰 局部变量，方法参数，实例变量
+    B final 的变量只能初始化（赋值一次）
+      不能再修改！
+    C final 的方法参数，是在调用方法传递参数时候
+      初始化的
+    D final 的 实例变量，必须初始化，不能再修改
+     
+    案例：
+      狗的年龄：实例变量
+      狗的编号（狗证编号）：实例变量，是final的
+      狗的数量：静态变量 是一份，可以改
+    
+  4) 常量 static final  使用大写定义名字
+    public static final double PI = 3.14159;
+       
+    public static final int ROWS = 20;
+    public static final int COLS = 10;
+    public static final int CELL_SIZE = 26;
+    
+    区别: 字面量和常量
+    字面量：20 30 3.14  true  false ....
+    常量：PI ROWS COLS
+    不严格的说法：都称为"常量"
+    
+9 abstract
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

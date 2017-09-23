@@ -1,0 +1,204 @@
+回顾
+  类的访问控制问题
+  Java文件源文件的规定
+  
+  文件内容：
+  
+  package xxx.xxx.xxx; //?
+  import ....// * 0个以上
+  public class //? 只能有一个，如果有一个必须与
+  //文件名相同！ 
+  class //* 可以有多个
+  
+  static 定义使用类的资源
+  
+  final 
+    //       老婆     红太郎   
+  final int[] ary = {3,4};//与子偕老
+  //ary = null;//编译错误
+  ary[0]++;
+  
+  final Cat tom = new Cat();
+  //tom = null;//编译错
+  tom.age++;
+  
+  class Cat{
+    int age;
+  }
+
+   重载与重写 区别与联系
+   重载：“名字一样的不同方法”
+     1) 在类里面(包括从父类继承的)中存在的方法
+       名一样参数列表不同的方法。
+     2) 本质是 业务功能类似 的“不同方法”
+     3) Java根据参数类型不同调用不同的重载方法
+        Java 尽可能进行类型转换再调用方法 
+  重写：
+    1) 一定是在子类中，“修改”父类的方法
+    2) 只能在子类中重写，从父类继承的方法！
+       如果不能继承的方法，就不能重写,如：不可见的
+       方法：父类的私有方法
+    3) 重写的方法，在运行根据对象的类型调用
+    4) 方法名相同， 参数列表也相同
+       抛出异常：可以是具体类型
+       返回值：可以是具体类型
+ 
+1 abstract 抽象的
+  1) 抽象类：只是用来定义公共属性和方法的类
+    不需要（不能）实例化创建对象的类，要定义为抽象类
+    
+    如：4个方块Tetromino，飞行物FlayingObject
+    
+   抽象类的语法：
+   A 不能直接实例化，创建对象（不能 new）
+   B 可以定义变量，引用具体类型的实例
+   C 只能用于作为父类，被子类继承
+   D 可以包含抽象方法
+    
+  2) 抽象方法 
+   A 子类“必须”重写的方法，是对子类的方法约定！
+   B 抽象方法只定义方法，不能有方法体。
+   C 必须在在抽象类中定义抽象方法
+   D 具体子类继承抽象类时候，必须实现全部的抽象方法
+
+2 接口 interface
+  1) 方法全部是抽象方法，属性全部是常量
+  2) 是一种特殊的抽象类
+  3) 用于约定子类的方法。
+  4) 接口可以被子类 实现(Implement 就是继承)
+  5) 一个类可以实现多个接口，体现多继承现象
+    
+  案例： 
+    炸弹：是敌人，是奖励，是飞行物
+  //敌人
+  interface Enemy{
+    int FULL = 100;
+    /*public static final*/int HALF = 50; 
+    /*public abstract*/int getScore();
+  }
+  //奖励
+  interface Award{
+    int LIFE = 1;
+    int getType();//奖励类型
+  }
+   
+ 
+3 对象数组 Array 
+  1) 元素是对象的数组
+  2) 对象数组的元素是引用类型的变量
+  
+4 2维数组
+  1) Java的二维数组是：元素是数组的数组
+  2) 二维数组就是一个1维数组，元素是数组的一维数组
+  3) java 本质上没有二维数组
+  
+ 案例：消除墙上的一行
+ 
+5 内部类：定义在类内部的类
+  1) 主要是为了封装 类的定义
+  2) 内部类有4种，成员内部类，静态内部类
+    局部内部类，匿名内部类（匿名类）
+ 
+ A 成员内部类 
+   1) 必须使用外部类对象创建内部类实例
+      this.new  Baby();
+   2) 内部类实例共享同一个外部类对象的资源
+      Mama.this.name
+  业务： 妈妈与孩子
+   人(接口) 约定，都有名字，和妈妈名字
+   interface Person{
+     String getName();
+     String getMamaName();
+   }
+   class Mama implements Person{
+     String name;
+     public Mama(String name){
+       this.name = name;
+     }
+     public String getName(){
+       return name;
+     }
+     public String getMamaName(){
+       return "姥姥";
+     }
+     public Person birth(String babyName){
+       Baby baby = this.new Baby();
+       baby.name = babyName;
+       return baby;
+     }
+     private class Baby implements Person{
+       String name;
+       public String getName(){
+         return this.name;
+       }
+       public String getMamaName(){
+         return Mama.this.name;
+       }
+     }
+   }
+   
+   Perosn 人
+     |-- Mama 是 人
+          |-- Baby 是 人 内部类 封装
+          |    |-- name
+          |    |-- getName()
+          |    |-- getMamaName() -- Mama.this.name 
+          |-- name
+          |-- getName()
+          |-- getMamaName() 姥姥
+          |-- birth(babyName) -> Person
+          
+    new Baby()?      
+          
+  B 静态内部类：
+    1) 使用static修饰的内部类
+    2) 可以在类内部直接创建实例，不需要this引用
+       比如可以在静态方法中创建 
+       简单说: 静态方法中可以创建静态内部类实例
+    3) 静态内部类，可以共享外部类的静态资源
+ 
+  (问题：可不可以在静态方法中创建“成员内部类”对象)
+    因为静态方法中没有this 所以不能直接创建"成员
+    内部类实例"。
+     
+  C 局部内部类 
+    1) 在"方法中定义"的类
+    2) 作用域仅仅在方法内部有效，是类的局部封装
+    3) 如果要访问方法中的局部变量，这个
+    局部变量必须是final的
+    4) 如果只是在方法中需要定义一个类时候，使用之
+  
+  
+  
+  
+  
+  
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
