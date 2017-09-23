@@ -1,0 +1,45 @@
+一、Spring对数据库访问技术提供的支持
+	1、针对不同的数据库访问技术，Spring提供
+		了统一的编程模式。
+		实际上所有的DAO都可以继承自DaoSupport。
+		1）JDBC
+			--DAO组件继承于JdbcDaoSupport
+			--DAO通过父类提供的组件JdbcTemplate
+				来实现增、删、改、查。
+		2）Hibernate
+			--DAO组件继承于HibernateDaoSupport
+			--DAO通过父类提供的组件HibernateTemplate
+				来实现增、删、改、查。
+	2、针对不同的数据库访问技术，Spring统一了
+		数据库访问的异常类型。
+		Spring将数据库访问的异常信息，统一成
+		DataAccessException
+	3、Spring提供了声明式事务管理。
+		Spring提供了声明式事务管理，即只需要进行配置，
+		就可以实现组件的事务管理。
+		实际上Spring是采用AOP来实现这一点的。
+
+*二、在Spring中使用JDBC
+	1、使用步骤（XML配置）
+		1）导包
+			--jdbc驱动包
+			--连接池驱动包
+		2）配置数据源
+			--在applicationContext.xml中配置
+				数据源DataSource。
+			--在数据源的配置上，配置好连接池。
+		3）创建实体类
+		4）创建DAO接口及实现类
+			--实现类需要继承于JdbcDaoSupport
+			--在实现类中使用JdbcTemplate来进行
+				增、删、改、查。
+		5）声明DAO组件
+			--在applocationContext.xml中声明DAO组件
+			--需要将DataSource注入给DAO，实际上
+				是注入到父类JdbcDaoSupport的
+				setDataSource方法。
+	2、使用步骤（注解）
+
+*三、在Spring中使用Hibernate
+
+*四、Spring事务管理

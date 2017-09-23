@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:tx="http://www.springframework.org/schema/tx" 
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xmlns:jee="http://www.springframework.org/schema/jee"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd">
+
+	<!-- 
+		声明组件：
+		id：用于标识组件，用于引用。
+		class：组件对应的类型。
+		scope：指定对象创建的方式，
+			singleton/prototype
+		lazy-init：只对单例对象有效，
+			指定是否延迟创建单例对象。
+	 -->
+	<!--
+	<bean id="costDao" 
+		class="com.tarena.dao.JdbcCostDaoImpl"
+		scope="singleton"
+		lazy-init="true"
+		init-method="myInit"
+		destroy-method="myDestroy"/>
+	-->
+	
+	<bean id="costDao"
+		class="com.tarena.dao.HibernateCostDaoImpl"/>
+	
+	<!-- 声明AddCostAction -->
+	<bean id="addCostAction"
+		class="com.tarena.action.AddCostAction"
+		scope="prototype">
+		<!-- 
+			声明当前组件所依赖的bean，采用set
+			方式注入。
+			name：当前组件中的依赖属性名
+			ref：依赖的组件ID
+		 -->
+		<property name="costDao" ref="costDao"/>
+	</bean>
+	
+	<!-- 声明UpdateCostAction -->
+	<bean id="updateCostAction"
+		class="com.tarena.action.UpdateCostAction"
+		scope="prototype">
+		<!-- 
+			声明当前组件所依赖的bean，
+			采用构造方式注入。
+			index：指定构造器第几个参数
+			ref：当前这个参数注入的值
+		 -->
+		<constructor-arg index="0" ref="costDao"/>
+	</bean>
+
+	<!-- 声明Person -->
+	<bean id="person"
+		class="com.tarena.entity.Person">
+		<property name="name" value="刘苍松"/>
+		<property name="age" value="18"/>
+		<property name="girls">
+			<list>
+				<value>苍老师</value>
+				<value>芙蓉</value>
+				<value>如花</value>
+			</list>
+		</property>
+		<property name="books">
+			<set>
+				<value>三国演义</value>
+				<value>水浒传</value>
+				<value>红楼梦</value>
+			</set>
+		</property>
+		<property name="girlQQ">
+			<map>
+				<entry key="苍老师" value="123"/>
+				<entry key="芙蓉" value="456"/>
+				<entry key="如花" value="789"/>
+			</map>
+		</property>
+		<property name="events">
+			<props>
+				<prop key="2007">爱上了苍老师</prop>
+				<prop key="2010">爱上了芙蓉</prop>
+				<prop key="2012">娶了如花</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!-- 声明方面组件 -->
+	<bean id="loggerBean"
+		class="com.tarena.aspect.LoggerBean"/>
+
+	<!-- 设置方面组件的引用 -->
+	<aop:config>
+		<!-- 声明方面，引用方面组件 -->
+		<aop:aspect ref="loggerBean">
+			<!-- 声明切入点和通知类型 -->
+			<aop:around method="log"
+				pointcut="within(com.tarena.action.*)"/>
+		</aop:aspect>
+	</aop:config>
+
+</beans>

@@ -1,0 +1,77 @@
+===========Spring MVC=============
+一、Spring MVC简介
+	1、什么是Spring	MVC
+		Spring基于Servlet，并对其进行封装，从而
+		提出的一种MVC实现手段。
+	2、Spring实现MVC的原理
+		1）画图
+		2）解释
+			a、请求提交给前端控制器
+				--Spring使用Servlet充当前端控制器
+				--Spring预置了这个控制器，是
+					DispatcherServlet
+				联想：这个Servlet相当于Struts2中的filter。
+			b、前端控制器根据handlerMapping找到业务
+				组件。
+				--handlerMapping是applicationContext.xml
+					中的一段配置，体现出请求和控制器的关系
+				联想：这个handlerMapping相当于Struts2
+					中的<action>配置
+			c、实例化并调用业务组件Controller
+				--业务组件中组织业务流程，调用Model组件
+					实现业务逻辑。
+				联想：这个Controller相当于Struts2中的Action
+			d、前端控制器将请求转发给JSP
+				--前端控制器是调用ViewResolver实现的转发
+				联想：这个ViewResolver相当于Struts2中
+					的Result。	
+
+*二、Spring MVC的开发步骤
+	1、导包
+		--导入Spring开发包
+		--导入Spring MVC的开发包
+	2、配置前端控制器
+		在web.xml中配置一个Servlet，该Servlet
+		由Spring预置，类名为DispatcherServlet。
+	3、创建配置文件applicationContext.xml
+		该文件的识别，需要在配置前端控制器Servlet
+		时，通过参数指定。
+	4、创建业务控制器Controller
+		创建一个类，实现接口Controller，并在接口方法
+		中实现业务逻辑。
+	5、声明Controller
+		1）将Controller声明到Spring容器
+		2）将Controller的访问路径配置到handlerMapping
+		3）将请求转发的页面配置在viewResolver
+
+三、使用注解实现Spring MVC
+	1、1-3步同上
+	2、创建业务控制器Controller
+		1）不需要实现接口Controller
+		2）方法的声明满足如下格式
+			public String xxx(Model model) {
+				return "hello";
+			}	
+	3、声明Controller
+		1）开启注解扫描
+		2）使用注解声明Controller
+		3）在方法上使用注解声明访问路径
+			@RequestMapping("/hello.do")
+			代替了
+			<prop key="hello.do">xxController</prop>
+		4）handlerMapping这个bean还需要配置，
+			但是不需要注入值了，需要将class改为
+			org.springframework.web.servlet.mvc
+			.annotation.AnnotationMethodHandlerAdapter，
+			这个类可以支持注解配置mapping
+			
+四、使用Spring MVC开发emp查询功能
+	1、请求过程
+		-->Servlet(mapping)-->Controller
+		-->DAO-->Entity-->JSP
+	2、开发步骤
+		1）Entity
+		2）DAO
+		3）Controller
+		4）mapping
+		5）JSP

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:tx="http://www.springframework.org/schema/tx" 
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xmlns:jee="http://www.springframework.org/schema/jee"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd">
+
+	<!-- 
+		声明组件：
+		id：用于标识组件，用于引用。
+		class：组件对应的类型。
+		scope：指定对象创建的方式，
+			singleton/prototype
+		lazy-init：只对单例对象有效，
+			指定是否延迟创建单例对象。
+	 -->
+	<bean id="costDao" 
+		class="com.tarena.dao.JdbcCostDaoImpl"
+		scope="singleton"
+		lazy-init="true"
+		init-method="myInit"
+		destroy-method="myDestroy"/>
+
+</beans>

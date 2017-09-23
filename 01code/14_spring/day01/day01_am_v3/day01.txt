@@ -1,0 +1,51 @@
+===========Spring============
+一、Spring简介
+	1、什么是Spring
+		Spring是一个高度灵活的轻量级框架，其目的是
+		降低企业级应用的开发/维护复杂度。
+	2、Spring的作用
+		1）管理组件、维护组件关系
+			Spring可以管理应用程序中的组件，并采用IOC
+			机制维护组件的关系，从而大大的降低了组件
+			的耦合度，便于团队开发。
+		2）处理通用业务逻辑
+			Spring采用AOP思想，实现了面向切面编程，
+			可以实现任意一批组件的通用业务逻辑。
+		3）整合框架
+			Spring可以整合Struts2、Hibernate/JDBC
+			框架技术，降低框架中组件的耦合度，并降低
+			框架的使用难度。
+		4）实现MVC
+			Spring提供了一个MVC的实现。
+
+*二、如何使用Spring
+	1、Spring的使用步骤
+		--演示Spring如何管理组件，这是所有其他Spring
+			应用的基础。
+		1）导包
+		2）引入配置文件applicationContext.xml
+		3）创建JavaBean组件
+		4）在applicationContext.xml声明组件
+		5）使用Spring容器创建组件
+	2、Spring容器的特征
+		1）创建对象的方式
+			--scope="singleton"，采用单例模式创建对象，
+				默认使用这个方式。
+			--scope="prototype"，采用原型模式创建对象，
+				即非单例模式。
+		2）创建对象的时机（singleton）
+			--对象创建时机是针对单例对象而言的，
+				对于非单例都是使用对象时创建。
+			--容器初始化时，会默认创建组件，推荐
+				使用这种方式。
+			--lazy-init="true"，会推迟创建组件，在
+				使用组件时才会创建。
+		3）对象的初始化和销毁
+			--init-method="方法名",此方法会在Spring
+				容器创建对象后自动调用。
+			--destroy-method="方法名"，此方法会在
+				Spring容器关闭时自动调用。
+
+*三、Spring IOC
+
+四、注解配置

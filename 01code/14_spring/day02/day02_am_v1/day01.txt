@@ -1,0 +1,192 @@
+===========Spring============
+一、Spring简介
+	1、什么是Spring
+		Spring是一个高度灵活的轻量级框架，其目的是
+		降低企业级应用的开发/维护复杂度。
+	2、Spring的作用
+		1）管理组件、维护组件关系
+			Spring可以管理应用程序中的组件，并采用IOC
+			机制维护组件的关系，从而大大的降低了组件
+			的耦合度，便于团队开发。
+		2）处理通用业务逻辑
+			Spring采用AOP思想，实现了面向切面编程，
+			可以实现任意一批组件的通用业务逻辑。
+		3）整合框架
+			Spring可以整合Struts2、Hibernate/JDBC
+			框架技术，降低框架中组件的耦合度，并降低
+			框架的使用难度。
+		4）实现MVC
+			Spring提供了一个MVC的实现。
+
+*二、如何使用Spring
+	1、Spring的使用步骤
+		--演示Spring如何管理组件，这是所有其他Spring
+			应用的基础。
+		1）导包
+		2）引入配置文件applicationContext.xml
+		3）创建JavaBean组件
+		4）在applicationContext.xml声明组件
+		5）使用Spring容器创建组件
+	2、Spring容器的特征
+		1）创建对象的方式
+			--scope="singleton"，采用单例模式创建对象，
+				默认使用这个方式。
+			--scope="prototype"，采用原型模式创建对象，
+				即非单例模式。
+		2）创建对象的时机（singleton）
+			--对象创建时机是针对单例对象而言的，
+				对于非单例都是使用对象时创建。
+			--容器初始化时，会默认创建组件，推荐
+				使用这种方式。
+			--lazy-init="true"，会推迟创建组件，在
+				使用组件时才会创建。
+		3）对象的初始化和销毁
+			--init-method="方法名",此方法会在Spring
+				容器创建对象后自动调用。
+			--destroy-method="方法名"，此方法会在
+				Spring容器关闭时自动调用。
+
+*三、Spring IOC
+	1、什么是IOC
+		Inversion of Control，
+		控制反转，是一种解耦的设计思想。
+		其目的是让业务代码交出对象创建的控制权，
+		由原先的主动创建对象变为被动接受注入的对象，
+		即由Spring来负责创建对象，并注入给业务代码。
+		由于Spring采用XML来配置组件以及组件的关系，
+		所以可以将关联组件解耦。
+	2、Spring IOC实现原理
+		Spring采用DI（Dependency Injection）技术来
+		实现IOC，即采用依赖注入来实现了IOC。
+		Spring允许我们在配置文件声明组件时，指定当前
+		组件所依赖的组件，然后在使用Spring容器创建
+		当前组件时，它会先创建依赖的组件并注入给
+		当前组件。
+	3、Spring IOC的使用
+		1）创建被依赖的组件
+		2）创建目标组件，并提供接收依赖组件的方式
+			--set方式注入
+			--构造方式注入
+			以上2种方式注入的对象，使用依赖属性接收，
+			通常都是接口类型。
+		3）在applicationContext.xml中配置依赖组件和
+			目标组件，以及他们的依赖关系
+		4）使用Spring容器创建目标组件时，依赖属性
+			就已经有了注入的值了。
+	4、各种数据类型的注入
+		1）组件(JavaBean)类型的注入
+			<property name="属性名" ref="组件ID"/>
+		2）基本类型的注入
+			如：字符串、整型、小数等
+			<property name="属性" value="值"/>
+		3）集合类型注入
+			List、Set、Map、Properties
+			--List语法
+				<property name="属性">
+					<list>
+						<value>值1</value>
+						<value>值2</value>
+						<value>值3</value>
+					</list>
+				</property>
+			--Set语法
+				<property name="属性">
+					<set>
+						<value>值1</value>
+						<value>值2</value>
+						<value>值3</value>
+					</set>
+				</property>
+			--Map语法
+				<property name="属性">
+					<map>
+						<entry key="a" value="A"/>
+						<entry key="b" value="B"/>
+					</map>
+				</property>
+			--Properties语法
+				<property name="属性">
+					<props>
+						<prop key="a">A</prop>
+						<prop key="b">B</prop>
+					</props>
+				</property>
+
+四、注解配置
+	1、什么是注解
+		注解技术产生于JavaEE 5.0，它是对代码的
+		标记和说明。
+		根据反射机制，解析代码中的注解，可以根据不同
+		类型的注解知道，代码的一些特殊含义。
+		Spring主持注解来进行配置，可以大大简化
+		applicationContext.xml中的代码量。
+	2、注解的优缺点
+		1）优点
+			--使配置简化
+		2）缺点
+			--不灵活
+				注解需要些在类中，需要与组件绑定，
+				它将与组件有很高的耦合度。
+			--不直观
+				注解内嵌在类中，无法直观的体现
+				各个组件之间的关系。
+	3、注解使用的规则
+		1）注解需要依附于类、属性、方法
+		2）基本语法"@注解名"
+	4、Spring中如何使用注解配置组件
+		1）在applicationContext.xml中，开启对注解
+			的自动扫描。
+			<context:component-scan 
+					base-package="com.tarena"/>
+			开启自动扫描后，当Spring容器初始化时，
+			它会自动的扫描这个包下所有类中的注解，
+			并将注解配置过的bean纳入到Spring容器中，
+			当程序执行时，就可以使用Spring容器来
+			创建这个bean了。
+		2）使用注解配置bean
+			a、在类上使用注解，标识该类是一个组件，
+				它将被Spring容器管理
+				@Controller
+					用于标识Action组件
+				@Service
+					用于标识一个业务组件
+				@Repository
+					用于标识DAO组件
+				@Component
+					用于标识其他的通用组件
+			b、在类上使用注解，标识对象的创建方式
+				@Scope("singleton")
+			c、在属性/set方法/构造器上，
+				标识依赖的组件
+				*--标识属性(@Resource)
+					//Spring会自动匹配类型并注入
+					//如果找不到类型会报错
+					//如果找到的类型多余一个也会报错
+					@Resource
+					private ICostDao costDao;
+					或
+					//使用id引用具体的某一个组件
+					@Resource(name="jdbcCostDao")
+					private ICostDao costDao;
+				--标识属性(@Autowired)
+					@Autowired
+					@Qualifier("hibernateCostDao")
+					private ICostDao costDao;
+				--标识set方法
+					@Resource(name="jdbcCostDao")
+					public void setCostDao(ICostDao dao) {
+						
+					}
+					或
+					@Autowired
+					@Qualifier("jdbcCostDao")
+					public void setCostDao(ICostDao dao) {
+						
+					}
+				--标识构造器
+					@Autowired
+					public AddCostAction(ICostDao dao) {
+						
+					}
+					
+		

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="SpringDay04"
+  id="myeclipse.1403580913609"
+  context-root="/SpringDay04"
+  j2ee-spec="5.0"
+  archive="SpringDay04.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

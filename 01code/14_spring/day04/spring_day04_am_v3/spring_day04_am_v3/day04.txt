@@ -1,0 +1,33 @@
+一、Spring整合Struts2
+	1、目标
+		Spring整合Struts2主要目的是管理Struts2的
+		业务组件Action。
+	2、整合步骤
+		1）使用Struts2开发一个简单功能，测试通过。
+		2）在上述案例基础上引入Spring，管理Action。
+			a、导包
+				--导入Spring开发包
+				--导入整合Struts2的开发包
+			b、web.xml中配置自动初始化Spring容器
+				<listener>
+					<listener-class>
+						ContextLoaderListener
+					</listener-class>
+				</listener>
+				<context-param>
+					<param-name>
+						contextConfigLocation
+					</param-name>
+					<param-value>
+						classpath:applicationContext.xml
+					</param-value>
+				</context-param>
+			c、创建applicationContext.xml，
+				设置一些基本的参数。
+			d、将Action声明到Spring容器中。
+			*e、在struts.xml中引用Spring容器
+				创建的Action对象。
+	3、整合原理
+
+二、SSH（Spring+Struts2+Hibernate）
+
