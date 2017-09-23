@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<!-- 
+		class：配置对象和表的关系
+		name：配置对象类名
+		table：配置表名
+	 -->
+	<class name="entity.Emp" table="emp">
+		<!-- 
+			id：配置属性和主键字段的关系
+			name：配置属性名
+			column：配置主键字段名
+			type：配置属性和字段转换时用的类型
+		 -->
+		<id name="id" 
+			type="integer" 
+			column="id">
+			<!-- 用来指明主键的生成方式 -->
+			<generator class="sequence">
+				<param name="sequence">
+					emp_seq
+				</param>
+			</generator>
+		</id>
+		<!-- 
+			property：其它普通字段的配置
+			name：属性名
+			column：字段名
+			type：转换的类型
+		 -->
+		<property name="name" 
+			type="string" 
+			column="name" />
+		<property name="age"
+			type="integer"
+			column="age"/>
+		<property name="salary" 
+			type="double"
+			column="salary"/>
+		<property name="marry"
+			type="yes_no"
+			column="marry"/>
+		<property name="birthday"
+			type="date"
+			column="birthday"/>
+		<property name="lastLoginTime"
+			type="timestamp"
+			column="last_login_time"/>
+		
+	</class>
+</hibernate-mapping>

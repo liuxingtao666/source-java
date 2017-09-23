@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="entity.Admin" table="ADMIN_INFO">
+		<id name="id" type="integer">
+			<column name="ID" />
+			<generator class="sequence">
+				<param name="sequence">
+					ADMIN_SEQ
+				</param>
+			</generator>
+		</id>
+		<property name="adminCode" type="string" column="ADMIN_CODE" />
+		<property name="password" type="string" column="PASSWORD" />
+		<property name="name" type="string" column="NAME" />
+		<property name="telephone" type="string" column="TELEPHONE" />
+		<property name="email" type="string" column="EMAIL" />
+		<property name="enrollDate" type="date" column="ENROLLDATE" />
+
+		<!-- 
+			set：属性类型
+			name：属性名
+			table：中间表名
+		 -->
+		<set name="roles" 
+			table="admin_role"
+			lazy="false"
+			fetch="join"
+			cascade="all">
+			<!-- 
+				column：当前表在中间表中
+					的关系字段
+			 -->
+			<key column="admin_id"/>
+			<!-- 
+				many-to-many：
+					2张表的对应关系
+				class：对方的类型，从这个类型
+					可知对方的hbm.xml文件，
+					从而可知对方表名
+				column：对方表在中间表中的
+					关系字段
+			 -->
+			<many-to-many 
+				class="entity.Role"
+				column="role_id"/>
+		</set>
+
+	</class>
+</hibernate-mapping>

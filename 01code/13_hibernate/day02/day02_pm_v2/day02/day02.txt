@@ -1,0 +1,174 @@
+一、主键生成方式
+	1、在映射关系文件中，需要配置主键字段，并配置
+		其主键的生成方式，即通过generator标记来配置
+		主键生成的方式。
+	2、主键生成方式有如下：
+		1）sequence（*）
+			--语法
+				<generator class="sequence">
+					<param name="sequence">
+						序列名
+					</param>
+				</generator>
+			--解释
+				sequence是采用序列方式生成主键，适用于
+				Oracle数据库。
+		2）identity（*）
+			--语法
+				<generator class="identity">
+				</generator>
+			--解释
+				identity是使用数据库id自增长的机制来生成
+				主键，适用于除Oracle以外的数据库
+		3）native（*）
+			--语法：
+				<generator class="native">
+					<param name="sequence">
+						序列名
+					</param>
+				</generator>
+			--解释
+				native是让Hibernate自动选择一个主键生成
+				方式，它会根据主配置文件中指定的方言，
+				从sequence和identity中选择一个。即如果
+				配置的方言是Oracle则选择sequence，否则
+				就选择identity。
+		4）increment
+			--语法
+				<generator class="increment">
+				</generator>
+			--解释
+				increment是采用Hibernate组件生成的ID，
+				并不是使用数据库的机制。该组件会自动取出
+				当前表的ID最大值，然后+1作为新的ID。
+				优点：适用于所有数据库
+				缺点：当并发量大时，会出现重复主键的情况
+				不推荐使用
+		5）assigned
+			--语法
+				<generator class="assigned">
+				</generator>
+			--解释
+				assigned，Hibernate不会自动生成主键，主键
+				的生成完全交给程序员来处理。
+		6）hilo/uuid
+			--语法
+				<generator class="hilo">
+				</generator>
+			--解释
+				采用hilo/uuid的算法来生成一个主键，该主键
+				是一个很长的字符串，并且没有规律，但是
+				可以保证不重复。
+
+*二、一级缓存
+	1、什么是一级缓存
+		Hibernate在创建Session时，会给每一个Session
+		分配一块内存空间，用于缓存Session查询到的
+		对象数据，这块内存空间称之为一级缓存。由于
+		该空间是给Session使用的，也称Session级缓存。
+		重点：
+			--一级缓存又称Session级缓存
+			--一级缓存是Session独享的
+	2、为什么用一级缓存
+		1）作用：
+			一级缓存可以降低数据库访问次数，提高
+			代码执行效率。
+		2）步骤：
+			--Session取值时会优先向它的一级缓存取值
+			--如果缓存中没有数据，它会向数据库取值，
+				并将取到的值放入一级缓存，然后Session
+				从缓存中取出数据
+			--当再次查询相同的数据时，由于一级缓存中
+				已经存在了该数据，则直接返回，不需要重新
+				访问数据库
+	3、如何使用一级缓存
+		1）一级缓存是默认开启的，自动使用。
+		2）规则：
+			--一级缓存是Session独享的，即一个Session
+				不能访问另一个Session缓存的数据。
+			--每次查询，Session仅仅是把本次查询结果
+				放到一级缓存中
+			--如果查询的结果是多条数据，Session会将
+				这些数据拆开，以单个对象的形式存入一级
+				缓存。
+			--在执行save、update、delete时，会自动触发
+				缓存的更新。
+		3）一级缓存是给Session使用的，并且是由Session
+			负责管理，Session管理一级缓存的方式如下：
+			a、session.evict(obj);
+				evict可以将obj对象从当前session的缓存区
+				移除。
+			b、session.clear();
+				clear可以将当前session的缓存区清空。
+			c、session.close();
+				session关闭时，它会释放自己的缓存区域，
+				从而缓存数据也释放了。
+
+*三、对象持久性
+	1、Hibernate下，可以把对象看做具有3种状态，分别
+		为临时态、持久态、游离态，对象持久性是值对象
+		在这三种状态之间的转换规则。
+	2、3种状态的转换及规则
+		1）临时态
+			a、转换
+				--new出来的对象是临时态的
+				--delete持久态的对象，它将转变为临时态
+			b、规则
+				--临时态的对象可以被垃圾回收
+				--临时态的对象没有被持久化过，
+					并且没有与session建立关联。
+		2）持久态（*）
+			a、转换
+				--通过save/update操作过的对象，
+					是持久态的。
+				--经过get/load/list/iterate方法查询得到的
+					对象是持久态的。
+			b、规则
+				--持久态的对象不能被垃圾回收
+				--持久态的对象被持久化了，并且与
+					session建立起了关联。
+				--（*）持久态的对象存在于一级缓存中。
+				--（*）持久态的对象可以自动与数据库同步，
+					同步的时机是在调用session.flush()时，
+					实际上事务提交时也可以同步，原因是
+					ts.comit() = session.flush() + commit;
+		3）游离态
+			a、转换
+				--通过evict/clear/close操作过的对象，
+					是游离态的。
+			b、规则
+				--游离态的对象可以被垃圾回收
+				--游离态的对象被持久化过，
+					但是已经与session解除了关联。
+	3、问题
+		当大批量插入数据时，每次插入都会导致对象存在
+		于一级缓存中，如果数据量太大，可能导致缓存
+		溢出，如何解决？
+		public void batchDdd(List<Emp> emps) {
+			if(emps == null
+					|| emps.size() == 0) {
+					return;
+			}
+			Session session = HibernateUtil.getSession();
+			Transaction ts = session.beginTransaction();
+			try {
+				for(int i=0;i<emps.size();i++) {
+					//循环添加Emp
+					session.save(emps.get(i));
+					//每100批次，要同步并清理缓存
+					if(i%100 == 0) {
+						//每隔100次触发同步，但不提交事务
+						session.flush();
+						//清理缓存
+						session.clear();
+					}
+				}
+				//统一的提交事务
+				ts.commit();
+			} catch(HibernateException e) {
+				ts.rollback();
+			}
+			
+		}
+
+*四、延迟加载

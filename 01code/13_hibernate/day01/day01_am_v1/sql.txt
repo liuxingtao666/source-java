@@ -1,0 +1,58 @@
+CREATE TABLE EMP(
+  ID			NUMBER(4) CONSTRAINT EMP_ID_PK PRIMARY KEY,
+  NAME		VARCHAR(50)  NOT NULL,
+  AGE		NUMBER(11),
+  SALARY		NUMBER(7,2),
+  MARRY 		CHAR(1),
+  BIRTHDAY 	DATE,
+  LAST_LOGIN_TIME	DATE
+  );
+
+CREATE SEQUENCE emp_seq
+INCREMENT BY 1 -- 每次加几个
+START WITH 100 -- 从1开始计数
+NOMAXvalue -- 不设置最大值
+NOCYCLE -- 一直累加，不循环
+CACHE 10;--设置缓存cache个序列
+
+
+CREATE TABLE PRODUCT(
+  ID			NUMBER(4) CONSTRAINT PRODUCT_ID_PK PRIMARY KEY,
+  NAME		VARCHAR(50)  NOT NULL,
+  price		NUMBER(7,2),
+  descr		VARCHAR(200)
+  );
+
+CREATE SEQUENCE product_seq
+INCREMENT BY 1 -- 每次加几个
+START WITH 100 -- 从1开始计数
+NOMAXvalue -- 不设置最大值
+NOCYCLE -- 一直累加，不循环
+CACHE 10;--设置缓存cache个序列
+
+CREATE TABLE BOOK(
+  ID			NUMBER(4) CONSTRAINT BOOK_ID_PK PRIMARY KEY,
+  author		VARCHAR(50)  NOT NULL,
+  publishing		VARCHAR(100),
+  wordNumber		VARCHAR(100),
+  totalPage	VARCHAR(100)
+  );
+
+CREATE TABLE CAR(
+  ID			NUMBER(4) CONSTRAINT CAR_ID_PK PRIMARY KEY,
+  brand		VARCHAR(50)  NOT NULL,
+  type		VARCHAR(100),
+  color		VARCHAR(100),
+  displacement	VARCHAR(100)
+  );
+
+
+create table TICKETS(
+       ID NUMBER(4) not null,
+       LINE VARCHAR2(128),
+       VALUE NUMBER(9),
+       VERSION NUMBER(9),
+       constraint TICKETS_PK primary key (ID)
+    );
+
+insert into tickets values(1,'K681',100,1);

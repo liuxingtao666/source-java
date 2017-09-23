@@ -1,0 +1,53 @@
+*一、多对多关系映射
+	1、作用
+		在操作一方对象时，Hibernate可以自动根据关系
+		映射操作另一方，操作包含增、删、改、查。
+	2、案例
+		在查询管理员时，可以自动查询对应的角色，
+		在新增、修改、删除管理员时，可以自动新增、
+		修改、删除管理员角色中间表。
+	3、开发步骤
+		1）明确关联关系及关系字段
+			admin_info与role_info具有多对多的关系，
+			关系字段是
+			admin_role.admin_id=admin_info.id
+			admin_role.role_id=role_info.id
+		2）实体类中追加关联属性
+			在管理员实体类Admin中追加属性封装角色，
+			即Set<Role> roles;
+		3）在映射关系文件中配置关系
+			需要自动拼如下SQL
+				select * from role_info where id in (
+					select role_id from admin_role
+					where admin_id=?
+				)
+			需要提供如下条件
+				a、对方表名role_info
+				b、中间表名admin_role
+				c、对方表的关联字段role_id
+				d、当前表的关联字段dmin_id
+				e、2张表的关系
+				f、查询结果封装到哪个属性
+			配置语法
+				<!-- b,f -->
+				<set name="roles" table="admin_role">
+					<!-- d -->
+					<key column="admin_id"/>
+					<!-- a,c,e -->
+					<many-to-many 
+						class="entity.Role"
+						column="role_id"/>
+				</set>
+	4、关联操作
+		1）关联查询
+			a、lazy属性的使用同一对多
+			b、fetch属性的使用同一对多
+			c、join fetch
+		2）关联增加、修改、删除
+			在增加、修改、删除当前表时，自动增加、修改
+			、删除中间表的数据。
+		3）级联增加、修改、删除
+			在增加、修改、删除当前表时，自动增加、修改
+			、删除对方表以及中间表的数据。
+
+二、继承关系映射

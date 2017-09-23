@@ -1,0 +1,103 @@
+Hibernate/5天
+
+一、什么是Hibernate
+	Hibernate是数据访问层的框架，对JDBC进行了封装，
+	是针对数据访问层提出的面向对象的解决方案。
+	它允许我们直接访问对象，并将这种访问自动转化为
+	SQL去执行，从而达到间接访问数据库的目的，可以
+	简化数据访问层的代码开发。
+
+二、为什么使用Hibernate
+	1、使用JDBC开发时的问题
+		--代码中存在大量的SQL
+		--SQL中存在大量的？，需要手动赋值
+		--查询的结果集数据，需要封装到实体对象中
+		--SQL中存在特定函数，数据库之间不通用，
+			导致代码无法移植
+	2、使用Hibernate可以解决上述问题
+		--自动生成SQL
+		--自动给？赋值
+		--自动的将查询结果集封装到实体对象
+		--Hibernate提供的访问对象的API，是数据库
+			间通用的，具有良好的移植性
+
+*三、如何使用Hibernate
+	*1、Hibernate设计原理
+		Hibernate是采用ORM思想对JDBC进行的封装。
+		ORM：是Object Relation Mapping的缩写，含义是
+			对象关系映射，指的是Java对象与关系数据库
+			之间的映射。
+		Hibernate是ORM思想的一个实现，解决了对象和
+		数据库之间的映射问题。它提供一系列API，允许
+		我们直接访问对象，然后根据ORM关系自动将对
+		对象的访问转化为SQL，从而可以访问数据库。
+	2、Hibernate体系结构
+		1）hibernate.cfg.xml
+			是Hibernate的主配置文件，用于配置数据库连接
+			参数，并且可以配置框架参数
+		2）实体类
+			用于封装数据库表的数据
+		3） hbm.xml
+			映射关系文件，配置的是实体对象和数据库表的
+			关系，以及对象属性和表字段的关系。
+		4）API
+			用于解析hbm.xml，然后自动根据ORM的关系来
+			生成SQL，并自动执行，达到访问数据库的目的
+	3、Hibernate常用API
+		1）Configuration
+			用于解析主配置文件，同时解析映射关系文件
+		2）SessionFactory
+			用于创建Session
+		3）Session（*）
+			是数据库访问的会话，相当于数据库连接
+			Connection，用于进行增、删、改、查。
+			注意：它与HttpSession没有任何关系。
+		4）Transaction（*）
+			用于控制事务。
+		5）Query（*）
+			用于做特殊查询。
+	*4、Hibernate使用步骤
+		1）导包
+		2）引入主配置文件hibernate.cfg.xml
+		3）创建实体类
+		4）创建映射关系文件hbm.xml
+		5）调用API，执行增、删、改、查
+
+四、Hibernate映射类型
+	1、Hibernate中映射关系文件中，每个字段的配置都
+		需要通过type来指定转换的类型，这个类型可以
+		是Java类型，也可以是Hibernate预置的类型。
+	2、Java类型
+		--需要写完整的类路径
+		--对于布尔值的转换，没有默认的Java类型可以
+			处理，如果一定要使用Java类型来处理，需要
+			自定义一个类，并实现接口UserType
+	3、Hibernate预置的映射类型（推荐）
+		1）整数
+			byte,short,integer,long
+		2）小数
+			float,double
+		3）字符串
+			string
+		4）日期（年月日）
+			date，可以将数据库中的日期类型转换为
+			java.sql.Date
+		5）时间（时分秒）
+			time，可以将数据库中的日期类型转换为
+			java.sql.Time
+		6）时间戳（年月日时分秒）
+			timestamp，可以将数据库中的日期类型转换为
+			java.sql.Timestamp
+		7）布尔
+			yes_no：
+				可以将数据库中的y/n转换为java.lang.Boolean
+				中的true/false
+			true_false：
+				可以将数据库中的t/f转换为java.lang.Boolean
+				中的true/false
+
+备注：
+	年月日	java.sql.Date
+	时分秒	java.sql.Time
+	时间戳	java.sql.Timestamp
+	

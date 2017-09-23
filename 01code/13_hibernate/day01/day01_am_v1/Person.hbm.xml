@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.tarena.pojo.Person" table="person">
+		<id name="id" type="java.lang.Integer" column="id">
+			<!-- 用来指明主键的生成方式 -->
+			<generator class="sequence">
+				<param name="sequence">person_seq</param>
+			</generator>
+		</id>
+		<property name="name" type="java.lang.String" column="name" />
+		<property name="age" type="java.lang.Integer" column="age" />
+		<property name="salary" type="java.lang.Double" column="salary" />
+	</class>
+</hibernate-mapping>

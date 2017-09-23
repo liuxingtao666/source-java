@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="entity.Service" table="SERVICE">
+		<id name="id" type="integer" column="id">
+			<generator class="sequence">
+				<param name="sequence">
+					SERVICE_SEQ
+				</param>
+			</generator>
+		</id>
+		<!--
+		<property name="accountId" type="integer" column="account_id"/>
+		-->
+		<property name="unixHost" type="string" column="UNIX_HOST"/>
+		<property name="osUserName" type="string" column="OS_USERNAME"/>
+		<property name="loginPassword" type="string" column="LOGIN_PASSWD"/>
+		<property name="status" type="string" column="STATUS"/>
+		<property name="createDate" type="date" column="CREATE_DATE"/>
+		<property name="pauseDate" type="date" column="PAUSE_DATE"/>
+		<property name="closeDate" type="date" column="CLOSE_DATE"/>
+		<property name="costId" type="integer" column="COST_ID"/>
+		
+		<!-- 
+			many-to-one：
+				体现了与目标对象的关系
+			name：体现了封装目标对象的属性名
+			column：关系字段
+			class：目标类型，通过此类型可以
+				找到目标的hbm.xml，从而可知
+				目标的表名。
+		 -->
+		<many-to-one 
+			name="account"
+			column="account_id"
+			class="entity.Account"
+			lazy="false"
+			fetch="join"/>
+		
+	</class>
+</hibernate-mapping>

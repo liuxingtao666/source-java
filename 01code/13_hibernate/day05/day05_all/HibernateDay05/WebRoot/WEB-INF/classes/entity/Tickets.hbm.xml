@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="entity.Tickets" table="tickets">
+		<id name="id" type="integer">
+			<column name="ID" />
+			<generator class="assigned">
+				
+			</generator>
+		</id>
+		<!-- 追加version，用于校验版本的变化，
+			从而实现乐观锁机制。 -->
+		<!--<version 
+			name="version"
+			type="integer"
+			column="version"/>
+		-->
+		<property 
+			name="line" 
+			type="string" 
+			column="line" />
+		<property
+			name="amount"
+			type="integer"
+			column="amount"/>
+		
+	</class>
+</hibernate-mapping>

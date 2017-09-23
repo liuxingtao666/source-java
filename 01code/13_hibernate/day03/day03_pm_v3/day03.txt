@@ -1,0 +1,121 @@
+一、关联映射
+	1、什么是关联映射
+		如果2张表具有关联关系，Hibernate允许我们将
+		此关系提取出来，并配置在映射关系文件中。在
+		对其中一张表进行增、删、改、查时，Hibernate
+		可以通过这个关系的描述，自动生成对另一张表
+		的增、删、改、查的SQL，并自动执行。这种对
+		2张表关系的配置及使用，称之为关联映射。
+	2、关联映射的作用
+		在我们操作一张表时，可以通过关联映射自动生成
+		操作另一张表的SQL，并自动执行。
+	3、使用步骤
+		1）明确2张表的关系，以及关联字段。
+		2）在实体类中追加关联属性，来封装关联查询
+			的结果。
+		3）在映射关系文件中，追加2张表的关联关系配置。
+	4、关联映射的类型
+		*1）一对多
+		*2）多对一
+		*3）多对多
+		4）继承（一对一）
+
+*二、一对多关联
+	1、作用
+		可以在我们访问“一”的一方数据时，自动访问“多”
+		的一方的数据，比如：在查询账务账号时，自动
+		查询出它对应的全部业务账号。
+	2、案例
+		在查询账务账号时，连带查询出它对应的所有
+		业务账号。
+	3、开发步骤
+		1）明确表的关系及关联字段
+			account与service表具有一对多关系，其关联
+			字段是service.account_id=account.id。
+		2）在实体类中追加关联属性
+			在Account中追加属性来封装业务账号数据,
+			即增加集合类型属性，集合中封装的是Service。
+			如：Set<Service> services;
+		3）在映射关系文件中配置关联关系
+			需要动态拼写如下SQL：
+				select * from service where account_id=?
+			需要哪些条件
+				a、表名
+				b、关联字段
+				c、2张表的关系
+				d、查询结果存在哪个属性上
+			有一个默认前提
+				一的一方表的主键，作为多的一方表的外键。
+				即account表的主键，作为service表的外键.
+			语法
+				<!-- 指定条件d -->
+				<set name="services">
+					<!-- 指定条件b -->
+					<key column="account_id"/>
+					<!-- 指定条件a、c -->
+					<one-to-many class="entity.Service"/>
+				</set>
+
+*三、多对一关联
+	1、作用
+		设置好多对一关联之后，可以在操作“多“的一方
+		数据时，自动操作另一方的数据，比如在操作
+		service时自动操作account。
+	2、案例
+		希望在查询业务账号时，自动查询出该业务账号
+		对应的账务账号。
+	3、开发步骤
+		1）明确关联关系及关系字段
+			service与account具有多对一的关系，
+			关系字段是service.account_id=account.id。
+		2）在实体类中追加关联属性
+			在Service中追加属性
+			Account account;
+		3）在映射关系文件中增加配置
+			需要拼如下的SQL
+				select * from account where id in (
+					select account_id from service
+					where id=?
+				)
+			需要提供如下条件
+				a、对方表名
+				b、关系字段
+				c、表之间的关系
+				d、查询结果封装到哪个属性
+			语法
+				<!--
+					many-to-one:c
+					name,class:d
+					column:b
+					class:a
+				 -->
+				<many-to-one name="account"
+					column="account_id"
+					class="entity.Account"/>
+		4）注意
+			多对一关联时，Service类中的accountId可以
+			省略，并且Service.hbm.xml中的accountId
+			的配置也可以省略。
+			原因是这个外键属性主要是用于查询Account
+			数据的，但是现在多对一关联已经把Account查
+			出来了，因此该属性就可以省略。
+			
+四、关联操作
+	1、关联查询
+		1）延迟加载
+			对于关联属性，Hibernate默认采用延迟记载的
+			机制。
+			lazy="true"：采用延迟记载（默认）
+			lazy="false"：不采用延迟加载
+		2）采用连接查询
+			fetch="select"
+				不采用连接查询（默认）
+			fetch="join"
+				采用连接查询，此时lazy属性失效
+		3）采用join fetch拼hql
+			--account关联service
+			from Account a join fetch a.services
+			where a.id=?
+			--service关联account
+			from Service s join fetch s.account
+			where s.id=?

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="entity.Account" table="ACCOUNT">
+		<id name="id" type="integer" column="id">
+			<generator class="sequence">
+				<param name="sequence">
+					ACCOUNT_SEQ
+				</param>
+			</generator>
+		</id>
+		<property name="recommenderId" type="integer" column="RECOMMENDER_ID"/>
+		<property name="loginName" type="string" column="LOGIN_NAME"/>
+		<property name="loginPassword" type="string" column="LOGIN_PASSWD"/>
+		<property name="status" type="string" column="STATUS"/>
+		<property name="createDate" type="date" column="CREATE_DATE"/>
+		<property name="pauseDate" type="date" column="PAUSE_DATE"/>
+		<property name="closeDate" type="date" column="CLOSE_DATE"/>
+		<property name="realName" type="string" column="REAL_NAME"/>
+		<property name="idcardNo" type="string" column="IDCARD_NO"/>
+		<property name="birthdate" type="date" column="BIRTHDATE"/>
+		<property name="gender" type="string" column="GENDER"/>
+		<property name="occupation" type="string" column="OCCUPATION"/>
+		<property name="telephone" type="string" column="TELEPHONE"/>
+		<property name="email" type="string" column="EMAIL"/>
+		<property name="mailaddress" type="string" column="MAILADDRESS"/>
+		<property name="zipcode" type="string" column="ZIPCODE"/>
+		<property name="qq" type="string" column="QQ"/>
+		<property name="lastLoginTime" type="date" column="LAST_LOGIN_TIME"/>
+		<property name="lastLoginIp" type="string" column="LAST_LOGIN_IP"/>
+		
+		<!-- 
+			set：声明了属性类型是Set。
+			name：声明了用于封装的属性名。
+		 -->
+		<set name="services" 
+			lazy="false" fetch="join">
+			<!-- 
+				key：声明了对外键的设置
+				column：声明了具体的外键字段名
+			 -->
+			<key column="account_id"/>
+			<!-- 
+				one-to-many：
+					声明了当前对象Account与目标对象
+					的关系是一对多关系。
+				class：声明了目标对象的类型，通过该
+					类型可知目标的映射关系文件，从而
+					知道目标的表名。
+			 -->
+			<one-to-many class="entity.Service"/>
+		</set>
+		
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,67 @@
+一、主键生成方式
+	1、在映射关系文件中，需要配置主键字段，并配置
+		其主键的生成方式，即通过generator标记来配置
+		主键生成的方式。
+	2、主键生成方式有如下：
+		1）sequence（*）
+			--语法
+				<generator class="sequence">
+					<param name="sequence">
+						序列名
+					</param>
+				</generator>
+			--解释
+				sequence是采用序列方式生成主键，适用于
+				Oracle数据库。
+		2）identity（*）
+			--语法
+				<generator class="identity">
+				</generator>
+			--解释
+				identity是使用数据库id自增长的机制来生成
+				主键，适用于除Oracle以外的数据库
+		3）native（*）
+			--语法：
+				<generator class="native">
+					<param name="sequence">
+						序列名
+					</param>
+				</generator>
+			--解释
+				native是让Hibernate自动选择一个主键生成
+				方式，它会根据主配置文件中指定的方言，
+				从sequence和identity中选择一个。即如果
+				配置的方言是Oracle则选择sequence，否则
+				就选择identity。
+		4）increment
+			--语法
+				<generator class="increment">
+				</generator>
+			--解释
+				increment是采用Hibernate组件生成的ID，
+				并不是使用数据库的机制。该组件会自动取出
+				当前表的ID最大值，然后+1作为新的ID。
+				优点：适用于所有数据库
+				缺点：当并发量大时，会出现重复主键的情况
+				不推荐使用
+		5）assigned
+			--语法
+				<generator class="assigned">
+				</generator>
+			--解释
+				assigned，Hibernate不会自动生成主键，主键
+				的生成完全交给程序员来处理。
+		6）hilo/uuid
+			--语法
+				<generator class="hilo">
+				</generator>
+			--解释
+				采用hilo/uuid的算法来生成一个主键，该主键
+				是一个很长的字符串，并且没有规律，但是
+				可以保证不重复。
+
+*二、一级缓存
+
+*三、对象持久性
+
+*四、延迟加载
