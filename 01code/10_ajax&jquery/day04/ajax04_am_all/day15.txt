@@ -1,0 +1,84 @@
+(9)遍历节点   dom / d1.html
+		children()/children(select):只考虑子元素，不考虑其它后代元素。
+		next()/next(select):下一个兄弟
+		prev()/prev(select):上一个兄弟
+		siblings()/siblings(select):其它兄弟
+		find(select):查找后代
+		parent():查找父节点
+		
+1,事件处理
+	(1)事件处理知识回顾
+		1)如何绑订事件处理代码
+			a,绑订到html标记之上，比如
+			<input type="button" onclick="f1();" id="b1"/>
+			b,绑订到dom对象之上，比如
+				var obj = document.geElementById('b1');
+				obj.onclick=f1;
+		2)如何获得事件对象 event / e1.html
+				给事件处理函数传递一个参数"event"即可。
+				比如 
+					onclick="f1(event);"
+		3)事件对象的作用   event / e1.html
+				作用1：找到事件源 
+					event.srcElement  适用于ie
+					event.target  适用于firefox,chrome
+				作用2: 鼠标点击的坐标
+					event.clienX
+					event.clientY
+		4)事件冒泡    event / e2.html
+				a,子节点产生的事件，会依次向上抛出给
+			对应的父节点，这种现象称之为事件冒泡。
+				b,取消冒泡
+					event.cancelBubble = true;
+	(2)jQuery对事件处理的支持
+		1)如何绑订事件处理代码  event / e3.html
+			a,正式写法:   
+				$obj.bind(事件类型,事件处理函数);
+			比如
+				$obj.bind('click',f1);
+			b,简写形式:
+			比如
+				$obj.click(f1);
+		2)如何获得事件对象  event / e4.html
+			只需要给事件处理函数传递任意一个变量即可。
+			比如:
+				$obj.click(function(e){
+					
+				});
+			e是jQuery对底层事件对象的一个封装。
+		3)事件对象的作用
+			作用1：找到事件源(注意返回值是一个dom对象)
+					var obj = e.target
+			作用2: 鼠标点击的坐标
+					e.pageX
+					e.pageY
+			作用3: 取消冒泡
+					e.stopPropagation();
+		4)合成事件   event /e5.html e6.html
+			a,hover(fn1,fn2)  模拟光标悬停事件。
+					fn1用来处理mouseenter事件,
+					fn2用来处理mouseleave事件。
+			b,toggle(fn1,fn2,fn3...)  模拟连续单击事件
+		5)模拟操作  event / e7.html	
+			a, 正式写法
+				$obj.trigger(事件类型);		
+			比如 
+				$obj.trigger('focus');
+			b,简写形式
+				$obj.focus();
+
+2,动画
+	(1)show/hide  animate / a1.html
+		a,通过同时改变元素的高度和宽度来显示或者
+		隐藏元素。
+		b,用法
+			$obj.show([执行时间],[回调函数]);
+			执行时间:可以用"slow","fast","normal"，也
+			可以用毫秒数。
+			回调函数:当整个动画执行完毕，接下来会执行
+			回调函数。
+	(2)slideDown/slideUp
+		a,通过改变元素的高度来实现显示或者隐藏。
+		b,用法同上。
+	(3)fadeIn/fadeOut
+	(4)animate

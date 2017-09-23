@@ -1,0 +1,146 @@
+1,缓存问题(ajax编程当中的缓存问题)
+	(1)什么是缓存问题?
+		ie浏览器提供的ajax对象，在发送get请求时，
+	会先查看是否访问过该地址，如果访问过，则不再
+	发送新的请求，而是提取之前访问的结果。
+	(2)如何解决?
+		1)在请求地址后面添加随机数
+		比如:
+			xhr.open('get','getNumber?' 
+			+ Math.random(),true);
+		2)发送post请求
+
+2、jQuery   www.jquery.com
+	(1)jQuery介绍
+		jQuery是一个js框架,它的最大的特点是利用
+	选择器查找要操作的节点(dom对象),然后将找到的
+	节点封装成一个jQuery对象。
+		通过调用jQuery对象的方法或者属性来实现对
+	底层被封装的dom对象的操作，这样做的好处是：
+		a,兼容性更好
+		b,代码更简洁
+	(2)编程步骤
+		step1,使用jQuery选择器查找要操作的节点。
+		step2,调用jQuery对象的方法或者属性
+	(3)jQuery对象与dom对象之间的转换 first.html
+		1)dom对象 ---> jQuery对象   
+			$(dom对象);
+		2)jQuery对象 ---> dom对象
+			$obj.get(0);
+			或者
+			$obj.get()[0];
+3、选择器
+	(1)选择器是什么?
+		jQuery借鉴css选择器的语法，用来查找要操作
+	的节点。
+	(2)常见的选择器
+		1)基本选择器  selector / s1.html
+			#id
+			.class
+			element
+			select1,select2..selectn
+			*
+		2)层次选择器  selector / s2.html
+			select1 select2 : 所有后代
+			select1>select2 : 只考虑子节点
+			select1+select2 : 下一个兄弟
+			select1~select2 : 下面所有的兄弟
+		3)过滤选择器
+			(1)基本过滤选择器 selector / s3.html
+				:first
+				:last
+				:not(select) 排除满足select要求的节点
+				:even
+				:odd
+				:eq(index)
+				:gt(index)
+				:lt(index)
+			(2)内容过滤选择器 selector / s4.html
+				:contains(text) 匹配包含给定文本的元素
+				:empty 匹配所有不包含子元素或者文本的空元素
+				:has(select) 匹配含有选择器所匹配的元素的元素
+				:parent 匹配含有子元素或者文本的元素
+			(3)可见性过滤选择器  selector / s5.html
+				:hidden 匹配所有不可见元素，
+					或者type为hidden的元素
+				:visible 匹配所有的可见元素
+			(4)属性过滤选择器 selector /s6.html
+				[attribute]
+				[attribute=value]
+				[attribute!=value]
+			(5)子元素过滤选择器 selector / s7.html
+				:nth-child(index/even/odd)
+				注意，下标是从1开始的。
+			(6)表单对象属性过滤选择器 selector /s8.html
+				:enabled  可用
+				:disabled  禁用 
+				:checked  被选中的选项(单选或者多选框)
+				:selected  被选中的选项(下拉列表)
+		4)表单选择器
+			:input
+			:text     
+			:pasword
+			:radio
+			:checkbox
+			:submit
+			:image
+			:reset
+			:button
+			:file
+			:hidden
+			
+4,dom操作  
+	(1)查询   dom / d1.html
+		通过选择器找到节点之后，可以查询或者
+		修改节点的html内容,文本内容,属性或者value
+		值。
+		1)html()  节点的html内容,相当于innerHTML属性。
+		2)text()  节点的文本内容,相当于innerText属性。
+		3)attr()  节点的属性。
+		4)val()    节点的值，相当于value属性。
+	(2)创建  d2.html
+		$(html内容);
+	(3)插入节点 d2.html,d3.html
+		append(): 作为最后一个孩子追加进来。
+		prepend():作为第一个孩子添加进来。
+		after():作为下一个兄弟添加进来。
+		before():作为上一个兄弟添加进来。
+	(4)删除节点 d4.html
+		remove()
+		remove(select)
+		empty():清空节点
+	(5)将javascript与html分离 d5.html,d6.html
+		$(fn); fn是一个函数，作为参数传给$()函数即可。
+		fn中的代码会在整个页面加载完毕之后执行。
+			我们经常传递一个匿名函数，比如
+			$(function(){
+				
+			});
+	(6)复制节点 d7.html
+			clone()
+			clone(true):使复制的节点也具有行为(将事件
+		处理代码一块复制)
+	(7)属性操作
+		读取：attr('');			
+		设置：	attr('','') 或者一次  
+		设置多个 attr({"":"","":""});
+		删除：removeAttr('')
+	(8)样式操作 d8.html
+		获取和设置: attr("class","")或者attr("style","");	
+		追加:addClass('')
+		移除:removeClass('') 
+		或者removeClass('s1 s2') 
+		或者removeClass()//会删除所有样式
+		切换样式：toggleClass,有该样式，就删除，没有，
+		就添加。
+		是否有某个样式 hasClass('')
+		读取css('')
+		设置css('','')或者
+		css({'':'','':''})//设置多个样式
+	(9)遍历节点
+		children():只考虑子元素，不考虑其它后代元素。
+		next():
+		prev():
+		siblings():
+		find(expr):
+			

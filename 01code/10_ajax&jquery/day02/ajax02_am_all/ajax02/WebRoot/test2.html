@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<script type="text/javascript" 
+		src="js/prototype-1.6.0.3.js">
+		</script>
+		<script type="text/javascript">
+			
+			function f(){
+				var p = new Object();
+				p.name='eric';
+				p.age = 33;
+				alert(p.name);
+			}
+			
+			//使用json来表示一个对象
+			function f1(){
+				var p = {'name':'sally','age':22};
+				alert(p.name);
+			}
+			function f2(){
+				var p = {'name':'king',
+				'address':{
+						'city':'bj',
+						'street':'ca',
+						'room':1494
+					}
+				};
+				alert(p.address.room);
+			}
+			
+			function f3(){
+				var arr = [{'name':'sally','age':22},
+				{'name':'king','age':32}];
+				alert(arr[1].name);
+			}
+			
+			//将json字符串转换成javascript对象
+			function f4(){
+				var str = "{'name':'sally','age':22}";
+				var obj = str.evalJSON();
+				alert(obj.name);
+			}
+			
+		</script>
+	</head>
+	<body style="font-size:30px;">
+		<a href="javascript:;" 
+		onclick="f4();">ClickMe</a>
+	</body>
+</html>

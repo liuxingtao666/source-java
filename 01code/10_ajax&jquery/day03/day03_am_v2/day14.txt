@@ -1,0 +1,51 @@
+1,缓存问题(ajax编程当中的缓存问题)
+	(1)什么是缓存问题?
+		ie浏览器提供的ajax对象，在发送get请求时，
+	会先查看是否访问过该地址，如果访问过，则不再
+	发送新的请求，而是提取之前访问的结果。
+	(2)如何解决?
+		1)在请求地址后面添加随机数
+		比如:
+			xhr.open('get','getNumber?' 
+			+ Math.random(),true);
+		2)发送post请求
+
+2、jQuery   www.jquery.com
+	(1)jQuery介绍
+		jQuery是一个js框架,它的最大的特点是利用
+	选择器查找要操作的节点(dom对象),然后将找到的
+	节点封装成一个jQuery对象。
+		通过调用jQuery对象的方法或者属性来实现对
+	底层被封装的dom对象的操作，这样做的好处是：
+		a,兼容性更好
+		b,代码更简洁
+	(2)编程步骤
+		step1,使用jQuery选择器查找要操作的节点。
+		step2,调用jQuery对象的方法或者属性
+	(3)jQuery对象与dom对象之间的转换 first.html
+		1)dom对象 ---> jQuery对象   
+			$(dom对象);
+		2)jQuery对象 ---> dom对象
+			$obj.get(0);
+			或者
+			$obj.get()[0];
+3、选择器
+	(1)选择器是什么?
+		jQuery借鉴css选择器的语法，用来查找要操作
+	的节点。
+	(2)常见的选择器
+		1)基本选择器  selector / s1.html
+			#id
+			.class
+			element
+			select1,select2..selectn
+			*
+		2)层次选择器  selector / s2.html
+			select1 select2 : 所有后代
+			select1>select2 : 只考虑子节点
+			select1+select2 : 下一个兄弟
+			select1~select2 : 下面所有的兄弟
+		3)过滤选择器
+		4)表单选择器
+	
+		

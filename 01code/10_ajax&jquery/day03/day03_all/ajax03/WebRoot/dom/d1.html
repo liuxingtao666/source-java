@@ -1,0 +1,38 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<style>
+	.s1{
+		color:red;
+	}
+</style>
+<script type="text/javascript" 
+src="../js/jquery-1.4.3.js">
+</script>
+<script type="text/javascript">
+	function f1(){
+		//alert($('#d1').html());
+		//alert($('#d1').text());
+		$('#d1').html('hello java');
+	}
+	
+	function f2(){
+		//alert($('#d1').attr('id'));
+		$('#d1').attr('class','s1');
+	}
+	
+	function f3(){
+		//alert($(':text').val());
+		$(':text').val('小宝')
+	}
+	
+</script>
+</head>
+<body style="font-size:30px;">
+	<div id="d1"><span>hello jQuery</span></div>
+	username:<input name="username"/><br/>
+	<a href="javascript:;" 
+	onclick="f3();">ClickMe</a>
+</body>
+</html>

@@ -1,0 +1,30 @@
+1,发送post请求
+	xhr.open('post','check_username.do',true);
+	xhr.setRequestHeader('content-type',
+	'application/x-www-form-urlencoded');
+	xhr.onreadystatechange=f1;
+	xhr.send('username=tom');
+	
+	说明：
+		因为按照http协议要求，发送post请求时，需要
+	添加'content-type'消息头。ajax对象在默认情况下，
+	发送post请求时不会添加此消息头，所以，需要调用
+	setRequestHeader方法来添加该消息头。
+	
+2、编码问题
+	(1)发送get请求时
+		1)乱码产生的原因:
+			ie浏览器提供的ajax对象，使用"gbk"对中文参数
+		进行编码，其它浏览器使用"utf-8"编码。
+			服务器端默认情况下，会使用"iso-8859-1"解码。
+		2)解决方式
+			step1,客户端统一编码：
+				使用encodeURI函数来对中文参数进行编码(
+			使用"utf-8")。
+			step2,服务器端使用对应的方式解码:
+				修改tomcat的配置文件(conf/server.xml)
+				添加 
+					URIEncoding="utf-8"
+				即对于get请求，使用utf-8解码。
+				
+	(2)发送post请求时

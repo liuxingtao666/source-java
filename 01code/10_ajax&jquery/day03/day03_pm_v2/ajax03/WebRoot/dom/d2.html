@@ -1,0 +1,26 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" 
+src="../js/jquery-1.4.3.js">
+</script>
+<script type="text/javascript">
+	function f1(){
+		//创建一个新的节点
+		var $obj = $('<div>用来拖地可好</div>');
+		//添加新的节点到原有的dom树上面
+		$('body').append($obj);
+	}
+	
+	function f2(){
+		//$('body').append('<div>用来拖地可好</div>');
+		$('body').prepend('<div>用来拖地可好</div>');
+	}
+</script>
+</head>
+<body style="font-size:30px;">
+	<a href="javascript:;" 
+	onclick="f2();">待我长发及腰的下一句是什么</a>
+</body>
+</html>

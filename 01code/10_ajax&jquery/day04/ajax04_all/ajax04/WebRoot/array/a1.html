@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" 
+src="../js/jquery-1.4.3.js">
+</script>
+<script type="text/javascript">
+	$(function(){
+		$('#a1').click(f3);
+	});
+	function f1(){
+		var $obj = $('#u1 li');
+		//alert($obj.length);
+		$obj.each(function(i){
+			//i:是正在被迭代的对象的下标
+			if(i == 0){
+				$(this).css('font-size','60px');
+			}else if(i == 1){
+				$(this).css('color','red');
+			}
+		});
+	}
+	
+	function f2(){
+		var $obj = $('#u1 li');
+		//var $o = $obj.eq(1);
+		//$o.html('222');
+		
+		var o = $obj.get(1);
+		o.innerHTML = '333';
+	}
+	
+	function f3(){
+		var $obj = $('#u1 li');
+		var o = $obj.get(1);
+		var index = $obj.index(o);
+		alert(index);
+	}
+	
+	
+</script>
+</head>
+<body style="font-size:30px;">
+	<ul id="u1">
+		<li>item1</li>
+		<li>item2</li>
+		<li>item3</li>
+	</ul>
+	<a href="javascript:;" id="a1">ClickMe</a>
+</body>
+</html>

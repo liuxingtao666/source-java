@@ -1,0 +1,81 @@
+1,jQuery对ajax编程的支持
+	(1)load     order.jsp
+		1)作用：向服务器发送异步请求，然后将服务器
+		返回的数据直接添加到符合要求的节点之上。
+		2)语法:
+			$obj.load(url,[data]);
+				url:请求地址。
+				data:请求参数，请求参数有两种形式:
+						请求字符串，比如 username=tom&age=22。
+						对象,比如 {'username':'tom','age':22}
+			另外，也可以给load方法加一个回调函数作为参数，
+			比如:
+				$obj.load(url,[data],[callback]);
+			如果没有请求参数，load方法发送get请求，
+			否则，发送post请求。
+	(2)$.get和$.post   stock.jsp
+		1)作用：$.get向服务器发送异步请求(get方式),
+		2)语法:
+				$.get(url,[data],[callback],[type]);
+				url:请求地址
+				data:请求参数，请求参数有两种形式。
+				callback:回调函数，格式function(data,status)
+				其中，第一个参数data用来获得服务器
+				返回的数据，第二个参数是一个字符串，
+				描述服务器处理的状态。
+				type:服务器返回的数据类型，可以是:
+						text:   文本
+						html:   html文档
+						json:    json字符串
+						xml:     xml文档
+						script:   javascript脚本
+	(3)$.ajax    auto.jsp
+		1)作用：可以全面控制ajax对象向服务器发送
+		请求(同步,异步均可)。
+		2)语法:
+			$.ajax({选项参数});
+			常见的选项参数:
+				url : 请求地址
+				type: 请求类型 ('get','post')
+				data: 请求参数 (两种形式)
+				dataType:服务器返回的数据类型
+				success:回调函数,格式function(data,status),
+					其中，第一个参数data用来获得服务器
+					返回的数据，第二个参数是一个字符串，
+					描述服务器处理的状态。
+				error:回调函数,格式function(xhr,err1,err2),
+					用来处理服务器出现的异常。
+					xhr是ajax对象(XMLHttpRequest),
+					err1,err2是错误信息
+				async:true(缺省)/false,当值为false,发送
+						同步请求。
+	(4)两个生成请求参数的方法
+		可以使用serialize()方法将表单中的表单控件
+		生成请求字符串，也可以使用serializeArray()
+		方法生成包含了请求参数的一个javascript对象。
+
+2,分页
+	(1)为什么要分页
+		如果数据库中的记录非常大，直接查询这些记录
+	并保存在服务器端，服务器会占用过多的内存空间，
+	会严重影响性能。另外，不分页的话，用户浏览
+	太多的记录也不方便。
+	(2)如何分页
+		1)假分页:将数据库中的记录全部查询出来以后
+		保存在服务器端(List<User>)，然后依据查询条件对服务器
+		端的集合进行遍历。
+		2)真分页:依据查询条件(第几页，每页
+		几条记录)将数据库中的部分记录查询出来然后
+		显示。
+		step1,给dao添加分页方法
+			//page:第几页
+			//rowsPerPage:每页多少条记录
+			List<Employee> findByPages(int page,
+			int rowsPerPage);
+			int getTotalPages(int rowsPerPage);
+		step2,给jsp页面添加用于分页的链接
+			
+		
+		
+	
+		

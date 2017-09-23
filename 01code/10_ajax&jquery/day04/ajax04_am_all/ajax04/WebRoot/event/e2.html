@@ -1,0 +1,26 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function f1(e){
+		alert("你点击了一个链接");
+		//取消冒泡
+		e.cancelBubble = true;
+	}
+	
+	function f2(e){
+		alert("你点击了一个DIV");
+	}
+</script>
+</head>
+<body style="font-size:30px;">
+	<div id="d1" 
+	style="width:200px;height:200px;
+	border:1px solid red;" onclick="f2(event);">
+		<a href="javascript:;" 
+		onclick="f1(event);">ClickMe</a>
+	</div>
+	
+</body>
+</html>

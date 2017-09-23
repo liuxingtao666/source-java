@@ -1,0 +1,39 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" 
+src="../js/jquery-1.4.3.js">
+</script>
+<script type="text/javascript">
+	function f1(){
+		$('#d1 div').css('font-size','60px');
+	}
+	
+	function f2(){
+		$('#d1>div').css('font-size','60px');
+	}
+	
+	function f3(){
+		$('#d3+div').css('font-size','60px');
+	}
+	
+	function f4(){
+		$('#d2~div').css('font-size','60px');
+	}
+</script>
+</head>
+<body style="font-size:30px;">
+	<div id="d1">
+		<div id="d2">hello java</div>
+		<div id="d3">
+			<div id="d4" 
+			style="font-size:90px;">hello jQuery</div>
+		</div>
+		<div id="d5">hello perl</div>
+		<p>hello basic</p>
+	</div>
+	<a href="javascript:;" 
+	onclick="f4();">ClickMe</a>
+</body>
+</html>

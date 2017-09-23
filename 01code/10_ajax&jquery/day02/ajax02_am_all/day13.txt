@@ -1,0 +1,77 @@
+1,发送post请求
+	xhr.open('post','check_username.do',true);
+	xhr.setRequestHeader('content-type',
+	'application/x-www-form-urlencoded');
+	xhr.onreadystatechange=f1;
+	xhr.send('username=tom');
+	
+	说明：
+		因为按照http协议要求，发送post请求时，需要
+	添加'content-type'消息头。ajax对象在默认情况下，
+	发送post请求时不会添加此消息头，所以，需要调用
+	setRequestHeader方法来添加该消息头。
+	
+2、编码问题
+	(1)发送get请求时
+		1)乱码产生的原因:
+			ie浏览器提供的ajax对象，使用"gbk"对中文参数
+		进行编码，其它浏览器使用"utf-8"编码。
+			服务器端默认情况下，会使用"iso-8859-1"解码。
+		2)解决方式
+			step1,客户端统一编码：
+				使用encodeURI函数来对中文参数进行编码(
+			使用"utf-8")。
+			step2,服务器端使用对应的方式解码:
+				修改tomcat的配置文件(conf/server.xml)
+				添加 
+					URIEncoding="utf-8"
+				即对于get请求，使用utf-8解码。
+	(2)发送post请求时
+		1)乱码产生的原因。
+			浏览器提供的ajax对象会使用"utf-8"编码。
+		服务器端默认使用"iso-8859-1"解码。
+		2)解决方式
+			 request.setCharacterEncodig("utf-8");
+			 
+3,json (javascript object notation即javascript对象声明)
+	(1)json是什么?  (www.json.com)
+		是一种轻量级的数据交换标准。
+		数据交换:将数据转换成一种与平台无关的数据
+		格式，发送给接受方来处理。
+		轻量级:相对于xml，使用json做数据交换，解析
+		速度更快，文档更小。
+	背景知识:
+		在javascript语言当中，有一种用来创建对象的语法，
+	该语法就是json。后来，该语法被用来做数据交换的
+	一种格式。
+	(2)json的基本语法
+		1)表示一个对象
+			{属性名:属性值,属性名:属性值...}
+			注意：
+				a,最后一个属性值不要加","。
+				b,属性名必须使用引号括起来。
+				c,属性值可以string,number,true/false,
+				null,object。
+				d,属性值如果是string,必须使用引号括
+				起来。
+		2)表示一个对象组成的数组
+			[{},{},{}...]
+	(3)在ajax应用当中，使用json来完成数据交换
+		1)java对象或者java对象组成的集合和数组如何
+		转换成json字符串。
+			可以利用json官方提供的api来转换:
+			JSONObject, JSONArray
+		2)json字符串如何转换成javascript对象。
+			使用prototype,jquery等提供的方法。
+			prototype是一个js文件,提供了很多实用的函数：
+			a, $(id): 相当于document.getElementById(id);
+			b, $F(id): 相当于$(id).value;
+			c, $(id1,id2,id3...):依据id1,id2,id3...查找对应
+			的节点，然后将这些节点放到数组里面返回。
+			d, strip():除掉字符串两端的空格。
+			e, evalJSON():将json字符串转换成javascript
+			对象。
+			
+				
+					
+		

@@ -1,0 +1,31 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" 
+src="../js/jquery-1.4.3.js">
+</script>
+<script type="text/javascript">
+	$(function(){
+		$('#b1').click(function(){
+			//让第一个文件输入框产生获得
+			//焦点事件
+			//$('#username').trigger('focus');
+			//也可简化为
+			$('#username').focus();
+		});
+	});
+</script>
+</head>
+<body style="font-size:30px;">
+	username:<input name="username" 
+	id="username"/><br/>
+	name:<input name="name" id="name"/><br/>
+	<input type="button" value="ClickMe" 
+	id="b1"/>
+	
+	
+	
+	
+</body>
+</html>

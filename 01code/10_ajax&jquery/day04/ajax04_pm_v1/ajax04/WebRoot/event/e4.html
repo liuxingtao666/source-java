@@ -1,0 +1,27 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" 
+src="../js/jquery-1.4.3.js">
+</script>
+<script type="text/javascript">
+	$(function(){
+		$('a').click(function(e1){
+			//e1是底层事件对象的封装
+			//var obj = e1.target;
+			//alert(obj.innerHTML);
+			
+			//alert(this.innerHTML);
+			
+			alert(e1.pageX + "," + e1.pageY);
+		});
+	});
+</script>
+</head>
+<body style="font-size:30px;">
+	<a href="javascript:;">ClickMe</a>
+	<br/>
+	<a href="javascript:;">ClickYou</a>
+</body>
+</html>

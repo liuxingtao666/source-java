@@ -1,0 +1,33 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function f1(e){
+		/*
+			事件对象的作用1：
+			找到事件源
+		*/
+		//var obj = e.target;  //firefox
+		//var obj = e.srcElement;  //ie
+		//同时支持ie,firefox,chrome
+		//var obj = e.target || e.srcElement;
+		//alert(obj.innerHTML);
+		
+		/*
+			作用2: 鼠标点击的坐标
+		*/
+		alert(e.clientX + "," + e.clientY);
+	}
+</script>
+</head>
+<body style="font-size:30px;">
+	
+	<a href="javascript:;" 
+	onclick="f1(event);">ClickMe</a><br/>
+	<a href="javascript:;" 
+	onclick="f1(event);">ClickYou</a>
+	
+	
+</body>
+</html>

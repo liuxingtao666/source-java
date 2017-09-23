@@ -1,0 +1,26 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" 
+src="js/jquery-1.4.3.js"></script>
+<script type="text/javascript">
+	function f1(){
+		//使用jQuery提供的选择器
+		//查找要操作的节点，找到的节点
+		//会被封装成一个jQuery对象。
+		var $obj = $('#d1');
+		//调用jQuery对象的方法或者属性
+		//来实现对dom对象的操作
+		$obj.css('font-size','60px');
+	}
+</script>
+</head>
+<body style="font-size:30px;">
+	<div id="d1">hello jQuery</div>
+	<a href="javascript:;" 
+	onclick="f1();">ClickMe</a>
+	
+	
+</body>
+</html>

@@ -1,0 +1,60 @@
+1,mvc(model,view,controller 即模型,视图,控制器)
+	(1)mvc是什么?
+		是一种软件架构思想,将一个软件按照模型,视图,
+	控制器来划分成不同类型的模块。
+		模型:用来封装业务逻辑。
+		视图:用来实现表示逻辑(即输入与输出，将
+		模型处理的结果展现出来，另外，也要提供相应
+		的界面方便用户使用)。
+		控制器:用来协调模型与视图(模型与视图不相互
+		依赖：视图将请求先发给控制器，由控制器选择
+		对应的模型来处理;模型返回的处理结果也要先交
+		给控制器，由控制器选择相应的视图来展现)。
+	(2)使用mvc来开发一个web应用程序
+		在javaee平台里面，一般使用java类来封装业务
+	逻辑,使用Servlet或Filter来实现控制器,使用jsp来
+	实现表示逻辑。
+		
+	申请贷款
+	step1,建表
+		create table t_account(
+			id int primary key auto_increment,
+			accountNo varchar(16) unique,
+			balance double
+		);
+		insert into t_account(accountNo,balance) 
+		values('62258810',1000);
+	step2,建一个web工程
+	step3,Account实体类
+	step4,AccountDAO
+			public Account findByAccount	No(String accountNo);
+	step5,AccountService
+	step6,apply_form.jsp view.jsp
+	step7,ActionServlet
+	(3)mvc的优点
+		1)实现模型的复用
+			a,模型处理的结果，可以使用不同的视图来
+			展现。
+			b,可以使用不同视图来访问模型。
+		2)维护性好
+			修改模型或者修改视图，不会相互影响。
+		3)方便测试
+			比如，将业务逻辑写在servlet类里面，需要部署
+			之后才能测试；而将业务逻辑写在java类里面，
+			可以直接测试。
+	(4)mvc的缺点
+		 使用mvc,会增加软件设计的难度,也会增加代码量
+	和软件开发的成本。	
+
+2,ajax(asynchronous javascript and xml即
+异步的javascript和xml)。
+	(1)什么是ajax?
+		ajax是一种用来改善用户体验的技术，其本质
+	是通过浏览器内置的一个特殊对象(即ajax对象)异步
+	地(ajax对象发请求时，浏览器不会销毁当前页面，
+	用户仍然可以对当前页面做其它的操作)向服务器发
+	请求,服务器送回部分数据(一般不是一个完整的页面，
+	以文本或者xml文档的方式返回),浏览器利用这些数据
+	更新当前页面。整个过程，页面无刷新，不打断用户
+	的操作。
+		
