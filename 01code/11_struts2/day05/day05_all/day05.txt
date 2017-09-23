@@ -1,0 +1,128 @@
+*一、redirectAction类型的Result
+	1、作用
+		将请求重定向给一个新的Action。
+	2、语法
+		*1）完整版
+			<result name="success" type="redirectAction">
+				<param name="namespace">
+					/NAMESPACE
+				</param>
+				<param name="actionName">
+					ACTIONNAME
+				</param>
+			</result>
+		2）如果当前Action与重定向Action位于同一个
+			namespace下，那么namespace的设置可省
+			<result name="success" type="redirectAction">
+				<param name="actionName">
+					ACTIONNAME
+				</param>
+			</result>
+		3）可以进一步简化
+			<result name="success" type="redirectAction">
+				ACTIONNAME
+			</result>
+	3、使用步骤
+		只需要在struts.xml中进行配置即可。
+	4、NetCTOSS资费删除功能
+		1）需求
+			点击删除按钮，将本行的数据删除。
+		2）分析请求
+			2次请求	
+				--删除资费数据
+				--查询资费数据（已完成）
+			删除的请求过程
+				[删除]-->filter-->struts.xml-->Action
+				-->DAO-->DBUtil-->重定向FindCostAction
+		3）开发步骤
+			a、DAO
+				追加根据ID删除资费的方法
+			b、Action
+				输入：id
+				输出：无
+			c、struts.xml
+				配置删除action，并重定向到查询action
+			d、JSP
+				给删除按钮增加事件，将请求提交给删除
+				action。
+	
+*二、json类型的Result
+	1、作用
+		可以向客户端输出json格式的字符串，通常用于
+		异步请求中。
+		实际上，json类型的Result可以将指定好的Action
+		属性做成一个json发送给客户端。
+	2、语法
+		*1）将Action中一个属性做成json
+			<result name="success" type="json">
+				<param name="root">
+					属性名
+				</param>
+			</result>
+			--如果Action属性为基本类型，则直接返回
+				属性值。
+			--如果Action属性为实体类/Map，则返回
+				json字符串，如{"id":1,"name":"zs"}
+		2）将Action中多个属性做成json
+			<result name="success" type="json">
+				<param name="includeProperties">
+					属性1，属性2，属性3...
+				</param>
+			</result>
+			Result会将Action中多个属性做成一个json字符串，
+			比如{"a":"A","b":"B","c":"C"}
+		3）将Action中所有属性做成json
+			<result name="success" type="json">
+				
+			</result>
+	3、使用步骤
+		1）导包
+		2）修改Action所在包的继承关系json-default
+		3）在struts.xml中配置result
+	4、资费名唯一性校验
+		1）需求
+			在新增资费页面上，当输入完资费名之后，光标
+			切换时，校验输入的名称是否重复，若重复则
+			在文本框后给予错误提示，若不重复给予正确
+			提示。
+		2）开发思路
+			a、打开新增页面
+			b、校验资费名是否重复
+				$.post-->filter-->struts.xml-->Action
+				-->DAO-->DBUtil,Entity-->回调函数
+		3）开发步骤
+			a、DAO
+				追加根据名称查询资费的方法
+			b、Action
+				输入：资费名
+				输出：标识（是否校验通过）
+			c、struts.xml
+				通过json类型的Result，将Action中的返回
+				值做成json输出给客户端
+			d、JSP
+				--给资费名文本框的onblur事件绑定函数，
+					并在该函数中发送异步请求
+				--在异步请求的回调函数中，根据返回值，
+					在文本框的后面给予提示
+	
+三、资费修改
+	1、需求
+		1）点击修改按钮，打开修改页面，并且将修改的
+			数据发送给修改页面，在文本框中默认的显示。
+		2）点击保存，将表单提交给Action，进行保存。
+	2、开发思路
+		1）打开修改页面
+			[修改]-->filter-->struts.xml-->Action
+			-->DAO-->DBUtil,Entity-->JSP
+	3、开发步骤
+		1）DAO
+			追加根据ID查询资费的方法
+		2）Action
+			输入：id
+			输出：Cost
+		3）struts.xml
+			配置action，将请求转发给修改页面
+		4）修改页面
+			通过UI标签回显修改数据
+	
+	

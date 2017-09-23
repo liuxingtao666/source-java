@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+
+	<!-- 
+		定义包，用于封装action。
+		name：包名，用于识别这个包。
+			根元素下可以有多个package，
+			他们的名称不要重复。
+		namespace：包的命名空间，用于URL
+			进行访问的，注意以/开头。
+		extends：包的继承，可以继承其它的包，
+			当继承其它包时，相当于把继承的包
+			下定义的内容全部copy到当前包下了。
+	-->
+	<package name="day01" 
+		namespace="/demo"
+		extends="struts-default">
+		<!-- 
+			定义action，用于注册业务控制器。
+			name：action名称，用于访问action。
+				每个package下可以有多个action，
+				这些action之间不要重名。
+			class：action对应的类。
+			method：要调用的业务方法名。
+			http://localhost:8080/StrutsDay01
+				/demo/hello.action
+		-->
+		<action name="hello" 
+			class="action.HelloAction" 
+			method="sayHello">
+			<!-- 
+				定义result，找到JSP
+				name：result的名称，根据Action
+					类的返回值，Struts2会自动
+					在此action配置下找到与之对应
+					的result，从而找到result下定义
+					的JSP。
+			 -->
+			 <result name="ok">
+			 	/hello.jsp
+			 </result>
+		</action>
+	</package>
+
+</struts>

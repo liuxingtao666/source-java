@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+
+	<!-- 资费管理配置信息 -->
+	<package name="cost"
+		namespace="/cost" 
+		extends="json-default">
+		<!-- 
+			查询资费数据。
+			当省略method属性时，Struts2会
+			自动调用execute方法。
+		-->
+		<action name="findCost"
+			class="com.tarena.action.FindCostAction">
+			<!-- 给页容量注入默认值 -->
+			<param name="pageSize">4</param>
+			<result name="success">
+				/WEB-INF/cost/find_cost.jsp
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+			</result>
+		</action>
+		<!-- 删除资费 -->
+		<action name="deleteCost"
+			class="com.tarena.action.DeleteAction">
+			<result name="success"
+				type="redirectAction">
+				findCost
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+			</result>
+		</action>
+		<!-- 打开新增页面 -->
+		<action name="toAddCost">
+			<result name="success">
+				/WEB-INF/cost/add_cost.jsp
+			</result>
+		</action>
+		<!-- 校验资费名 -->
+		<action name="checkCostName"
+			class="com.tarena.action.CheckCostNameAction">
+			<result name="success" type="json">
+				<param name="root">
+					info
+				</param>
+			</result>
+		</action>
+	</package>
+	
+	<!-- 登录模块配置信息 -->
+	<package name="login" namespace="/login"
+		extends="struts-default">
+		<!-- 
+			打开登录页面。
+			当省略class属性时，Struts2会自动
+			实例化ActionSupport类，作为当前
+			的Action。该类中有execute方法，
+			并返回success。
+		-->
+		<action name="toLogin">
+			<result name="success">
+				/WEB-INF/main/login.jsp
+			</result>
+		</action>
+		<!-- 登录校验 -->
+		<action name="login"
+			class="com.tarena.action.LoginAction">
+			<result name="success">
+				/WEB-INF/main/index.jsp
+			</result>
+			<result name="fail">
+				/WEB-INF/main/login.jsp
+			</result>
+			<result name="error">
+				/WEB-INF/main/error.jsp
+			</result>
+		</action>
+		<!-- 生成验证码 -->
+		<action name="createImage"
+			class="com.tarena.action.CreateImageAction">
+			<result name="success" 
+				type="stream">
+				<param name="inputName">
+					imageStream
+				</param>
+			</result>
+		</action>
+	</package>
+
+</struts>

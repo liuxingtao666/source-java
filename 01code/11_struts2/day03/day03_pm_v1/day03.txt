@@ -1,0 +1,52 @@
+一、OGNL
+	1、什么是OGNL
+		是功能强大的表达式语言，类似于EL。
+	2、为什么要用OGNL
+		1）为什么要用表达式
+			简化页面的代码开发，提高开发及维护效率。
+		2）为什么用OGNL表达式
+			--OGNL表达式是Struts2默认使用的表达式。
+			--OGNL表达式功能十分强大。
+	3、OGNL如何使用
+		1）用于输出的标签
+			<s:property value="OGNL"/>
+			该标签可以将OGNL访问到的数据直接输出在
+			标签的位置。
+			<s:property value=""/>相当于EL表达式中的
+			${  }。
+		*2）常用的OGNL表达式
+			a、访问基本属性
+				<s:property value="属性名"/>
+				通过OGNL访问Action的基本属性，在标签
+				中直接写属性名即可。
+			b、访问实体对象
+				<s:property value="对象.属性名"/>
+				通过OGNL访问Action的实体对象，在标签
+				中直接写对象.属性名即可。
+		3）需要了解的OGNL表达式
+			c、访问集合/数组
+				<s:property value="属性名[index]"/>
+				通过OGNL访问Action中的数组/集合属性，
+				输出数组/集合中的某个元素值。在标签中
+				写属性名[index]即可。
+			d、访问Map
+				<s:property value="属性名.key"/>
+				通过OGNL访问Action中的Map属性，根据
+				key输出Map中的某个键值对的值。
+			e、访问时进行运算
+				通过OGNL访问Action中的属性值，并在OGNL
+				中可以直接对返回值进行一些基本的运算。
+			f、访问时调用方法
+				<s:property value="name.toUpperCase()"/>
+				通过OGNL访问Action中的属性值，并在OGNL
+				中可以直接调用返回值的某方法。
+			g、创建集合
+				<s:property value="{'a','b','c'}"/>
+				通过OGNL创建一个临时的集合对象，并
+				返回输出。
+			h、创建Map
+				<s:property value="#{'aa':'AA','bb':'BB'}"/>
+				通过OGNL创建一个临时的Map对象，并
+				返回输出。
+	
+二、ValueStack

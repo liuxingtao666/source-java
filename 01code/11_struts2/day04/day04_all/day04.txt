@@ -1,0 +1,121 @@
+一、重构资费列表页面
+	使用Struts2标签+OGNL
+	
+二、Action基本原理
+	1、掌握Action基本原理图
+	2、六大核心组件关系
+		请求提交控制器，
+		根据配置找Action。
+		创建VS栈容器，
+		实例Action放栈顶。
+		调用Action算输出，
+		历经层层拦截器。
+		根据方法返回值，
+		调用Result做输出。
+		
+三、NetCTOSS登录
+	1、需求
+		1）在浏览器地址栏输入地址，打开登录页面。
+		2）在登录页面上，输入账号、密码，点击登录
+			进行登录校验。
+	2、需要几种请求
+		需要2种请求
+		1）打开登录页面
+			-->filter-->struts.xml-->Action-->JSP
+		2）登录校验
+			-->filter-->struts.xml-->Action-->DAO
+			-->DBUtil,Entity-->JSP
+	3、开发步骤
+		1）Entity
+			追加管理员模块的实体类
+		2）DAO
+			增加登录模块，并提供查询方法
+			输入：账号
+			输出：实体对象
+		3）Action
+			a、根据账号查询管理员
+			b、判断账号
+				--如果查询结果为null，则提示账号不存在
+				--如果查询结果不为null，继续判断密码
+			c、判断密码
+				--如果密码与输入密码一致，则校验成功
+				--如果密码与输入密码不一致，则校验失败
+		4）struts.xml
+			配置Action和JSP
+		5）JSP
+	4、补充
+		1）如何获取session
+			a、ActionContext类
+				ActionContext.getContext().getSession();
+				该方法返回的是一个Map<String,Object>，
+				Struts2使用该类型是想简化对session的操作。
+			b、ServletActionContext类
+				ServletActionContext.getRequest().getSession();
+				该方法返回的是一个HttpSession，保证了
+				系统的兼容性。
+			c、SessionAware接口
+				让Action实现SessionAware接口，实现其
+				void setSession(Map<String,Object> session);
+				Struts2在实例化完Action后，会自动判断
+				Action是否实现了SessionAware接口，如果实
+				现了Struts2会自动的调用其setSession方法，
+				将session注入给Action。此时，需要Action
+				定义成员变量接收注入的session，然后在业务
+				方法中就可以使用了。
+			小结
+				--第1、3种方式，返回的session类型都是
+					Map<String,Object>。
+				--第1、2种方式，都是通过类来主动调用其
+					API来获取session，而第3种方式是通过
+					接口自动注入的session。
+		2）登录成功后，将信息记录到session
+	
+四、Result
+	1、什么是Result组件
+		1）Result是Struts2中用于向客户端输出的组件，
+		转发和重定向可以理解为特殊的输出方式。
+		2）Struts2中预置了10种类型的Result，定义
+			在struts-default.xml中。
+		3）每一个Result实际上就是一个类，他们都实现
+			了接口Result。
+	2、Result组件的种类	
+		1）dispatcher
+			之前使用的result都是这种默认类型。
+		2）stream
+			向客户端以流的方式直接输出数据。
+		3）redirectAction
+			将请求重定向给一个新的Action。
+		4）json
+			向客户端输出json格式的数据。
+			
+五、stream类型的Result
+	1、作用
+		向客户端以流的方式直接输出数据。实际上是
+		Result组件创建一个输出流，然后输出Action中
+		指定的内容（输入流）。
+	2、语法
+		<result name="success" type="stream">
+			<param name="inputName">属性名</param>
+		</result>
+		--type="stream"，对应的是struts-default.xml
+			中预置的名为stream类型的result。
+		--name="inputName"，其中inputName是
+			StreamResult类的一个属性，该标签的含义是
+			向StreamResult对象的inputName属性注入值。
+		--属性名就是向inputName属性注入的具体的值。
+	3、使用步骤
+		1）Action中定义InputStream类型的属性，并
+			提供get、set方法。
+		2）在struts.xml中配置这个action.
+		3）在action配置下，配置stream类型的Result，
+			指定Action中的输入流属性名。
+	4、代码实践：生成验证码图片
+		1）请求的过程
+			img-->filter-->struts.xml-->Action-->
+			ImageUtil-->result-->img
+		2）开发步骤
+			a、ImageUtil
+			b、Action
+			c、stream.xml
+			d、JSP
+	

@@ -1,0 +1,117 @@
+李洪鹤/lihh@tarena.com.cn
+
+Struts2
+  理论课：5天
+  项目课：7天
+
+一、Struts2简介
+  1、什么是Struts2
+    Struts2是轻量级的MVC框架，主要解决的是请求
+    分发的问题。重心在控制层和表现层。
+    轻量级：
+      我们在使用Struts2时，基本上不需要
+      import它的包，这种对框架依赖性很小的情况
+      称之为轻量级。
+    MVC框架：
+      Struts2是框架，给我们提供了很多基础性代码，
+      我们在开始时这部分代码就可以省略。Struts2
+      实现了MVC，即在我们使用Struts2时自动的就
+      使用了MVC。
+  2、为什么使用Struts2
+    1）MVC
+      是一种经典的设计模式，可以将项目代码分为
+      3层，分别是模型层、视图层、控制层
+      M-Model
+        模型层，是小的业务单元，包含了数据和
+	算法。
+      V-View
+        视图层，用于给客户展现业务数据，以及接收
+	客户输入的内容。
+      C-Controller
+        控制层，是模型层和视图层的桥梁，负责组织
+	业务流程，调用一系列的模型来实现完整的业务
+	逻辑，最终将结果提交给视图层展现。
+   2）Struts2对比Servlet
+     优点：
+       --业务代码解耦，便于团队开发
+         Struts2将请求转发给不同的类来处理，从而
+	 降低业务代码的耦合度，适用于团队开发。
+       --提升开发效率
+         Struts2提供了一系列的API，来帮助我们
+	 提升开发效率。
+     缺点：
+       --执行效率偏低
+         Struts2使用反射机制，要解析XML，这些
+	 行为都会降低执行效率。
+       --学习成本偏高
+	 我们需要花一定的时间来学习Struts2的使用
+	 以及API。
+   3）Struts2自身优势
+     --健壮性（4*）
+       Struts2是十分稳定的框架，稳定版本是
+       2.1.8。
+     --易用性（4*）
+       Struts2易学易用，几天就可以上手。
+     --扩展性（5*）
+       Struts2采用AOP的思想，使用拦截器来对
+       业务组件进行扩展。
+     --侵入性
+	与耦合度（依赖程度）成正比，越依赖则侵入
+	性越强，反之越弱。
+ 3、Struts2发展史
+   1）Struts1
+     是由Apache推出的，它的结构简单小巧，十分
+     易用，市场占有率超过20%。
+     后来由于Struts1框架与Servlet/JSP耦合紧密，
+     导致发展遇到了瓶颈。
+   2）WebWork
+     是在struts1之后推出的，技术上更为先进，
+     其核心是XWork。
+     由于Struts1的市场占有率太高，制约了WebWork
+     的发展。
+   3）Struts2
+     是Apache推出的新一代MVC框架，是在Struts1和
+     WebWork基础上形成的全新框架。
+   4）面试题
+     Struts1和Struts2的区别？
+     Struts2与Struts1差别很大，不能理解为Struts1
+     的升级版；
+     Struts2以XWork为核心，可以理解为WebWork
+     的升级版。
+
+*二、Struts2的使用
+	1、Struts2与MVC
+		1）回顾Servlet如何实现MVC
+		2）Struts2如何实现MVC
+	2、Struts2的使用步骤
+		1）创建WEB项目
+		2）导入Struts2核心包
+		3）配置前端控制器filter
+			--在web.xml中配置一个filter
+			--该filter由Struts2预置了，不必自己实现
+		4）创建Struts2的配置文件
+			--默认放在src下
+			--默认名称为struts.xml
+		*5）编写业务组件Action
+			--创建Action类
+			--编写业务方法
+		*6）编写JSP
+		***7）配置struts.xml
+			--体现请求与Action的关系
+			--体现Action与JSP的关系
+
+*三、参数传递
+	1、JSP如何向Action传参
+		注入：通过Action的set方法，将页面数据传入给
+			Action的属性。
+		*1）基本属性注入
+			将JSP中的数据传给Action中定义的一些基本
+			类型的属性，称之为基本属性注入。
+			--表单中文本框的name写为“Action属性名”
+			--Action中定义的属性需要提供set方法。
+		*2）域模型注入
+		3）模型驱动注入
+	2、Action如何向JSP传参，并在JSP上显示
+
+四、资费列表
+

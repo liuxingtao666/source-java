@@ -1,0 +1,48 @@
+*一、redirectAction类型的Result
+	1、作用
+		将请求重定向给一个新的Action。
+	2、语法
+		*1）完整版
+			<result name="success" type="redirectAction">
+				<param name="namespace">
+					/NAMESPACE
+				</param>
+				<param name="actionName">
+					ACTIONNAME
+				</param>
+			</result>
+		2）如果当前Action与重定向Action位于同一个
+			namespace下，那么namespace的设置可省
+			<result name="success" type="redirectAction">
+				<param name="actionName">
+					ACTIONNAME
+				</param>
+			</result>
+		3）可以进一步简化
+			<result name="success" type="redirectAction">
+				ACTIONNAME
+			</result>
+	3、使用步骤
+		只需要在struts.xml中进行配置即可。
+	4、NetCTOSS资费删除功能
+		1）需求
+			点击删除按钮，将本行的数据删除。
+		2）分析请求
+			2次请求	
+				--删除资费数据
+				--查询资费数据（已完成）
+			删除的请求过程
+				[删除]-->filter-->struts.xml-->Action
+				-->DAO-->DBUtil-->重定向FindCostAction
+		3）开发步骤
+			a、DAO
+				追加根据ID删除资费的方法
+			b、Action
+				输入：id
+				输出：无
+			c、struts.xml
+				配置删除action，并重定向到查询action
+			d、JSP
+				给删除按钮增加事件，将请求提交给删除
+				action。
+	

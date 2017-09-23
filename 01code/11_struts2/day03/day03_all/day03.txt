@@ -1,0 +1,136 @@
+一、OGNL
+	1、什么是OGNL
+		是功能强大的表达式语言，类似于EL。
+	2、为什么要用OGNL
+		1）为什么要用表达式
+			简化页面的代码开发，提高开发及维护效率。
+		2）为什么用OGNL表达式
+			--OGNL表达式是Struts2默认使用的表达式。
+			--OGNL表达式功能十分强大。
+	3、OGNL如何使用
+		1）用于输出的标签
+			<s:property value="OGNL"/>
+			该标签可以将OGNL访问到的数据直接输出在
+			标签的位置。
+			<s:property value=""/>相当于EL表达式中的
+			${  }。
+		*2）常用的OGNL表达式
+			a、访问基本属性
+				<s:property value="属性名"/>
+				通过OGNL访问Action的基本属性，在标签
+				中直接写属性名即可。
+			b、访问实体对象
+				<s:property value="对象.属性名"/>
+				通过OGNL访问Action的实体对象，在标签
+				中直接写对象.属性名即可。
+		3）需要了解的OGNL表达式
+			c、访问集合/数组
+				<s:property value="属性名[index]"/>
+				通过OGNL访问Action中的数组/集合属性，
+				输出数组/集合中的某个元素值。在标签中
+				写属性名[index]即可。
+			d、访问Map
+				<s:property value="属性名.key"/>
+				通过OGNL访问Action中的Map属性，根据
+				key输出Map中的某个键值对的值。
+			e、访问时进行运算
+				通过OGNL访问Action中的属性值，并在OGNL
+				中可以直接对返回值进行一些基本的运算。
+			f、访问时调用方法
+				<s:property value="name.toUpperCase()"/>
+				通过OGNL访问Action中的属性值，并在OGNL
+				中可以直接调用返回值的某方法。
+			g、创建集合
+				<s:property value="{'a','b','c'}"/>
+				通过OGNL创建一个临时的集合对象，并
+				返回输出。
+			h、创建Map
+				<s:property value="#{'aa':'AA','bb':'BB'}"/>
+				通过OGNL创建一个临时的Map对象，并
+				返回输出。
+	
+*二、ValueStack
+	1、什么是ValueStack
+		ValueStack是Struts2中Action向JSP传递数据的
+		媒介，即Struts2将数据封装在ValueStack中，并
+		允许我们通过OGNL表达式访问这些数据，另外
+		ValueStack也封装了改造后的OGNL。
+	*2、ValueStack工作原理
+		1）ValueStack中包含3部分内容：OGNL引擎、
+			栈对象，Map对象。
+		2）OGNL引擎可以根据传入的OGNL表达式取值，
+				并将取到的值返回，引擎取值的范围是栈对象
+				以及Map对象。
+		3）Map对象封装了程序运行的上下文所有数据，
+				我们可以写OGNL表达式访问Map中的数据，
+				该表达式的格式为“#key”，返回的是在Map
+				对象中该key所对应的value值。
+		*4）栈对象封装了最常用的数据（包括Action），
+			我们可以写OGNL表达式访问栈中的数据，引擎
+			会根据该表达式自栈顶向下依次取值。其中，栈
+			的每一级对象称之为root对象（JavaBean）。
+			我们使用OGNL向root对象取值时，该表达式从对象
+			的下级属性写起，比如以Action为root对象，要访
+			问Action的user属性值，那么表达式可以写为
+			user.userName。
+			通常情况下，栈顶就是Action，在循环时栈顶将
+			发生变化。
+	3、访问ValueStack
+		1）通过debug标签观察ValueStack
+			a、语法
+				<s:debug/>
+			b、作用
+				可以在页面上生成一个连接，点击之后会展开
+				ValueStack的结构。
+			c、注意
+				--该标签仅仅是给开发人员进行调试用的，那
+					么开发完之后，记得删除该标签。
+				--该标签具有一定的问题，如果在页面上显示
+					多次该标签时，只有第一个标签数据是准确
+					的，后面的数据不准确。
+		2）直接输出栈顶
+			<s:property/>
+			当输出标签不写value属性时，默认输出栈顶。
+		3）如何访问Map对象（context对象）
+			<s:property value="#key"/>
+			通过#key这样的OGNL表达式可以访问Map对象，
+			能够返回key所对应的Value值。
+		*4）迭代集合
+			a、语法
+				<s:iterator value="集合属性">
+					<s:debug/>
+					<s:property value="属性名"/>
+				</s:iterator>
+			b、作用
+				可以迭代集合属性
+			c、注意
+				--在迭代开始前，栈顶是Action
+				--在迭代过程中，栈顶是循环变量
+		*5）按数字迭代
+			a、语法
+				<s:iterator begin="from" end="to" var="k">
+					<s:property value="#k"/>
+				</s:iterator>
+			b、作用
+				从from循环到to，其中from和to是OGNL
+				表达式，返回的应该是整数。
+			c、注意
+				--迭代开始前，栈顶是Action
+				--迭代过程中，栈顶是循环变量
+				--由于循环变量是整数，不能作为root对象，
+					因此无法从栈中直接引用该整数。
+					可以通过var来声明变量的名，然后该变量
+					在循环时会存在于Map对象中，我们可以
+					通过“#变量名”来引用该变量。
+		6）小结
+			--没有循环时，栈顶是Action
+			--循环过程中，栈顶是循环变量
+			
+	4、Struts2如何支持EL表达式
+		EL表达式的取值范围是page、request、session、
+		application，实际上Struts2重写了request对象，
+		重写了其getAttribute方法，该方法中取值逻辑
+		如下：
+			--首先从request对象中取值，取到值则返回。
+			--如果取不到，则从ValueStack中取值。
+	

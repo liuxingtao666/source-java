@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+
+	<!-- 设置上传文件的最大值 -->
+	<constant name="struts.multipart.maxSize" value="5000000"/>
+
+	<!-- 上传文件配置 -->
+	<package name="demo"
+		namespace="/demo"
+		extends="struts-default">
+		<!-- 打开上传文件页面 -->
+		<action name="toUpload">
+			<result name="success">
+				/WEB-INF/jsp/upload.jsp
+			</result>
+		</action>
+		<!-- 上传文件 -->
+		<action name="upload"
+			class="action.UploadAction">
+			<result name="success">
+				/WEB-INF/ok.jsp
+			</result>
+			<result name="error">
+				/WEB-INF/error.jsp
+			</result>
+		</action>
+	</package>
+
+	<!-- 客户信息配置 -->
+	<package name="customer" 
+		namespace="/customer"
+		extends="struts-default">
+		<interceptors>
+			<!-- 注册拦截器 -->
+			<interceptor name="first"
+				class="interceptor.FirstInterceptor"/>
+			<interceptor name="second"
+				class="interceptor.SecondInterceptor"/>
+			<!-- 注册拦截器栈，打包拦截器 -->
+			<interceptor-stack name="myStack">
+				<!-- 引用要打包的拦截器 -->
+				<interceptor-ref name="first"/>
+				<interceptor-ref name="second"/>
+				<!-- 包含必须使用的拦截器 -->
+				<interceptor-ref name="defaultStack"/>
+			</interceptor-stack>
+		</interceptors>
+	
+		<!-- 打开修改客户页面 -->
+		<action name="toUpdateCustomer"
+			class="action.ToUpdateCustomerAction">
+			<!-- 
+				引用拦截器;
+				当引用拦截器栈时，相当于引用了
+				栈内所有的拦截器。
+			-->
+			<interceptor-ref name="myStack"/>
+			
+			<result name="success">
+				/WEB-INF/customer/update_customer.jsp
+			</result>
+			<result name="error">
+				/WEB-INF/error.jsp
+			</result>
+		</action>
+	</package>
+
+</struts>
