@@ -1,0 +1,44 @@
+1、角色新增/修改页面，模块的校验
+	1）要求模块必输，用户至少需要选择一个模块
+	2）可以使用JQuery来实现
+		$("input[name='checkBoxName']:checked");
+		
+==========管理员============		
+*2、查询功能
+	1）难点
+		包含了搜索条件、分页条件、多表查询这些难点，
+		是目前遇到最复杂的查询。但是这里所有的难点
+		我们在以往的模块中都解决过。
+	2）开发步骤
+		--增加管理员VO，用于封装查询结果。
+		a、DAO（*）
+			--追加查询方法
+				包含搜索条件
+				包含分页参数
+				需要多表联合查询
+				结果需要封装到VO
+			--查询数据SQL
+			select * from (
+				select a.*,rownum r from admin_info a
+				where id in (
+					select ai.id
+					from admin_info ai
+					inner join admin_role ar on ai.id=ar.admin_id
+					inner join role_info ri on ri.id=ar.role_id
+					inner join role_privilege rp on ri.id=rp.role_id
+					where 1=1
+					and ri.name='皇叔'
+					and rp.privilege_id=1
+				)
+			) where r<6 and r>0				
+			--查询总行数SQL
+				
+		b、Action
+		c、struts.xml
+		d、JSP
+
+*3、密码重置功能
+
+4、增加/修改/删除
+
+5、项目总结

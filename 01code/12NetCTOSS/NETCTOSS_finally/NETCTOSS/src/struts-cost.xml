@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+
+	<package name="cost" namespace="/cost" extends="netctoss">
+		<action name="findCost" class="com.tarena.action.cost.FindCostAction">
+			<param name="pageSize">5</param>
+			<result name="success">/WEB-INF/cost/findCost.jsp</result>
+		</action>
+		<action name="deleteCost" class="com.tarena.action.cost.DeleteCostAction">
+			<result name="success" type="json">
+				<param name="root">pass</param>
+			</result>
+		</action>
+		<action name="toAddCost">
+			<result name="success">/WEB-INF/cost/addCost.jsp</result>
+		</action>
+		<action name="addCost" class="com.tarena.action.cost.AddCostAction">
+			<result name="success" type="redirectAction">
+				findCost
+			</result>
+		</action>
+		<action name="costNameValidate" class="com.tarena.action.cost.CostNameValidateAction">
+			<result name="success" type="json">
+				<param name="root">pass</param>
+			</result>
+		</action>
+		<action name="toUpdateCost" class="com.tarena.action.cost.ToUpdateCostAction">
+			<result name="success">/WEB-INF/cost/updateCost.jsp</result>
+		</action>
+		<action name="updateCost" class="com.tarena.action.cost.UpdateCostAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">findCost</param>
+				<param name="page">${page}</param>
+			</result>
+		</action>
+		<!-- 开通Action -->
+		<action name="startCost" class="com.tarena.action.cost.StartCostAction">
+			<result name="success" type="json">
+				<param name="root">success</param>
+			</result>
+		</action>
+	</package>
+
+</struts>

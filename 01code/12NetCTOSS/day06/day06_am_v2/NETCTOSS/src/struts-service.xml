@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+
+	<!-- 业务账号模块配置信息 -->
+	<package name="service"
+		namespace="/service"
+		extends="common">
+		<!-- 打开增加页面 -->
+		<action name="toAddService"
+			class="com.tarena.action.service.ToAddServiceAction">
+			<result name="success"> 
+				/WEB-INF/service/add_service.jsp
+			</result>
+		</action>
+	</package>
+
+</struts>

@@ -1,0 +1,86 @@
+========业务账号===========
+
+1、需求
+	业务账号用于维护（新增、修改、删除）登录UNIX
+	服务器的账号，它与账务账号具有多对一的关系。
+	该模块具有查询、状态维护、新增、修改、查看明细
+	的功能。
+	
+2、查询功能
+	1）与账务账号查询的差异
+		--业务账号查询页面显示的数据包含多张表的数据，
+			包含了service、account、cost这三张表的数据。
+			因此在查询时需要做关联查询。
+		--业务账号的搜索条件，不仅仅是service表里的
+			字段，还包含了account表里的字段，因此对于
+			搜索也要基于关联查询。
+	2）思路
+		需要使用关联查询才能解决多张表查询的问题，
+		而我们开发步骤是Entity-->DAO-->Action-->
+		struts.xml-->JSP。这种差异应该体现在
+		--DAO
+			需要查询出多张表的数据
+		--Entity
+			实体类要封装查询到的多张表数据，而不再是
+			一张表了。
+	3）开发步骤
+		*a、Entity
+			--创建实体类Service，用于封装service表中的
+				数据，主要用于持久化数据。
+			--创建查询实体类ServiceVO，用于封装查询
+				到的多张表的结果，只是用于查询使用。
+		*b、DAO
+			--分页查询方法
+				List<ServiceVO> findByCondition(
+				  账号,IP,身份证,状态,页码,页容量
+				);
+				select * from (
+					select s.*,a.idcard_no,a.real_name,
+					c.name,c.descr,rownum r from service s
+					inner join account a on a.id=s.account_id
+					inner join cost c on c.id=s.cost_id
+					where 1=1
+					and s.os_username=?
+					and a.idcard_no=?
+				) where r<? and r>?
+			--查询总页数
+				int findTotalPage(
+					账号,IP,身份证,状态,页容量
+				);
+				select count(*) from service s
+				inner join account a on a.id=s.account_id
+				inner join cost c on c.id=s.cost_id
+				where 1=1
+				and s.os_username=?
+				and a.idcard_no=?
+		c、Action
+		d、struts.xml
+		e、JSP
+		
+3、状态维护
+	1）基本的开通、暂停、删除与账务账号的逻辑一致，
+		参考账务账号来完成。
+	2）与账务账号状态的联系
+		a、暂停账务账号时，暂停其下属的所有业务账号
+			--先根据账务账号ID，查询出所有的下属业务
+				账号ID，然后遍历这些业务账号ID，在循环
+				过程中IServiceDao.pause(id);
+				优点：可以复用业务账号的暂停方法
+				缺点：效率偏低
+			--直接以账务账号ID为条件，来更新业务账号
+				的状态字段，更新为暂停态。
+				update service set status='1',
+				pause_date=sysdate where account_id=?
+				优点：效率高
+				缺点：无法复用业务账号的暂停方法
+			--为了具有较高的效率，推荐第二种方式，即
+				追加根据账务账号ID来暂停多条业务账号的
+				方法：
+				void pauseByAccount(int accountId);
+				然后，在PauseAccountAction中，暂停账务
+				账号后，调用此方法来暂停业务账号。
+		b、删除账务账号时，删除其下属的所有业务账号
+			逻辑与a一致，参考它来完成
+		
+				
+		

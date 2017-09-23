@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+
+	<!-- 账务账号模块配置信息 -->
+	<package name="account"
+		namespace="/account"
+		extends="common">
+		<!-- 查询账务账号 -->
+		<action name="findAccount"
+			class="com.tarena.action.account.FindAccountAction">
+			<!-- 设置每页显示行数 -->
+			<param name="pageSize">5</param>
+			<result name="success">
+				/WEB-INF/account/find_account.jsp
+			</result>
+		</action>
+		<!-- 暂停账务账号 -->
+		<action name="pauseAccount"
+			class="com.tarena.action.account.PauseAccountAction">
+			<result name="success" type="json">
+				<param name="root">info</param>
+			</result>
+		</action>
+	</package>
+
+</struts>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+
+<struts>
+
+	<!-- 管理员管理模块 -->
+	<package name="admin" namespace="/admin" extends="netctoss">
+		<!-- 查询全部的Action -->
+		<action name="findAdmin" class="com.tarena.action.admin.FindAdminAction">
+			<param name="pageSize">3</param>
+			<result name="success">/WEB-INF/admin/findAdmin.jsp</result>
+		</action>
+		<!-- 跳转到新增页面的Action -->
+		<action name="toAddAdmin" class="com.tarena.action.admin.ToAddAdminAction">
+			<result name="success">/WEB-INF/admin/addAdmin.jsp</result>
+		</action>
+		<!-- 新增Action -->
+		<action name="addAdmin" class="com.tarena.action.admin.AddAdminAction">
+			<result name="success" type="redirectAction">
+				findAdmin
+			</result>
+		</action>
+		<!-- 跳转到修改的Action -->
+		<action name="toUpdateAdmin" class="com.tarena.action.admin.ToUpdateAdminAction">
+			<result name="success">/WEB-INF/admin/updateAdmin.jsp</result>
+		</action>
+		<!-- 修改的Action -->
+		<action name="updateAdmin" class="com.tarena.action.admin.UpdateAdminAction">
+			<result name="success" type="redirectAction">
+				findAdmin
+			</result>
+		</action>
+		<!-- 重置密码的Action -->
+		<action name="resetPassword"
+			class="com.tarena.action.admin.ResetPasswordAction">
+			<result name="success" type="json">
+				<param name="root">pass</param>
+			</result>
+		</action>
+		<!-- 验证账号Action -->
+		<action name="validateCode"
+			class="com.tarena.action.admin.ValidateAction">
+			<result name="success" type="json">
+				<param name="root">info</param>
+			</result>
+		</action>
+		
+	</package>
+
+</struts>
