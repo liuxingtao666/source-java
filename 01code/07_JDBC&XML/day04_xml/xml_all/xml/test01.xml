@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!--DTD的定义信息-->
+<!DOCTYPE depts [
+  <!ELEMENT depts (dept*)/>
+  <!ELEMENT dept (name,loc)/>
+  <!ELEMENT name (#PCDATA)/>
+  <!ELEMENT loc (#PCDATA)/>
+  <!ATTLIST dept id CDATA #REQUIRED/>
+]>
+
+<!-- 引入一个dtd文件限定xml内容格式
+<!DOCTYPE depts SYSTEM test01.dtd>
+
+ -->
+
+<depts>
+	<dept id="1">
+		<name>测试部</name>
+		<loc>上海</loc>
+	</dept>
+</depts>

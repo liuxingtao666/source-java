@@ -1,0 +1,136 @@
+===========JDBC总结=============
+1.理论了解:什么是JDBC   java.sql.*
+   JDBC接口+数据库驱动包
+*2.熟悉常用的JDBC的API
+   a.Connection
+     --createStatmenent()
+     --preparedStatement(sql)
+     --setAutoCommit(false)
+     --commit()
+     --rollback()
+     --close()
+   b.Statement
+     --executeUpdate(dmlsql)
+     --executeQuery(selectsql)
+     --execute(ddlsql)
+     --addBatch(sql)
+     --executeBatch()
+     --clearBatch()
+     --close()
+   c.PreparedStatement
+     --executeUpdate();
+     --executeQuery();
+     --setXXX(index,参数值);
+     --addBatch()
+     --executeBath()
+     --close()
+   d.ResultSet
+     --next()
+     --getXXX("字段名或别名")
+        getXXX(index)
+     --close()
+     --可滚动absolute(),relative(),first(),last()
+
+select name from emp;
+select sal+comm total from emp
+
+*3.熟悉如何执行DML操作
+  //获取Connection连接
+  //获取PreparedStatement,将带?号的SQL发送编译
+  //设置?参数值
+  //调用executeUpdate()方法发送参数执行
+  //释放Connection和PreparedStatment
+*4.熟悉如何执行Select操作
+  //获取Connection连接
+  //获取PreparedStatement,将带?号的SQL发送编译
+  //设置?参数值
+  //调用executeQuery()方法发送参数执行,获取返回的
+    ResultSet结果
+  //访问ResultSet结果集数据
+  //释放Connection,PreparedStatement,ResultSet
+*5.事务控制
+try{
+  con.setAtutoCommit(false);
+  ....执行DML1操作
+  ....执行DML2操作
+  ............
+  con.commit();
+}catch(){
+  con.rollback();
+}
+
+6.批处理
+  a.执行多个不同的DML语句--用Statement批处理
+     Statement stat = con.createStatement();
+     stat.addBatch(sql1);
+     stat.addBatch(sql2);
+     .....
+     stat.executeBatch();
+  b.执行同一个DML语句多次--用PreparedStatement批处理
+    PreparedStatement pst = con.preparedStatement(sql);
+    pst.setXXX(index,xxx);
+    ...
+    pst.addBatch();
+    pst.setXXX(index,xxx);
+    ...
+    pst.addBatch();
+    pst.executeBatch();//执行
+7.可滚动游标的ResultSet
+   默认只能用next()方法控制游标指针
+   可以通过con.createStatement(
+     指针是否可滚,ResultSet是否可更新)方法开启控制游标
+ 滚动跳跃的方法。例如absolute(),relative()等
+
+*8.学会封装DBUtil
+ --利用Properties将数据库连接参数提取到properties文件
+ --客户访问数据库频繁，一般采用连接池技术控制连接
+*9.学会DAO编写
+  --编写实体类
+  --编写DAO接口
+  --编写DAO实现
+
+===============XML==============
+*1.掌握XML文件语法格式
+*2.掌握Java如何解析XML文件
+==========================
+1.什么是XML，有什么作用
+XML是一种数据文件格式。
+全称eXtensible Markup Language
+XML是W3C国际组织制定的标准，可以在不同系统平台
+获得支持。
+XML主要有以下应用场合：
+--*采用XML文件当框架配置文件
+--采用XML格式进行不同系统间数据交换
+--采用XML存储少量数据(等价于小型数据库作用)
+
+*2.XML基本语法
+   a.XML文件由声明指令和元素构成
+    文件第一行是声明指令
+    内容由元素构成，元素格式：
+    <开始标记>文本</结束标记>
+   b.元素中开始标记和结束标记要严格一致，区分大小写,
+     标记有开始必须有结束
+   c.标记是可以嵌套，但是不能交叉
+   d.属性必须在开始标记中使用。
+     属性值必须用单引号或双引号括起来
+   e.空元素写法
+    <a></a> 或<a/>
+   f.一个XML文档只能有一个根标记.
+     即使没有内容也要加一个空的根元素。
+   g.注释
+     <!--注释文字-->
+   h.实体
+    在xml中遇到一些特殊字符，会破坏xml结构,因此需要
+用实体替代字符。
+    < 用 &lt; 替代
+    > 用 &gt; 替代
+    & 用 &amp; 替代
+    ‘  用 &apos; 替代
+    " 用 &quot; 替代
+上面5个特殊字符，<和&必须用实体替代，其它3个建议使用
+
+
+
+
+
+

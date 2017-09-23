@@ -1,0 +1,24 @@
+1.批处理操作
+  可以将多次执行的SQL放入JDBC的Batch（批缓存区）中
+，之后由JDBC一次将Batch中的SQL全部发送到数据库执行
+  1)使用的场合：
+   --向一个表中插入n条记录(多次执行insert)
+   --向一个表中更新n条记录(多次执行update)
+   --向一个表中删除n条记录(多次执行delete)
+   上面三种建议使用PreparedStatement批处理
+   --执行多个不同的DML语句时需要使用Statement批处理
+  2)使用方法
+   a.Statement批处理
+     addBatch(sql);//将sql语句放入Batch中
+     executeBatch();//将Batch中的SQL发送给DB执行
+     clearBatch();//将Batch中的SQL清除
+
+
+
+
+2.可滚动结果集的使用
+*3.编写一个DBUtil工具类
+*4.编写DAO组件
+
+
+

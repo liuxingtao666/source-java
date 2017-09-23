@@ -1,0 +1,5 @@
+<!ELEMENT depts (dept*)/>
+  <!ELEMENT dept (name,loc)/>
+  <!ELEMENT name (#PCDATA)/>
+  <!ELEMENT loc (#PCDATA)/>
+  <!ATTLIST dept id CDATA #REQUIRED/>

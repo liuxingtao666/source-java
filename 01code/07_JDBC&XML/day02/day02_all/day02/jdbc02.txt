@@ -1,0 +1,106 @@
+1.实现用户登录检查
+ 从控制台输入用户名和密码,去数据库D_USERS检测
+ 如果正确提示登录成功;
+ 如果错误提示登录失败;
+
+用户名+密码--->select-->D_USERS
+
+select *
+from D_USERS
+where name='zhangsan' 
+   and pwd='123';
+检测是否有记录返回,没有记录表示错误;有记录表示正确
+select count(*)
+from D_USERS
+where name='zhangsan' 
+   and pwd='123';
+检测返回的count值，如果为0表示错误;如果为1表示正确
+
+2.SQL注入攻击
+  用户在输入信息时，携带了一些SQL关键字或特殊字符，
+将程序中的SQL语句原有语义改变。
+ 利用JDBC中的PreparedStatement可以容易解决上述问题。
+ --PreparedStatement从Statement继承,具有Statement
+   对象的功能.
+ --PreparedStatement可以将SQL提前发送给DB编译，
+   然后再传递SQL参数.
+
+  *1)使用方法
+   --将SQL语句中需要传变化参数值的位置使用?
+   --利用con.preparedStatement(sql);将sql给DB,
+     进行SQL预编译
+   --利用setXXX(第几个?,参数值);方法给SQL中?号
+     指定值
+   --发送?参数值执行.executeUpdate();executeQuery();
+      (注意：使用无参的执行方法)
+
+   2)PreparedStatement优点
+   --可以防止SQL注入攻击
+   --使SQL语句变得简洁,易于维护
+   --在批量操作时,减少编译SQL次数,提高效率
+   String sql = "insert into ....";
+   PreparedStatement pst = 
+        con.prepareStatement(sql);//编译一次
+   for(1000次){
+       pst.setXXX(....);
+       pst.executeUpdate();//发送参数执行
+   }
+
+  --------Statement-------
+  Statement stat = con.createStatement();
+  for(1000){
+     String sql = "";//拼insert语句
+     stat.executeUpdate(sql);//发送SQL编译SQL执行
+  }
+ 
+==========================
+3.模拟银行转账程序
+D_ACCOUNT用户表
+NO 主键 账号 number(9)
+NAME 账户名 varchar2(20)
+MONEY 金额  number(12,2)
+
+NO     NAME     MONEY
+101     文章        100000
+501     姚笛        20000
+
+//查询转出账号101的MONEY金额是否>要转账金额10000
+//允许转账时，执行两个update
+update D_ACCOUNT set MONEY=MONEY-10000
+where NO=101;//101账号转出10000
+update D_ACCOUNT set MONEY=MONEY+10000
+where NO=501;//501账号转入10000
+
+//from 转出账号 to 转入账号 money 转账金额
+public void change(int from,int to,double money){
+  //TODO 要求利用PreparedStatement完成
+}
+
+4.事务控制
+  在JDBC中，执行一个executeUpdate默认会自动commit.
+  executeUpdate()方法返回一个int值,表示执行的DML语句
+影响的记录行数。
+
+  con.setAutoCommit(false);//取消事务自动commit
+  con.commit();//执行commit
+  con.rollback();//执行rollback
+
+ 1)什么时候使用事务
+  遇到复杂处理，如果处理需要使用两个或两个以上DML
+语句，必须使用事务控制操作完整性。
+  如果一个处理就需要一个DML语句，可以采用默认commit机制。
+ 2)使用方法
+   //1.获取连接后,将自动提交关闭
+   ......
+   con.setAutoCommit(false);
+  ...执行若干个DML操作
+  //2.如果遇到异常或不符合业务逻辑时,可以回滚
+   con.rollback();
+  //3.如果DML操作正常,可以提交
+   con.commit();
+
+
+
+
+
+

@@ -1,0 +1,96 @@
+===========JDBC总结=============
+1.理论了解:什么是JDBC   java.sql.*
+   JDBC接口+数据库驱动包
+*2.熟悉常用的JDBC的API
+   a.Connection
+     --createStatmenent()
+     --preparedStatement(sql)
+     --setAutoCommit(false)
+     --commit()
+     --rollback()
+     --close()
+   b.Statement
+     --executeUpdate(dmlsql)
+     --executeQuery(selectsql)
+     --execute(ddlsql)
+     --addBatch(sql)
+     --executeBatch()
+     --clearBatch()
+     --close()
+   c.PreparedStatement
+     --executeUpdate();
+     --executeQuery();
+     --setXXX(index,参数值);
+     --addBatch()
+     --executeBath()
+     --close()
+   d.ResultSet
+     --next()
+     --getXXX("字段名或别名")
+        getXXX(index)
+     --close()
+     --可滚动absolute(),relative(),first(),last()
+
+select name from emp;
+select sal+comm total from emp
+
+*3.熟悉如何执行DML操作
+  //获取Connection连接
+  //获取PreparedStatement,将带?号的SQL发送编译
+  //设置?参数值
+  //调用executeUpdate()方法发送参数执行
+  //释放Connection和PreparedStatment
+*4.熟悉如何执行Select操作
+  //获取Connection连接
+  //获取PreparedStatement,将带?号的SQL发送编译
+  //设置?参数值
+  //调用executeQuery()方法发送参数执行,获取返回的
+    ResultSet结果
+  //访问ResultSet结果集数据
+  //释放Connection,PreparedStatement,ResultSet
+*5.事务控制
+try{
+  con.setAtutoCommit(false);
+  ....执行DML1操作
+  ....执行DML2操作
+  ............
+  con.commit();
+}catch(){
+  con.rollback();
+}
+
+6.批处理
+  a.执行多个不同的DML语句--用Statement批处理
+     Statement stat = con.createStatement();
+     stat.addBatch(sql1);
+     stat.addBatch(sql2);
+     .....
+     stat.executeBatch();
+  b.执行同一个DML语句多次--用PreparedStatement批处理
+    PreparedStatement pst = con.preparedStatement(sql);
+    pst.setXXX(index,xxx);
+    ...
+    pst.addBatch();
+    pst.setXXX(index,xxx);
+    ...
+    pst.addBatch();
+    pst.executeBatch();//执行
+7.可滚动游标的ResultSet
+   默认只能用next()方法控制游标指针
+   可以通过con.createStatement(
+     指针是否可滚,ResultSet是否可更新)方法开启控制游标
+ 滚动跳跃的方法。例如absolute(),relative()等
+
+*8.学会封装DBUtil
+ --利用Properties将数据库连接参数提取到properties文件
+ --客户访问数据库频繁，一般采用连接池技术控制连接
+*9.学会DAO编写
+  --编写实体类
+  --编写DAO接口
+  --编写DAO实现
+
+
+
+
+
+

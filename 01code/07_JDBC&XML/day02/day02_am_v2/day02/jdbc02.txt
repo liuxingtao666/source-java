@@ -1,0 +1,19 @@
+1.实现用户登录检查
+ 从控制台输入用户名和密码,去数据库D_USERS检测
+ 如果正确提示登录成功;
+ 如果错误提示登录失败;
+
+用户名+密码--->select-->D_USERS
+
+select *
+from D_USERS
+where name='zhangsan' 
+   and pwd='123';
+检测是否有记录返回,没有记录表示错误;有记录表示正确
+select count(*)
+from D_USERS
+where name='zhangsan' 
+   and pwd='123';
+检测返回的count值，如果为0表示错误;如果为1表示正确
+
+

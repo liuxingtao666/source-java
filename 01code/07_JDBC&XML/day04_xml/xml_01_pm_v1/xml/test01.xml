@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<depts>
+	<dept id="10">
+		<dname>开发部</dname>
+		<loc>北京</loc>
+		<dno></dno>
+		<dno/>
+	</dept>
+	<!-- 
+	注释文字
+	
+	kkkh
+	 -->
+	<dept>
+		<dname>测试部</dname>
+	</dept>
+</depts>
+

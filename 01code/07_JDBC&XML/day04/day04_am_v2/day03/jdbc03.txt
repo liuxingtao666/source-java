@@ -1,0 +1,81 @@
+1.批处理操作
+  可以将多次执行的SQL放入JDBC的Batch（批缓存区）中
+，之后由JDBC一次将Batch中的SQL全部发送到数据库执行
+  1)使用的场合：
+   --向一个表中插入n条记录(多次执行insert)
+   --向一个表中更新n条记录(多次执行update)
+   --向一个表中删除n条记录(多次执行delete)
+   上面三种建议使用PreparedStatement批处理
+   --执行多个不同的DML语句时需要使用Statement批处理
+  2)使用方法
+   a.Statement批处理
+     addBatch(sql);//将sql语句放入Batch中
+     executeBatch();//将Batch中的SQL发送给DB执行
+     clearBatch();//将Batch中的SQL清除
+   b.PrepatedStatement批处理
+     addBatch();//将设置的?值放入Batch中
+     excuteBatch();//将Batch中的?参数发送DB执行
+
+  提示：Select查询不要使用Batch，只局限于DML使用
+  如果需要将Batch中的SQL当做一个整体,需要采用事务
+  控制。
+
+2.可滚动结果集的使用
+ResultSet对象默认情况下，只支持next方法控制游标指针。
+如果需要使用first(),last(),absolute(),relative()方法控制
+游标，需要采用下面方法：
+  con.createStatement(游标是否可滚动,
+                          结果集是否允许更新);
+  
+游标是否可滚动参数：
+ TYPE_FORWARD_ONLY -- 游标只能向前一行一行移动
+ *TYPE_SCROLL_INSENSITIVE -- 游标可以滚动,跳跃
+      结果集数据对其它人所做的表操作不敏感。
+ TYPE_SCROLL_SENSITIVE -- 游标可以滚动,跳跃
+      结果集数据对其它人所做的表操作敏感。
+结果集是否允许更新参数：
+  *CONCUR_READ_ONLY -- 只能对ResultSet读数据
+  CONCUR_UPDATABLE --可以对ResultSet修改,
+  此时insertRow(),updateXXX字段值方法才可以用。
+
+  first() ： 将指针定位到第一行记录
+  last() ： 将指针定位到最后一行记录
+  absolute(n) : 将指针绝对定位到n行位置。n>0
+  relative(n) : 将指针相对定位，有当前位置移动n行。
+                 n>0向下移动;n<0向上移动
+
+*3.编写一个DBUtil工具类
+  1)利用Properties读取连接配置参数
+  2)利用连接池技术管理Connection连接
+   连接池优点：
+    --可以控制连接数,控制在数据库安全稳定范围内
+    --可以避免频繁创建和释放连接
+   连接池组件有很多中，例如dbcp,c3p0,proxool等
+   dbcp使用方法：
+    --引入dbcp组件开发包
+    --利用dbcp提供的连接池API编程
+ DataSource连接池类型-->BasicDataSource（dbcp实现）
+      
+ 提示：使用连接池后,con.close作用是将连接返还给连接池中
+
+*4.编写DAO组件
+   DAO全称Data Access Object 数据访问对象
+  DAO对象主要是用于封装对数据表的增删改查操作。 
+
+EMP-->EmpDAO(用于封装对EMP表的增删改查)
+DEPT-->DeptDAO(用于封装对DEPT表的增删改查)
+ 
+  DAO编写过程：
+   --先根据数据表编写实体类(Bean)
+   --根据需求定义DAO接口
+   --编写DAO接口方法实现
+
+========作业练习===========
+编写JdbcB001Dao实现
+
+
+
+
+
+
+

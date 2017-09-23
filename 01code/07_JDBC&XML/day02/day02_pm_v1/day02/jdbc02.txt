@@ -1,0 +1,43 @@
+1.实现用户登录检查
+ 从控制台输入用户名和密码,去数据库D_USERS检测
+ 如果正确提示登录成功;
+ 如果错误提示登录失败;
+
+用户名+密码--->select-->D_USERS
+
+select *
+from D_USERS
+where name='zhangsan' 
+   and pwd='123';
+检测是否有记录返回,没有记录表示错误;有记录表示正确
+select count(*)
+from D_USERS
+where name='zhangsan' 
+   and pwd='123';
+检测返回的count值，如果为0表示错误;如果为1表示正确
+
+2.SQL注入攻击
+  用户在输入信息时，携带了一些SQL关键字或特殊字符，
+将程序中的SQL语句原有语义改变。
+ 利用JDBC中的PreparedStatement可以容易解决上述问题。
+ --PreparedStatement从Statement继承,具有Statement
+   对象的功能.
+ --PreparedStatement可以将SQL提前发送给DB编译，
+   然后再传递SQL参数.
+
+  1)使用方法
+   --将SQL语句中需要传变化参数值的位置使用?
+   --利用con.preparedStatement(sql);将给DB,
+     进行SQL预编译
+   --利用setXXX(第几个?,参数值);方法给SQL中?号
+     指定值
+   --发送?参数值执行.executeUpdate();executeQuery();
+      (注意：使用无参的执行方法)
+
+
+
+
+
+
+
+
