@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+
+	<!-- 管理员模块配置信息 -->
+	<package name="admin"
+		namespace="/admin"
+		extends="common">
+		<!-- 打开列表页面 -->
+		<action name="findAdmin"
+			class="findAdminAction"
+			method="load">
+			<param name="pageSize">5</param>
+			<result name="success">
+				/WEB-INF/admin/find_admin.jsp
+			</result>
+		</action>
+		<!-- 密码重置 -->
+		<action name="resetPassword"
+			class="com.tarena.action.admin.ResetPasswordAction">
+			<result name="success" type="json">
+				<param name="root">info</param>
+			</result>
+		</action>
+	</package>
+
+</struts>

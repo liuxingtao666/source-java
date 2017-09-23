@@ -1,0 +1,79 @@
+项目课安排
+使用SSH重构NETCTOSS 3天
+1、账务账号 1天
+2、角色 1天
+3、管理员 1天
+PL/SQL 天
+	基础：2天
+	项目中应用：2天
+
+
+一、重构项目
+	1、备份原有项目
+		1）备份原有项目NETCTOSS
+		2）复制并创建新项目NETCTOSS-SSH
+	2、导包
+		1）删除NETCTOSS-SSH项目下所有的包
+		2）将NETCTOSS-DEMO中所有的包引入
+	3、基本的配置
+		1）配置web.xml
+			--配置Spring容器自动初始化
+			--配置一个filter，实现OpenSessionInView，
+				解决Hibernate延迟加载的问题。
+		2）引入applicationContext.xml
+			--配置数据源DataSource
+			--配置SessionFactory
+			--开启组件扫描
+			--配置事务
+		3）引入log4j.properties，便于调试
+			将日志级别设置为ERROR，并且输出至控制台。
+		4）测试
+			部署并启动项目，看是否报错
+	4、写代码的步骤
+		1）以前任何请求写代码的顺序基本是
+			Entity->DAO->Action->struts.xml->JSP
+		2）重构的顺序
+			Entity->DAO->Action->struts.xml->JSP
+			a、Entity
+				--追加关联属性
+				--追加映射关系文件hb.xml
+			*b、DAO
+				--使用Hibernate实现DAO
+				--将DAO声明到Spring容器中
+			c、Action
+				--将Spring容器中的DAO注入给Action
+				--将Action声明到Spring容器中
+			d、struts.xml
+				将action声明时，class属性由类名改为
+				Action组件ID
+			e、JSP
+				--修改页面，把不必修改的字段放入hidden
+				--对于关联属性的字段，页面上访问的方式
+					要修改，如业务账号中查询页面
+					service.accountId
+					改为service.account.id
+	
+二、账务账号	
+	1、查询功能
+		1）Entity	
+			--不必设置对Service的一对多关系
+			--增加Account.hbm.xml
+		2）DAO
+			--创建HibernateAccountDaoImpl，继承于
+				HibernateDaoSupport，并实现接口
+				IAccountDao。
+			--将DAO用注解声明
+		3）Action
+			--用注解声明Action
+			--用注解注入DAO
+		4）struts.xml
+			将class改为组件ID
+			
+
+
+补充：
+	1、如果SSH中启用了OpenSessionInViewFilter，
+		则applicationContext.xml中，声明的SessionFactory
+		其id必须为sessionFactory。
+
+	

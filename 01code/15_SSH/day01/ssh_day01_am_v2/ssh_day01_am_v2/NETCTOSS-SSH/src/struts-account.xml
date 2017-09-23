@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+
+	<!-- 账务账号模块配置信息 -->
+	<package name="account"
+		namespace="/account"
+		extends="common">
+		<!-- 查询账务账号 -->
+		<action name="findAccount"
+			class="findAccountAction">
+			<!-- 设置每页显示行数 -->
+			<param name="pageSize">5</param>
+			<result name="success">
+				/WEB-INF/account/find_account.jsp
+			</result>
+		</action>
+		<!-- 暂停账务账号 -->
+		<action name="pauseAccount"
+			class="com.tarena.action.account.PauseAccountAction">
+			<result name="success" type="json">
+				<param name="root">info</param>
+			</result>
+		</action>
+		<!-- 打开增加页面 -->
+		<action name="toAddAccount">
+			<result name="success">
+				/WEB-INF/account/add_account.jsp
+			</result>
+		</action>
+		<!-- 新增保存 -->
+		<action name="addAccount"
+			class="com.tarena.action.account.AddAccountAction">
+			<result name="success" type="redirectAction">
+				findAccount
+			</result>
+		</action>
+		<!-- 查找推荐人 -->
+		<action name="searchRecommender"
+			class="com.tarena.action.account.SearchRecommenderAction">
+			<result name="success" type="json">
+				<param name="root">account</param>
+			</result>
+		</action>
+		<!-- 打开修改页面 -->
+		<action name="toUpdateAccount"
+			class="com.tarena.action.account.ToUpdateAccountAction">
+			<result name="success">
+				/WEB-INF/account/update_account.jsp
+			</result>
+		</action>
+		<!-- 修改保存 -->
+		<action name="updateAccount"
+			class="com.tarena.action.account.UpdateAccountAction">
+			<result name="success" type="redirectAction">
+				findAccount
+			</result>
+		</action>
+	</package>
+
+</struts>

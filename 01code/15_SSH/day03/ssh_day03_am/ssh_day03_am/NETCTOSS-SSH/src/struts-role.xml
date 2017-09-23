@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.1.7//EN"
+    "http://struts.apache.org/dtds/struts-2.1.7.dtd">
+<struts>
+
+	<!-- 角色模块配置信息 -->
+	<package name="role"
+		namespace="/role"
+		extends="common">
+		<!-- 查询 -->
+		<action name="findRole"
+			class="findRoleAction"
+			method="load">
+			<param name="pageSize">3</param>
+			<result name="success">
+				/WEB-INF/role/find_role.jsp
+			</result>
+		</action>
+		<!-- 打开增加页面 -->
+		<action name="toAddRole"
+			class="toAddRoleAction">
+			<result name="success"> 
+				/WEB-INF/role/add_role.jsp
+			</result>
+		</action>
+		<!-- 新增保存 -->
+		<action name="addRole"
+			class="addRoleAction">
+			<result name="success" type="redirectAction">
+				toAddRole
+			</result>
+		</action>
+		<!-- 打开修改页面 -->
+		<action name="toUpdateRole"
+			class="toUpdateRoleAction">
+			<result name="success">
+				/WEB-INF/role/update_role.jsp
+			</result>
+		</action>
+		<!-- 修改保存 -->
+		<action name="updateRole"
+			class="updateRoleAction">
+			<result name="success" type="redirectAction">
+				<param name="actionName">
+					toUpdateRole
+				</param>
+				<param name="id">
+					${role.id}
+				</param>
+			</result>
+		</action>
+	</package>
+
+</struts>

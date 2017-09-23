@@ -1,0 +1,36 @@
+项目课安排
+使用SSH重构NETCTOSS 3天
+1、账务账号 1天
+2、角色 1天
+3、管理员 1天
+PL/SQL 天
+	基础：2天
+	项目中应用：2天
+
+
+一、重构项目
+	1、备份原有项目
+		1）备份原有项目NETCTOSS
+		2）复制并创建新项目NETCTOSS-SSH
+	2、导包
+		1）删除NETCTOSS-SSH项目下所有的包
+		2）将NETCTOSS-DEMO中所有的包引入
+	3、基本的配置
+		1）配置web.xml
+			--配置Spring容器自动初始化
+			--配置一个filter，实现OpenSessionInView，
+				解决Hibernate延迟加载的问题。
+		2）引入applicationContext.xml
+			--配置数据源DataSource
+			--配置SessionFactory
+			--开启组件扫描
+			--配置事务
+		3）引入log4j.properties，便于调试
+			将日志级别设置为ERROR，并且输出至控制台。
+		4）测试
+			部署并启动项目，看是否报错
+	
+二、账务账号	
+
+
+	
