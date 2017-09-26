@@ -1,0 +1,152 @@
+﻿Question1:
+case
+ when balance >= 30000 then '土豪'
+ when balance > 10000 and balance < 30000 then '程序员'
+ else '屌丝'
+end 等级
+
+第二个条件中的 balance < 30000 是否可以省略
+
+Answer:
+    可以省略。
+    对于每个比较的值来说，如果第一个When中的条件满足，则不再执行下边的When。
+    如果比较到了第二个When，则说明第一个When的条件已经不满足了。
+    如这里
+	如果 when balance >= 30000 then '土豪'不满足，就隐含着一个条件balance <30000
+	再进入第二个When中，相当于when balance > 10000 （and balance <30000）then
+
+Question1.1：
+    第二个条件不会被执行；
+① when balance>=10000 then '程序猿'
+② when balance>=30000 then '土豪'
+Answer：
+    原因同Question1
+
+
+Question2:
+    在使用聚合函数时，能否取别名，若能，怎么做？
+Answer:
+    select count(*) 北京地区用户数 from userInfo_你名字全拼
+
+Question3:
+    怎么查找2个关联表，可以同时显示主表和从表的内容
+Answer:
+    使用连接查询，join
+
+Question4:
+    decode(isreportloss......)与
+    case
+	when isreportloss='0'
+	then '正常'
+	else '挂失'
+    end 持卡状态
+
+    以上两列能否出现在一条查询语句中？
+Answer：
+    能。无论是decode还是case end都可以看作一个最普通的列，可以任意组合。
+
+Question5：
+    balance>=10000  and  balance<30000
+    为什么不可以写成
+   10000<=balance<30000
+Answer：
+    SQL语法规定：Where 列名1>值1 and|or 列名2<值2...
+    严格要求，遵照执行。
+
+Question6：
+    通过select original_name,type from recyclebin;
+    可以显示回收站里的内容(就是删除的表)
+    如何实现显示没有删除的并且指定的表呢?
+Answer：
+    Select * from user_tables。可以查询所有当前用户下的表。
+    Where table_name='表名' 查询指定表的信息。
+
+Question7:
+    下面内容中as加不加结果的都一样，as是不是没作用的
+    select cardid,balance 本金,
+    balance*3.25/100 as 利息
+    from cardinfo_qxj
+    where savingtype='定期';
+Answer：
+    别名有三种方式：
+        列名 as "别名"
+	列名 as 别名
+	列名 别名
+
+Question8:
+    SQL语句的格式
+Answer:
+    Select 列名1 [别名2],列名2 [别名2] from 表名1
+    表示取出'表名1'中的两列，分别是列名1和列名2
+    Where 列名1>值1 [and|or 列名2<值2]
+    表示只查询表中符合列名1的值>值1的行
+
+Question9:
+    创建一张表的时候能规定表中数据的格式吗？
+Answer：
+    创建表时可以规定列的数据类型，可以规定列的约束
+    如果要规定内容的格式，可以使用约束中的检查约束，设置正则表达式检查。
+
+Question10:
+    select count(*),sum(balance) 
+	from cardinfo_你名字全拼
+	group by customerid;
+    中count(*)是否正确。
+Answer：
+    聚合函数里可以用任意列
+
+Question11：
+    select * from userinfo left join cardinfo using(customerid);
+    左连接显示所有userinfo表的信息，为什么用户表中只有一行张三和王五的信息，但是查询结果中张三和王五各有两行。
+Answer：
+    不管内连接、外连接，都是以全连接为基础的。也就是先找到对应，再决定要或不要哪部分。 
+
+Question12：
+    如何获取一段opendate？
+    比如想获得2000年到2010年的开户人信息！
+Answer：
+    select * from cardInfo_你名字全拼
+where extract(year from openDate) between 2000 and 2010;
+
+Question13：
+    select cardid as 卡号 ...,和select cardid as "卡号" 有什么区别吗？在oracle中单引号表示字符串，双引号是用于表示什么呢？
+Answer:
+    在Oracle中： 
+　　双引号的作用是：假如建立对象的时候，对象名、字段名加双引号，则示意 Oracle将严格区分大小写，否则Oracl都默认大写。
+　　而单引号则示意：这个加了单引号的字段是一个字符串，并不区分大小写。单引号用于标识字符与数字的区别
+　　当指定字符串文本时，必须用单引号将字符串文本引住。
+
+Question14：
+    能不能在insert的时候就进行格式话呢
+Answer：
+    格式化会导致原本简单的内容，变得复杂。所以存储时选择最优化的方式存储内容。
+而显示给客户的时候，却需要事无巨细的完整格式。
+如果想避免重复书写to_char等格式，可以将查询保存成视图（最后一天会讲），避免重复单调的工作。
+    强行修改数据库修改的默认格式，可以请DBA修改专门的系统变量实现。
+
+Question15：
+    select customerid,customername,pid,telephone,nvl(cardid,'无卡') 卡号
+  from userinfo_wjh left join cardinfo_wjh using(customerid);
+select  customerid,customername,pid,telephone,nvl(cardid,'无卡') 卡号
+  from userinfo_wjh u left join cardinfo_wjh c on u.customerid=c.customerid;
+
+这两个语句不是一样的吗？但是我运行过，上面的用using是可以查询的，可是下面这个用on就不能运行，是怎么回事？
+Answer：
+    正常情况下,select中所有列都需要指定来自于哪个表。尤其是两个表中同时存在的同名列。所以，默认应该是u.customerID。
+    但是，懒人推动社会的进步。大家不想写很多的on，就可以用Using代替on来节省代码。而using硬性要求，using中的列，必须要制定来自于哪个表。
+    所以，上例应为：
+    select u.customerid,customername,pid,telephone,nvl(cardid,'无卡') 卡号
+  from userinfo_wjh u left join cardinfo_wjh c on u.customerid=c.customerid;
+
+
+   
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,300 @@
+梁建全：liangjq@tarena.com.cn
+==========================
+1.Oracle前期汇总
+A  B
+A B内连接(等值连接)：结果由A和B两个表数据共同决定
+A B左外连接:以left outer join 左边表为主
+2.回顾练习
+a.创建一个数据表EMP,字段如下
+ 员工编号 EMPNO    整数 大小4  主键
+ 员工姓名 ENAME    字符 大小20
+ 员工职位 JOB        字符 大小10
+ 员工性别 SEX        字符 2
+ 入职时间 HIRE_DATE 日期
+ 基本工资 SAL         浮点数 长度7,最大2位小数
+ 奖金      COMM      浮点数 长度7,最大2位小数
+ 所属部门  DEPTNO   整数 大小4
+b.将下列数据插入EMP表中
+ 1001  tom   程序员 男  2010-10-8  8000  100  10
+ 1002  jack  程序员 男  2011-2-1   7000   50   10
+ 1003  sun   程序员  女  2013-2-1   5000  100  10
+ 1004  rose  助理    女  2012-5-1   6000  80    20
+ 1005  lucy  程序员  女  2012-5-1   6000  60    20
+ 1006  scott 项目经理 男  2011-3-1 10000 200   20
+ 1007  tiger 项目经理 男  2009-3-1 12000 250   10
+
+=============================
+create table emp(
+  empno number(4) primary key,
+  ename varchar2(20),
+  job varchar2(10),
+  sex char(2),
+  hire_date date,
+  sal number(7,2),
+  comm number(7,2),
+  deptno number(4)
+);
+
+insert into emp (empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1001,'tom','程序员','男',
+to_date('2010-10-8','yyyy-mm-dd'),8000,100,10);
+insert into emp(empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1002,'jack','程序员','男',
+to_date('2011-2-1','yyyy-mm-dd'),7000,50,10);
+insert into emp(empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1003,'sun','程序员','女',
+to_date('2013-2-1','yyyy-mm-dd'),5000,100,10);
+
+insert into emp(empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1004,'rose','助理','女',
+to_date('2012-5-1','yyyy-mm-dd'),6000,80,20);
+insert into emp(empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1005,'lucy','程序员','女',
+to_date('2012-5-1','yyyy-mm-dd'),6000,60,20);
+insert into emp(empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1006,'scott','项目经理','男',
+to_date('2011-3-1','yyyy-mm-dd'),10000,200,20);
+insert into emp(empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1007,'rose','项目经理','男',
+to_date('2009-3-1','yyyy-mm-dd'),12000,250,10);
+
+c.将所有员工工资涨15%，奖金涨5%
+update emp set sal=sal*1.15,comm=comm*1.05;
+d.查询部门20员工的员工名,工资总额(基本工资+奖金)
+select ename,sal+comm as total
+from emp
+where deptno=20;
+e.查询工资低于公司平均工资的员工编号,姓名,工资
+select empno,ename,sal
+from emp
+where sal<(select avg(sal) from emp);
+f.取出工资最高的前3个员工编号,姓名,工资信息
+----TOP N分析----
+解决：取某个表中前N条记录.
+select 字段1,字段2
+from(
+ select 字段1,字段2...
+ from 表
+ order by 字段 asc|desc
+)
+where rownum<=N;
+=============
+select empno,ename,sal
+from(
+ select empno,ename,sal
+ from emp
+ order by sal desc
+)
+where rownum<=3;
+课后：取最早入职的前3个员工信息(编号,姓名,入职时间)
+
+g.查询部门编号,部门员工数,部门平均工资信息
+select deptno,count(deptno),avg(sal)
+from emp
+group by deptno;
+
+提示：如果select后面有单个字段和分组函数,必须后面
+有个group by字句，按select后面单个字段分组。
+
+h(选做):查询部门编号,男员工人数,女员工人数信息
+select deptno,
+       sum(decode(sex,'男',1,0)) male,
+       sum(decode(sex,'女',1,0)) female
+from emp
+group by deptno;
+
+
+============================
+1.扩展group by分组函数功能
+ a.rollup函数
+  扩展了group by分组统计功能，在原分组统计结果之上
+追加了合计和小计记录。
+ group by rollup(a,b,c)规则如下：
+ --计算group by a,b,c统计结果
+ --计算group by a,b统计结果
+ --计算group by a统计结果
+ --计算不带group by语句的统计结果
+ --将上述统计结果合并在一起
+
+提示：可以按分组字段从右到左递减，分别分组统计，之后
+将结果合并。
+
+//实例1
+ select deptno,avg(sal)
+ from emp
+ group by rollup(deptno);
+-----等价于------
+ select deptno,avg(sal)
+ from emp
+ group by deptno
+ union
+ select null,avg(sal)
+ from emp;
+//实例2
+统计每个部门不同姓别的平均工资 group by deptno,sex
+统计每个部门平均工资  group by deptno
+统计整个公司平均工资  没有group by
+select deptno,sex,avg(sal)
+from emp
+group by rollup(deptno,sex)
+order by deptno;
+
+ b.cube()函数
+  功能与rollup相似，但是分组统计规则更多些。
+  cube(a,b,c)统计规则如下：
+  --计算group by a,b,c统计结果
+  --计算group by a,b统计结果
+  --计算group by a统计结果
+  --计算group by a,c统计结果
+  --计算group by b,c统计结果
+  --计算group by b统计结果
+  --计算group by c统计结果
+  --计算没有group by 的统计结果
+//实例1 --结果与rollup相同
+ select deptno,avg(sal)
+ from emp
+ group by cube(deptno);
+ order by deptno;
+//实例2
+select deptno,sex,avg(sal)
+from emp
+group by cube(deptno,sex)
+order by deptno;
+
+c.rollup和cube区别
+ --如果分组字段只有一个,rollup和cube结果相同
+ --分组字段在两个或两个以上才能发现区别
+   rollup函数按分组字段由右向左递减，将统计结果合并
+    (受分组字段顺序影响)
+   cube函数按分组字段各种组合，将统计结果合并.
+    (分组统计种类比rollup多，不受分组字段顺序影响)
+ --建议最后追加order by指定最终合并结果的排序
+
+介绍下Oracle中主要的对象元素有哪些？
+ 表,约束,视图,索引,序列,函数,过程等
+2.约束
+  约束作用：用于限制表字段中的数据，必须满足要求。
+不同约束类型要求不同，主要有以下5中类型。
+  *a.主键约束 ： 要求非空且唯一
+   ----建表时添加----
+   create table p001(
+     id number(3) primary key,
+     name varchar2(20),
+     age number(3),
+     sex char(2)
+   );
+  ---建表后添加-----
+  alter table p001 
+  add constraint p001_pk primary key(id);
+  提示：表字段数据如果违反约束会失败
+  ---删除约束---
+  alter table p001 drop constraint SYS_C00434351;
+  提示：不知道约束名时，可以通过user_constraints查看
+  ---联合主键添加----
+  create table p002(
+    fname varchar2(20),
+    lname varchar2(20),
+    age number(3),
+    constraint p002_pk primary key(fname,lname)
+  );
+ insert into p002 values('zhang',null,20);//错误
+ insert into p002 values('zhang','san',20);
+ insert into p002 values('zhang','San',20);//允许
+ 提示：一个约束作用在两个或两个以上字段上面时,
+每个字段都不能为空；每个字段都相同才被认为重复。
+
+  *b.非空约束 ： 要求非空(必须有值)
+   ----建表时添加----
+   create table p003(
+      id number(3) primary key,
+      name varchar2(20) not null,
+      sex char(2)
+   );
+  ----建表后添加----
+  alter table p003
+  modify sex char(2) not null;
+  ----取消-----
+  alter table p003
+  modify name varchar2(20) null;
+
+  *c.唯一约束 ： 要求有值时不能重复(允许为NULL) 
+   ---建表时添加---
+   create table p004(
+      id number(3) primary key,
+      name varchar2(20) unique 
+   );
+
+   create table p004(
+      id number(3) primary key,
+      name varchar2(20),
+      constraint p004_u unique(name) 
+   );
+   -----建表后添加-----
+   alter table p004 add constraint p004_u unique(name);
+
+  insert into p004 (id,name) values (2,null);//正确
+  insert into p004 (id,name) values (3,'scott');
+  insert into p004 (id,name) values (4,'scott');//错误
+  -----删除约束----
+   alter table p004 drop constraint SYS_C00434687;
+
+  *d.外键约束 ： 要求有值时必须在关联的主表中存在
+                   (允许为NULL)
+    限制某个字段值必须在另外一列存在。
+    create table pa(
+      id number(3) primary key,
+      name varchar2(20),
+      bid number(3)
+    ) ;
+    create table pb(
+      id number(3) primary key,
+      name varchar2(20)
+    );
+   需求：pa表中bid列值必须从pb表的id中选择
+  ALTER TABLE pa 
+  ADD CONSTRAINT pa_fk FOREIGN KEY(bid)
+  REFERENCES pb(id);
+
+ 提示：references参考的字段必须是主键或唯一约束的字段 
+
+   insert into pb values (10,'b1');
+   insert into pb values (20,'b2');
+   insert into pa values (1,'a1',null);//正确
+   insert into pa values (2,'a1',50);//错误
+   insert into pa values (3,'a1',10);//正确
+
+  e.检查约束 ：要求有值时,必须满足指定检查条件
+                   (允许为NULL)
+  
+   create table p005(
+     id number(3) primary key,
+     age number(3) check (age>0 and age<=200),
+     sex char(2) check (sex in ('男','女'))
+   );
+  
+  insert into p005 values (1,300,'男');//违反age检查约束
+  insert into p005 values (1,20,'妖');//违反sex检查约束
+  insert into p005 values (1,20,'男');//合法
+  insert into p005 values (2,null,null);//合法
+
+ ========约束总结==========
+ a.主键约束是非空且唯一
+ b.非空约束不允许为NULL
+ c.唯一约束是不允许重复
+ d.外键约束必须从reference列选择
+ e.check检查约束必须满足限定条件
+ f.唯一,外键,检查约束可以允许为NULL值
+   主键,非空不允许为NULL
+ g.主键约束一个表只能有一个，约束可以由一个字段承担,
+   也可以由多个字段承担
+ h.外键reference列必须是主键列或唯一约束列
+  
+
+
+
+
+
+
+
+
+

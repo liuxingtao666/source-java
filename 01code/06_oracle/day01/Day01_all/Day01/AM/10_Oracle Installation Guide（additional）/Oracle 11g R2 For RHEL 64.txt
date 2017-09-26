@@ -1,0 +1,105 @@
+﻿安装Oracle有以下步骤:
+    1>.安装Linux作业系统.
+    2>.配置Linux系统下Oracle的安装环境.
+    3>.安装Oracle软件与数据库.
+    4>.测试运行安装的Oracle系统.
+
+    一.安装Linux.
+    1.系统环境需求
+    内存：最小1GB，推荐2GB或以上
+    交换空间: 内存大小是1-2GB时，交换空间是内存的1.5倍，内存大小2-16GB时，交换空间等于内存大小，内存大小16G以上时，交换空间为16GB.
+    需要选择以下组件:GNOME桌面、编辑器、开发工具、开发库等。
+    2.安装Linux
+    使用安装光盘安装Redhat Enterprise Linux 6.3 x86_64，为方便测试，可以使用VMware Workstation虚拟一台机器，在虚拟机上安装。
+
+    二.配置Linux系统下Oracle的安装环境.
+    1.检查和更新所需软件包.
+    安装好Linux系统后需要配置一下系统。因Oracle在Linux下与Windows下有些不同，在Linux下安装时有部分程序需要与Linux的程序包重新编译和链接，所以需要有编译器等软件包。需要用到的软件包在Oracle的用户指南中有说明.以root身份登录Linux后执行以下命令检查软件包是否都已安装:
+    # rpm -q binutils compat-libstdc++-33 elfutils-libelf elfutils-libelf-devel gcc gcc-c++ glibc glibc-common glibc-devel
+    # rpm -q glibc-headers ksh libaio libaio-devel libgcc libstdc++ libstdc++-devel make numactl-devel sysstat
+    如果系统有软件包没有安装，可以在RHEL 6.3的光盘Package目录中找到，安装这些包。因RHEL 6.3版本比较高，对应的软件包版本会比需要的高，没关系，软件向下兼容，不影响Oracle的安装和使用。
+
+    2.验证系统要求
+    查看内存大小
+    # grep MemTotal /proc/meminfo
+    查看交换空间
+    # grep SwapTotal /proc/meminfo
+    查看磁盘空间，Oracle 11g R2 x64企业版的磁盘空间要求4.35GB以上。
+    # df -h
+
+    3.创建Oracle组和用户帐户
+    # groupadd oinstall
+    # groupadd dba
+    # useradd -g oinstall -G dba oracle
+    # passwd oracle
+
+    4.配置内核参数
+    以root身份登录系统，根据用户指南配置以下参数:
+    修改文件/etc/sysctl.conf，添加以下内容:
+    # /etc/sysctl.conf
+    # for oracle
+    fs.aio-max-nr = 1048576
+    fs.file-max = 6815744
+    kernel.shmall = 2097152
+    kernel.shmmax = 536870912
+    kernel.shmmni = 4096
+    kernel.sem = 250 32000 100 128
+    net.ipv4.ip_local_port_range = 9000 65500
+    net.core.rmem_default = 262144
+    net.core.rmem_max = 4194304
+    net.core.wmem_default = 262144
+    net.core.wmem_max = 1048586
+    执行以下命令时参数生效:
+    # /sbin/sysctl -p
+
+    修改文件/etc/security/limits.conf，添加以下内容:
+    # /etc/security/limits.conf 
+    # for oracle
+    oracle              soft    nproc   2047
+    oracle              hard    nproc   16384
+    oracle              soft    nofile  1024
+    oracle              hard    nofile  65536
+    oracle              soft    stack   10240
+
+    5.创建Oracle Base目录:
+    # mkdir -p /u01/app/
+    # chown -R oracle:oinstall /u01/app/
+    # chmod -R 775 /u01/app/
+
+    6.编辑Oracle用户环境，编辑.bash_profile文件
+    # su - oracle
+    $ vi .bash_profile
+    编辑.bash_profile文件，添加以下内容
+    # For Oracle
+    export DISPLAY=:0.0
+    export TMP=/tmp;
+    export TMPDIR=$TMP;
+    export ORACLE_BASE=/u01/app/oracle;
+    export ORACLE_HOME=$ORACLE_BASE/product/11.2.0/db_1;
+    export ORACLE_SID=sales;
+    export ORACLE_TERM=xterm;
+    export PATH=/usr/sbin:$PATH;
+    export PATH=$ORACLE_HOME/bin:$PATH;
+    export LD_LIBRARY_PATH=$ORACLE_HOME/lib:/lib:/usr/lib;
+    export CLASSPATH=$ORACLE_HOME/JRE:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib;
+
+    三.安装Oracle软件与数据库
+    1.安装Oracle软件
+    将Oracle的安装文件linux.x64_11gR2_database_1of2.zip与linux.x64_11gR2_database_2of2.zip解压缩.
+    以oracle用户身份登录系统安装Oracle，为避免出现中文乱码，装装前可以执行export LANG=C，显示英文，
+    $ export LANG=C
+    $ cd database
+    $ ./runInstaller
+    在安装时选择只安装Oracle软件。
+
+    2.安装数据库
+    Oracle软件安装完后，需要执行命令netca配置监听器，然后执行命令dbca安装数据库.在图形界面中按提示安装就可以了。
+    
+    四.测试运行安装的Oracle系统
+    数据库安装完后监听器与数据库实例就已启动。执行以下测试监听器与实例.
+    $ lsnrctl stop
+    $ lsnrctl start
+    $ sqlplus /nolog
+    SQL> connect / as sysdba;
+    SQL> shutdown
+    SQL> startup

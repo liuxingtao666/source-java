@@ -1,0 +1,119 @@
+=================
+1.视图
+ 1)什么是视图,有什么作用
+   a.视图概念
+   --视图存储的是一个SQL语句(select)
+   --视图没有数据存储空间,执行时从表中提取数据
+   b.视图好处
+   --可以简化复杂的查询SQL,可以重复调用
+   --可以屏蔽过滤一些敏感的表数据
+ 2)视图创建和使用
+   a.创建
+    create view 视图名 as select语句;
+   b.使用
+    当做查询数据源,跟在from后。
+    select * from 视图名;
+
+    提示：不推荐对视图进行增删改操作.基于单表的
+简单视图可以进行增删改;基于多表的视图不能执行增删
+改操作
+    c.删除
+    drop view 视图名;
+
+  案例：统计每个部门男人数，女人数
+  DEPTNO MALE FEMALE
+  用视图封装该查询操作。
+create view v1 as
+  select deptno,
+       sum(decode(trim(sex),'男',1,0)) male,
+       sum(decode(trim(sex),'女',1,0)) female
+  from emp
+  group by deptno;
+
+//使用
+select * from v1;
+
+   d.只读视图
+    create view v2 as
+    select empno,ename,sex from emp 
+    with read only;
+
+    提示：只读视图只能进行select查询，不能做增删改
+
+*2.序列
+ 序列是Oracle特有的，开发中常采用序列生成主键字段值。
+ 序列实际就是一个计数器，按指定的递增量增涨。
+ a.创建
+   create sequence 序列名
+   [start with 起始值|默认为1]
+   [increment by 递增量|默认为1]
+   [maxvalue 最大值|nomaxvalue]
+   [minvalue 最小值|nominvalue]
+   [cycle|nocycle默认]
+   [cache 大小|nocache默认]
+
+   create table p006(
+     id number(7) primary key,
+     name varchar2(20)
+   );
+   //为p006定义一个序列，生成主键字段值
+  create sequence p006_seq;//默认从1开始，递增加1
+ b.使用
+   在添加操作时使用.使用方法：
+    nextval : 获取序列的下一个值=当前值+递增量;
+              并用返回的值更新当前值
+    currval : 获取序列的当前值
+  insert into p006 (id,name) 
+   values (p006_seq.nextval,'scott');
+
+select p006_seq.nextval from dual;//获取计数器下一个值
+select p006_seq.currval from dual;//获取计数器当前值
+
+create sequence myseq1;//从1开始递增加1
+select myseq1.currval from dual;
+//初始序列,调用currval会出错,调用一次nextval后才可用
+
+3.索引
+select * from emp where empno=7566;  
+CREATE INDEX empno_index ON emp(empno);
+索引作用：可以在不修改原SELECT语句情况下,提升原SELECT语句查询性能的一种技术。
+
+*a.创建
+ create index 索引名 on 表名(字段名);
+*b.哪些情况适合使用,哪些情况不适合使用
+  适合应用的场合：
+  --主键字段会自动创建索引
+  --外键,唯一字段适合创建索引
+  --group by字段适合创建索引
+  --order by字段适合创建索引
+  --经常充当where查询条件的字段
+  不适合应用的场合：
+  --where条件中字段使用函数
+    where UPPER(ename)='SCOTT';
+  --where条件中字段使用了表达式
+    where sal+100>5000;
+  --where中使用了like条件的字段
+    where ename like '张%';
+  --where中使用了NULL判定条件
+    where comm is null;
+    where comm is not null;
+  --where中使用了否定条件
+    where deptno not in(10,20)
+    where empno <> 7566;
+
+  c.索引原理
+   没有索引参与的select查询,经过全表记录逐行扫描,
+需要频繁的读记录筛选;
+   启用索引参与的select查询,会通过索引表查找符合
+条件记录的row_id,进行快速准确定位存储的记录。
+因此提高了查询的效率
+    
+
+
+
+
+
+
+
+
+

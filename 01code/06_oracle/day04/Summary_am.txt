@@ -1,0 +1,126 @@
+3、使用函数(continued)
+    1)、格式化：
+	Why:为今后编程需要或者向客户展示需要。
+	*不会改变数据表中原始数据*
+	格式化会作用于结果中的每一行
+	select cardid,
+to_char(openDate,'FMYYYY-MM-DD') 开户日期,
+to_char(balance,'L99G999D99') 余额
+	from cardInfo_你名字全拼
+    2)、数据类型相关的函数：
+        i、日期相关：
+	select customerID,cardID,
+	extract(year from sysdate)
+	-
+	extract(year from openDate)
+	开户年限
+	from cardInfo_你名字全拼
+        ii、字符串相关：
+	select customerID,
+	subStr(cardID,1,5)
+	||‘**** ****’||
+	subStr(cardID,-5,5) 卡号,
+	openDate
+	from cardInfo_你名字全拼
+	
+      3)、Select中的"if...else..."
+	Why：根据每行不同内容计算出不同的新值
+	语法：
+	i、Oracle特有：
+	    decode(列名,
+		值1,结果1,
+		值2,结果2,
+		...
+		[默认值]
+	    )
+
+    select cardID,savingType,balance,
+        decode(trim(savingType),
+           '活期', balance * 0.35/100,
+           '定期', balance * 3.25/100
+        ) 利息
+    from cardInfo_你名字全拼
+
+    select cardID,
+        decode(isreportloss,
+           '0', '正常',
+           '1', '挂失'
+        ) 是否挂失
+    from cardInfo_你名字全拼;
+
+      强调：*只能做=判断*
+
+    ii、标准SQL：
+	When：当条件中包含除=之外的比较时。
+	语法：
+	case
+	    when 条件1 then 显示值1
+	    when 条件2 then 显示值2
+	    ...
+	    else 默认值
+	end
+	
+select cardID,
+        case
+         when isReportLoss=‘1’ then '挂失'
+         else '正常'
+        end 是否挂失
+from cardInfo_你名字全拼;
+
+	select cardID,
+	case
+when balance>=30000 then '土豪'
+when balance>=10000 and balance <30000 then ‘程序猿’
+else ‘屌丝’
+	end 等级
+	from cardInfo_你名字全拼
+
+     5)、Where中使用函数：
+	Why：某一列的值需要经过加工，才能作为条件。
+	select cardID,opendate
+	from cardInfo_你名字全拼
+where extract(year from openDate) < 2010
+    4、聚合函数：
+        What：对一组值计算，最后返回一行汇总值。
+        Why:汇总值，个数，平均。
+        1)、对整个表汇总：
+	语法：select 
+	     count(列名)|sum(列名)|avg(列名)
+	     from 表名
+        select count(*)--3 
+        from userInfo_你名字全拼--1
+        where telephone like '010%'
+	   or address like '%北京%'--2
+    强调：
+        单纯汇总结果，不能与未参与汇总的列混用。
+        *复杂查询分步写，分步原则按顺序*
+
+     select sum(balance)--3
+     from cardInfo_你名字全拼--1
+     where customerID='3'--2
+
+    2)、分组汇总：
+	Why：分组汇总，小计。
+	语法：
+	   select 聚合函数--4
+	   from--1
+	   where--2
+	   group by(列名)-3
+	强调；
+	    *上方四条语句的顺序不能改变*
+	    group by中的列将去除重复项，保持唯一。
+	    结果中的行数取决于分组合并后的剩余行数。
+	    空值不参与汇总。
+          如： 
+	group by customerID
+	按客户编号分组统计。。。
+	或统计每个客户的。。。
+    3--select customerID, sum(balance)
+        from cardInfo_你名字全拼--1
+        group by customerID--2
+	强调：
+        *select中只能出现group by中的列*
+
+
+
+

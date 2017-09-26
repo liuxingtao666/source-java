@@ -1,0 +1,207 @@
+﻿六、数据类型与内置函数：
+    1、PL/SQL：基于块的结构语言
+        What:一段SQL语句的集合。
+        When：仅作为演示
+        语法：
+	[declare
+	    /*专门放置变量声明*/
+	    /*除此之外，不允许声明变量*/]
+	begin
+	    /*要执行的SQL语句*/
+	    /*不能放DDL*/
+	    /*不允许声明变量*/
+	    /*必须*/
+	end;
+	/ --表示提交
+
+	如何打开DBMS_OUTPUT：
+	    查看-->DBMS输出-->点绿色加号-->选择连接-->执行输出脚本。
+    2、Number类型：
+        When：保存数字，无论是正数还是浮点数。
+        1)、语法：number(有效位数,小数位数)
+	如果小数位数不写，默认为0，正数。
+	如果不定义位数，则按照实际存储的值自动给定。最大可38位。
+	如果内容超出小数位数，则四舍五入。
+        2)、数据存储：
+	i、四舍五入导致的异常：
+	cNum32 number(3,2),x.xx
+          cNum3_2 number(3,-2),xxx00
+          cNum13 number(1,3)  0.00x
+        3)、数值操作：
+	i、四舍五入：
+	round(n [,小数位数]): 对数字n四舍五入——不仅数字可用，日期类型也可用。
+	ii、截取：
+	trunc(n [,小数位数]): 按位截取数字n——不仅数字可用，日期类型也可用。
+	iii、上/下取整：
+	ceil(n):上取整;floor(n):下取整
+	iv、取余：
+	mod(n1,n2):返回n1/n2的余数
+	v、格式化金额：
+	语法：to_char(n,格式)
+	格式语法：L，在数字前+当地货币符号。
+	    G/‘,’，对数字的整数部分进行分割。
+	    D/‘.’，代表小数点
+	    格式前+FM，表示取消所有占位符。（包含0）
+	    替代办法：trim(to_char())
+	*格式的长度必须不能小于n的长度*
+	如：
+	to_char(14500.77,'L9G999G999D99')
+	$1,000,000.00
+
+	vi、语法：
+	dbms_random.value[(min,max)]
+	如果不写范围，默认0-1之间取随机
+
+    3、日期类型：
+         1)、关键字：
+	Date：年月日时分秒
+	timestamp:时区年月日时分秒.毫秒
+	interval:保存时间段。
+         2)、当前服务器时间：
+	sysdate;
+	systimestamp;
+         3)、日期格式：
+	yyyy，yyy，yy分别代表4位、3位、2位的年份；
+	MM 数字月；MON 月的缩写；
+	MON: nov = 4月	
+MONTH月的全拼november
+	DD 数字日；Day 星期的全拼；DY
+	
+	AM 上午/下午
+
+	HH24、HH分别代表24小时制和12小时制的小时数
+	MI：分钟数；SS：秒钟数
+	FM：清除多余的0占位符
+	FF3:三位毫秒数
+    4)、年龄计算：
+        方法1：获得生日的年份和今天的年份，两者相减
+	1982-06-29
+         i、extract:获取日期或时间的指定部分。
+	语法：
+	extract(year/month/day from 日期变量)
+	如：
+birthday := to_date('1982-06-29');
+
+        方法2：将生日和今天分别按月份四舍五入。然后
+    Ceil((今天的月份-出生的月份)/12)
+	ii、日期精度：
+	    round(日期变量,‘单位’)
+	    trunc(日期变量,‘单位’)
+	iii、months_between:专门获得两个月份之差。
+	语法：months_between(截至日期,起始日期)
+
+        5)、月份计算：
+	add_months(日期,间隔月份)
+        6)、日期计算：
+	语法：
+	interval ‘整数’ 单位
+	如：interval '19' day
+	today + interval '19' day
+        7)、日期间的减法：结果单位是天。所以会有小数。
+	floor(holiday-today)
+        8)、时分秒计算：
+	日期相减：结果单位为天，所以要乘以相应的进制，换算回需要的精度。
+	如，精确到分钟：*24*60
+	日期+时间段：
+	classover+interval '1' HOUR + Interval '40' minute
+
+         9)、其他函数：
+	last_day(日期)：获取当前月份最后一天
+	next_day(日期,星期几)：下一个星期几的日期。如next_day(sysdate,'星期一');
+
+    5、字符串类型：
+        1) 类型：
+	a、 char[(字节长度)]
+	When：明确知道字符串长度或字符串长度变化较小。
+	长度:(1-2000字节)。如果不写，默认是1。
+	如果放入内容长度<定义，则用空格补齐。
+	如果放入内容长度>定义，报错
+
+           b、变长字符串：
+	语法：varchar2(最大字节长度)
+	when:不明确字符串长度时使用
+	长度：1-4000字节，必须定义
+	如果放入内容>最大长度，报错
+	如果放入内容<最大长度，按实际长度存储。更节省空间
+	错误：
+	    列'表名'.'列名'的值太大(实际值：10，最大值：8)
+	c、Unicode：
+	What:兼容人类已知的所有语言文字的统一格式。
+	When:如果有一列需要保存除英文以外的其他语言内容时使用。
+	语法：
+	Nchar(字符个数)；
+	Nvarchar2(最长字符个数)
+	注意：长度单位是字符，中英文都算1个。
+	d、超出 4000字节：clob/nclob:最大长度4G
+
+        2)、字符串操作：
+	i、声明字符串变量赋值，打印
+	ii、获取长度：
+	语法：length(str):获取字符个数
+	       lengthb(str):字节数，汉字有可能是2个字节，也有可能是3个字节
+	iii、大小写转换：
+	语法：UPPER(str)
+	       LOWER(str)
+	       INITCAP(str): 首字母大写	
+	iv、获得子字符串
+	语法：substr(str,开始位置,获取字符数)
+	substr(str,7,5):mario
+	substr(str,-5,4):从倒数第5个开始，向后取4个。
+	v、查找o三次出现的位置：
+	语法：
+instr(str,要查找的目标字符串,从哪个位置开始查找)
+	如：
+	instr(str,'o');--查询第一次出现的位置
+	instr(str,'o',6);--查询位置6之后，o再次出现的位置
+	instr(str,'o',-1,1);--从最后一个字符向前查询。
+	vi、lpad，rpad：
+	FirstName LastName
+	mario       bros
+	      mario       bros
+	语法：
+	rpad(str,总长度 [,填充字符])
+	lpad(str,总长度 [,填充字符])
+
+	vii、替换:
+	语法：
+replace(str,匹配的字符串,替换字符串)
+	如：replace(str,'o','*')
+	注意：replace不会替换原始字符串，仅影响显示结果。
+	viii、trim清除左右空格：
+	     ltrim:去掉左侧空格
+	     rtrim:去掉右侧空格
+	3)、Unicode：
+  str varchar2(20) := 'Hello';
+  strCHS varchar2(20) := '马里奥兄弟';
+  strn nvarchar2(20) := 'Hello';
+  strnCHS varchar2(20) := '马里奥兄弟';
+老师服务器：
+SIMPLIFIED CHINESE_CHINA.AL32UTF8
+Hello       马里奥兄弟
+varchar2
+5个字节    15个字节  20字节
+Nvarchar2
+10个字节   10个字节  20字节
+
+0.26 
+SIMPLIFIED CHINESE_CHINA.ZHS16GBK
+Hello       马里奥兄弟
+varchar2
+5个字节    10个字节   15字节
+Nvarchar2
+5个字节    15个字节   20字节
+	如何查询服务器的编码格式：
+     select userenv('language') from dual;
+
+	比较：
+	GBK+varchar2
+	结论：
+	a、varchar2比nvarchar2更节省空间。
+	b、计算方法：
+	    UTF-8:每汉字3字节
+	    *GBK:每汉字2字节。
+	    varchar2中：每英文字母1字节
+     客户端编码=服务器Linux编码=Oracle字符集。
+     部分解决乱码：
+	1、终端中：终端-->设定字符编码-->gbk/utf-8
+	2、SQL Developer：工具-->首选项-->编码

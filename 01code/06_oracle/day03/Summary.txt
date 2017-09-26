@@ -1,0 +1,182 @@
+﻿七、DDL详解：
+    1、回顾：什么是表
+        1)、Oracle数据库中存储数据单元
+	以行列的结构存储数据
+        2)、创建表: 
+	create table 表名(
+	    列名1 数据类型(长度) 约束,
+	    列名2...
+	);
+    2、主键：
+        1)、什么是主键：唯一标示表中每一行的列。特点：唯一，非空
+	主键多数情况下是必须的！
+        2)、主键的选择：
+	i、表中已经有一列可以唯一标示每一行。可直接把唯一的列选为主键。
+	ii、如果表中没有任何一列可以唯一标示每一行。需要另行添加一列。一般名为xx编号。
+	iii、其它准则：
+	    a、内容的复杂程度
+	    b、安全、隐私考虑
+
+        3)、语法：
+    列名1 数据类型(长度) primary key
+
+    3、外键：
+        What：用于创建和约束两个表间关系的列。
+        Why：当表缺失主要数据时，而主要数据又来自于另外一个表。
+        语法：
+constraint 约束名 
+foreign key (外键表中的列名) 
+references 主键表名(主键列名)
+     外键列名建议和主键列名一致
+     *但数据类型和长度必须一致*
+
+    4、默认值：
+        What:无需手动插入内容，即可自动用默认值填充。
+        Why：自动化、可靠、省事
+        语法：列名 default 默认值
+    （5种约束）
+
+    5、修改表：
+        1)、What：部分修改表中的列、数据类型、约束。
+	  添加/删除/修改/重命名部分
+        2)、语法：
+	--添加一列
+	alter table 表名
+	add
+	(列名 类型 约束)
+	--删除一列
+	alter table 表名
+	drop column 列名
+	--修改一列
+	alter table 表名
+	modify 列名 类型 约束
+    6、查看主外键关系：
+    Step1:文件-->Data modelar-->导入-->数据字典
+    Step2:选连接名-->选用户名-->选主表+从表--完成
+
+    7、其它DDL：
+        1)、删除：
+	Why：表建错了。
+	语法：
+	    drop table 表名;--删除表，但放入回收站
+	    drop table 表名 purge;--彻底删除，不放入回收站。
+	    truncate table 表名;--删除表，重建表
+	强调：
+	    *a、删除关联的表时，先删除从表，再删除主表
+	    *b、truncate table，也会受到主外键关系的限制，倒置不允许重建主表。
+
+        2)、回收站：
+	Why：万一误删除了，可以恢复
+	查看回收站：
+select original_name, type 
+from recyclebin;
+           恢复删除的表：
+flashback table 表名 to before drop;
+	清空回收站：
+	    purge recyclebin;
+	
+        强调：
+	表结构、数据类型、数据都可恢复
+	外键和约束名丢失。
+    3)、拷贝表数据：
+        Why:防止数据丢失，定期备份
+        语法：
+	create table 新表名 as
+	select * from 旧表名
+        如：
+	create table userInfo_v0409
+	as
+	select * from userInfo
+        强调：主、外键约束不会拷贝
+        DEMO:为后续查询初始化数据：
+	用SQL developer打开：
+	3_specificCols。。。文件夹下
+	    0_initData.sql
+	点击第二个小绿色箭头，批量执行
+	
+八、*查询：
+    What:从一个或多个表中取出你想要的数据
+    Why：几乎所有客户端界面上的数据展示都源自数据库的查询。
+    1、简单查询：
+        语法：
+	select 列名1 [,列名2...]
+	from 来源表名1
+        其中：
+	列名之间用,分割。
+	如果查询所有列，使用*代替所有列。
+    2、Where:
+         What：查询符合条件的数据行
+         Why：不是任何时候都需要查询所有。
+         语法：
+Where 列名1=值1 [and/or 列名2>值2...]
+	其中：
+	=可以换成>< >=
+	多个条件之间使用and/or连接，分别表示“与”和“或”的关系
+	如：where 条件A and 条件B
+	    必须同时满足条件A和条件B
+	    where 条件A or 条件B
+	    满足条件A的符合
+	    满足条件B的同样符合
+        1)、别名：列名 别名
+	select customerID 客户编号 --3
+,cardID 卡号
+,openDate 开户日期
+,savingtype 存款类型
+,openmoney 开户金额
+,balance 余额
+	from cardInfo_你名字全拼--1
+	where customerID=1 and--2
+	       isreportloss='1'
+        2)、模糊查询：
+	Why：记不清或没有具体查询目标时。可以通过逐渐缩小查询范围，找到想要的数据。
+	语法：列名 [not] like '表达式'
+	表达式：
+	    %:0个或多个任意字符
+	    如：
+	    like '张%'——以张字开头的
+	    like ‘%张’--以张字结尾的
+	    like ‘%张%’——只要包含张字就匹配。
+	如：
+	select *
+	from userInfo_你名字全拼
+	where telephone like '010%'
+	    or
+	    address like '%北京%'
+        3)、范围查询：
+	What：取出满足指定范围区间的行
+	Why：查询一定时间段内，查询一定数值范围内。
+	语法：between 最小值 and 最大值
+	*包含上下限*
+	select * 
+	from cardInfo_你名字全拼
+	where 
+balance between 25000 and 30000 
+and isreportloss !=‘1’
+        4)、备选项：
+	What：针对同一列，有多个固定比较条件。条件是分散的。
+	Why:备选项很多，且分散时，减少重复输入
+	语法：列名 in (备选项1,备选项2,)
+	select * 	
+	from userInfo_你名字全拼
+	where customerID in (1,3);
+	相当于customerID = 1 or customerID =3;
+
+    3、使用函数：
+	Why：当查询结果不能直接满组要求时 ，需要再加工时。
+	强调：
+	   *查询中的函数会作用于结果中的每一行。
+	   *除非使用Update，否则任何函数不会影响表中的原始数据
+	i、列的计算:
+	    select cardID,
+		balance 本金,
+balance*3.25/100 利息,	           balance+balance*3.25/100 本息合计
+	    from cardInfo_你名字全拼
+	    where savingType=‘定期’
+
+
+
+
+
+
+
+

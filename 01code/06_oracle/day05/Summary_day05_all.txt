@@ -1,0 +1,261 @@
+﻿十、子查询：
+    What:查询中包含查询
+    Why：一个查询结果可能作为另一查询的临时来源或条件，需要再加工，或者再判断。
+    How：子查询可以放在select,where,from,having。
+    语法：
+        i、必须使用圆括号包裹，需要起别名
+        ii、先执行内部子查询，设计时，可先写子查询。
+     2、在from中使用子查询：
+	When：某个查询的结果需要进一步加工时。
+     3、在Where/having中使用子查询：
+         Why：查询条件不是现成的。来源于另一个复杂的查询或计算。
+       1)、返回单行的子查询：
+	获取最小值：min(列名)
+      Step1：获得条件值
+      select min(openDate) from cardInfo_你名字全拼
+      Step2：
+      select *
+      from cardInfo_你名字全拼
+      where openDate=(
+	--拷贝Step1的查询到此
+);
+      2)、返回多行的子查询：
+         假设知道张三和王五各有一张挂失的卡
+         where customerID in (1,3)
+    Step1：查询所有挂失卡的客户编号
+        select customerID
+        from cardInfo_你名字全拼
+        where isreportloss='1'
+    Step2：查询所有客户
+        select * from userInfo_你名字全拼
+    Step3：将Step1的查询作为Step2的条件
+        --Step2
+	where customerID in (
+	--Step1        
+);
+        3)、Having中使用子查询：
+        Why：条件中包含聚合函数
+    Step1：查询李四的总账余额
+       select sum(balance) 
+       from cardInfo_你名字全拼 where customerID=2
+    Step2：查询除李四之外人的总账余额
+        Select customerID,sum(balance) 
+        from cardInfo_你名字全拼 
+        where customerID !=2
+        group by(customerID)
+    Step3：将step2中的每行和Step1中的结果进行比较：
+        --Step2
+        having sum(balance) > (
+        --Step1
+        )
+
+    4、在Select中使用子查询
+       Why：需要在查询的表中需要临时增加一列计算、统计、关联值。
+    Step1:查询编号为1的客户总账余额
+    select sum(balance) from cardInfo_你名字全拼
+    where customerID=1;
+    Step2：查询每个客户的信息
+    select * from userInfo_你名字全拼
+    Step3:
+    select customerName,pid,customerID,
+    (
+        select sum(balance) from cardInfo_你名字全拼 c
+    where c.customerID=u.customerID
+    ) 总账余额
+ from userInfo_你名字全拼 u
+
+    5、Where中的any 、all：
+    Why：与子查询结果批量比较
+    语法：where 列 > any|all(子查询)
+	any: 只要>子查询中任意一行就满足
+	all:必须>子查询中所有行   
+     1)all
+        step1:查询除张三外其他人的余额：
+            select balance from cardInfo_你名字全拼
+            where customerID!=1
+        step2:查询张三自己的银行可分别余额是多少
+            select * from cardInfo_你名字全拼
+            where customerID=1
+        step3:将Step2中查询出的每一行和Step1中查询出的每一行比较
+           --Step2
+ 	and balance > all
+	(
+               --Step1
+	)
+
+        2)、Any：
+        step1:查询除王五外其他人的余额：
+            select balance from cardInfo_你名字全拼
+            where customerID!=3
+        step2:查询王五自己的银行可分别余额是多少
+            select * from cardInfo_你名字全拼
+            where customerID=3
+        step3:将Step2中查询出的每一行和Step1中查询出的每一行比较
+           --Step2
+ 	and balance > any
+	(
+               --Step1
+	)
+
+十一、分页（不同数据库实现方法不同！）
+    Why：数据行数过多，一次性全部显示，客户浏览不方便。另一方面，会严重影响客户端的加载速度。
+    
+    必要技术：
+    1、行号：
+        What： 为结果每行自动发放的编号，仅与行数有关
+        Why：行号可以顺序唯一标示每一行，增强可读型和程序可操作性。
+        语法：
+            select rownum,列名1,列名2...
+        如：
+        select rownum,c.* 
+        from(
+             select rownum *
+             from cardInfo_你名字全拼
+             order by balance desc;
+        ) c
+    2、分页：
+      如：每页3行，第一页,1-3
+	        第二页,4-6
+	        第三页,7-9
+	        。。。
+           每页n行，第r页
+               起始：>n*(r-1)
+	    结束：<=n*r
+        *但rownum不支持>比较*
+
+        select 行号,t.*
+        from (
+        select rownum 行号,c.* 
+        from(
+             select *
+             from cardInfo_你名字全拼
+             order by balance desc;
+        ) c
+        where rownum <=9
+        ) t
+        where 行号>6;
+
+十二、高级函数
+    1、集合函数：
+       What:将多个Select结果中的行取交集、并集、差集
+        Why:希望将不同的结果临时拼接成一个新的结果。避免过于复杂的连接和条件判断。
+    1)、union all: 很简单的合并，不包含去重复，不包含排序。效率更快！
+        Step1:先查北京的用户
+        select customerID,customerName,pid from userInfo_你名字全拼
+        where telephone like '010%' or address like '%北京%';
+        Step2:再查所有总账余额>3万的用户         
+select customerID,u.customerName,u.pid
+ from cardInfo_你名字全拼 c join userInfo_你名字全拼 u using(customerID)
+        group by customerID,u.customerName,u.pid
+        having sum(balance)>30000
+
+        Step3:将两个查询罗起来
+        --Step1
+        union all
+        --Step2
+
+    2)、union: 将结果合并，去掉交集，带默认排序。
+        Step4：去掉张三的重复行
+        --Step1
+        union
+        --Step2
+    3)、intersect:将两个结果取交集，附带默认排序
+        Step5: 查询北京地区 and 余额3万以上的用户
+        --Step1
+        intersect
+        --Step2
+    4)、minus：将上方结果-下方结果，保留上方结果的剩余行。附带排序
+        Step6：查询北京地区 and 余额3万以下的用户
+        --Step1
+        minus
+        --Step2
+
+    5)、自定义排序：
+        强调：
+             I、order by 必须写在组后一个查询的结尾
+	  如：
+	--Step1
+           union
+           --Step2
+	order by customerID desc;
+             ii、所有查询中，第一个查询的列名，决定了最终结果的列名
+             iii、所有查询中，每个查询列的顺序和类型必须和第一个查询保持一致。但列名可不一样。
+             iv、如果最后需要排序，应使用第一个查询中的列名。
+
+     6)、子查询、连接查询 vs 集合查询
+          i、多个表之间要合并列用连接查询或者子查询；同样查询结构下行的合并用集合查询。
+          ii、在确保不重复的情况下，优先选择 union all。
+          iii、两个主外键关联的表要合并，优先选择连接查询。
+          iv、集合函数的可读性更好
+
+    2、分析函数：
+        What：分组计算聚合，并且聚合的结果可以和明细一同显示。
+        Why：即想看明细，又想看汇总
+
+        vs 聚合函数：
+	相同：对分组聚合
+	不同：
+	    聚合函数：只显示聚合的结果
+	    分析函数：即显示明细又显示聚合结果。而且可以分级汇总
+     
+    1)、回顾：rownum
+	所有行的自动序号
+	无法分组序号
+    2)、分析函数中的自增编号：
+        语法：
+row_number() over(分组，排序)
+        Step1：rownum
+	select rownum,t.*
+	   From (
+	    select * from transInfo_你名字全拼
+	order by transMoney desc) t
+        Step2: row_number()
+    select row_number() 
+     over(order by transMoney desc) 排名
+	, t.*
+    from transInfo_你名字全拼 t;
+     语法：
+        整个表先排序后编号
+row_number() over(order by 列名 desc)
+    强调：
+        row_number()在over后执行，所有不受排序的影响。
+         Step3：每个人的交易记录，按银行卡分组，每张银行卡交易记录单独编号
+      语法：
+     row_number() over(partition by 分组列 order by 排序列)
+       select row_number() --3为排好序的组内每行发号
+     over(partition by cardID--1按cardID分组
+	order by transMoney desc--2每组内按transMoney降序排列
+     ) 排名
+	, t.*
+    from transInfo_你名字全拼 t; 
+
+    4)rank()与dense_rank()
+        i、可重复序号
+	rank()：可重复，但跳跃
+	dense_rank():可重复，但连续
+
+           	VS：row_number():连续，唯一
+     不公平的情况:
+    select t1.*
+from(
+select row_number() 
+     over(order by transMoney desc) 排名,
+     t.*
+    from transInfo_你名字全拼 t
+) t1
+where t1.排名 <=8;
+     允许并列的情况：
+select t1.*
+from(
+select rank() 
+     over(order by transMoney desc) 排名,
+     t.*
+    from transInfo_你名字全拼 t
+) t1
+where t1.排名 <=8;
+
+
+
+
+
+

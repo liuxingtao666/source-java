@@ -1,0 +1,114 @@
+梁建全：liangjq@tarena.com.cn
+==========================
+1.Oracle前期汇总
+A  B
+A B内连接(等值连接)：结果由A和B两个表数据共同决定
+A B左外连接:以left outer join 左边表为主
+2.回顾练习
+a.创建一个数据表EMP,字段如下
+ 员工编号 EMPNO    整数 大小4  主键
+ 员工姓名 ENAME    字符 大小20
+ 员工职位 JOB        字符 大小10
+ 员工性别 SEX        字符 2
+ 入职时间 HIRE_DATE 日期
+ 基本工资 SAL         浮点数 长度7,最大2位小数
+ 奖金      COMM      浮点数 长度7,最大2位小数
+ 所属部门  DEPTNO   整数 大小4
+b.将下列数据插入EMP表中
+ 1001  tom   程序员 男  2010-10-8  8000  100  10
+ 1002  jack  程序员 男  2011-2-1   7000   50   10
+ 1003  sun   程序员  女  2013-2-1   5000  100  10
+ 1004  rose  助理    女  2012-5-1   6000  80    20
+ 1005  lucy  程序员  女  2012-5-1   6000  60    20
+ 1006  scott 项目经理 男  2011-3-1 10000 200   20
+ 1007  tiger 项目经理 男  2009-3-1 12000 250   10
+
+=============================
+create table emp(
+  empno number(4) primary key,
+  ename varchar2(20),
+  job varchar2(10),
+  sex char(2),
+  hire_date date,
+  sal number(7,2),
+  comm number(7,2),
+  deptno number(4)
+);
+
+insert into emp (empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1001,'tom','程序员','男',
+to_date('2010-10-8','yyyy-mm-dd'),8000,100,10);
+insert into emp(empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1002,'jack','程序员','男',
+to_date('2011-2-1','yyyy-mm-dd'),7000,50,10);
+insert into emp(empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1003,'sun','程序员','女',
+to_date('2013-2-1','yyyy-mm-dd'),5000,100,10);
+
+insert into emp(empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1004,'rose','助理','女',
+to_date('2012-5-1','yyyy-mm-dd'),6000,80,20);
+insert into emp(empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1005,'lucy','程序员','女',
+to_date('2012-5-1','yyyy-mm-dd'),6000,60,20);
+insert into emp(empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1006,'scott','项目经理','男',
+to_date('2011-3-1','yyyy-mm-dd'),10000,200,20);
+insert into emp(empno,ename,job,sex,hire_date,sal,comm,deptno)
+values (1007,'rose','项目经理','男',
+to_date('2009-3-1','yyyy-mm-dd'),12000,250,10);
+
+c.将所有员工工资涨15%，奖金涨5%
+update emp set sal=sal*1.15,comm=comm*1.05;
+d.查询部门20员工的员工名,工资总额(基本工资+奖金)
+select ename,sal+comm as total
+from emp
+where deptno=20;
+e.查询工资低于公司平均工资的员工编号,姓名,工资
+select empno,ename,sal
+from emp
+where sal<(select avg(sal) from emp);
+f.取出工资最高的前3个员工编号,姓名,工资信息
+----TOP N分析----
+解决：取某个表中前N条记录.
+select 字段1,字段2
+from(
+ select 字段1,字段2...
+ from 表
+ order by 字段 asc|desc
+)
+where rownum<=N;
+=============
+select empno,ename,sal
+from(
+ select empno,ename,sal
+ from emp
+ order by sal desc
+)
+where rownum<=3;
+课后：取最早入职的前3个员工信息(编号,姓名,入职时间)
+
+g.查询部门编号,部门员工数,部门平均工资信息
+select deptno,count(deptno),avg(sal)
+from emp
+group by deptno;
+
+提示：如果select后面有单个字段和分组函数,必须后面
+有个group by字句，按select后面单个字段分组。
+
+h(选做):查询部门编号,男员工人数,女员工人数信息
+select deptno,
+       sum(decode(sex,'男',1,0)) male,
+       sum(decode(sex,'女',1,0)) female
+from emp
+group by deptno;
+
+
+
+
+
+
+
+
+
+

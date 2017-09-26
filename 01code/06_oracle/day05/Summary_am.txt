@@ -1,0 +1,145 @@
+﻿十、子查询：
+    What:查询中包含查询
+    Why：一个查询结果可能作为另一查询的临时来源或条件，需要再加工，或者再判断。
+    How：子查询可以放在select,where,from,having。
+    语法：
+        i、必须使用圆括号包裹，需要起别名
+        ii、先执行内部子查询，设计时，可先写子查询。
+     2、在from中使用子查询：
+	When：某个查询的结果需要进一步加工时。
+     3、在Where/having中使用子查询：
+         Why：查询条件不是现成的。来源于另一个复杂的查询或计算。
+       1)、返回单行的子查询：
+	获取最小值：min(列名)
+      Step1：获得条件值
+      select min(openDate) from cardInfo_你名字全拼
+      Step2：
+      select *
+      from cardInfo_你名字全拼
+      where openDate=(
+	--拷贝Step1的查询到此
+);
+      2)、返回多行的子查询：
+         假设知道张三和王五各有一张挂失的卡
+         where customerID in (1,3)
+    Step1：查询所有挂失卡的客户编号
+        select customerID
+        from cardInfo_你名字全拼
+        where isreportloss='1'
+    Step2：查询所有客户
+        select * from userInfo_你名字全拼
+    Step3：将Step1的查询作为Step2的条件
+        --Step2
+	where customerID in (
+	--Step1        
+);
+        3)、Having中使用子查询：
+        Why：条件中包含聚合函数
+    Step1：查询李四的总账余额
+       select sum(balance) 
+       from cardInfo_你名字全拼 where customerID=2
+    Step2：查询除李四之外人的总账余额
+        Select customerID,sum(balance) 
+        from cardInfo_你名字全拼 
+        where customerID !=2
+        group by(customerID)
+    Step3：将step2中的每行和Step1中的结果进行比较：
+        --Step2
+        having sum(balance) > (
+        --Step1
+        )
+
+    4、在Select中使用子查询
+       Why：需要在查询的表中需要临时增加一列计算、统计、关联值。
+    Step1:查询编号为1的客户总账余额
+    select sum(balance) from cardInfo_你名字全拼
+    where customerID=1;
+    Step2：查询每个客户的信息
+    select * from userInfo_你名字全拼
+    Step3:
+    select customerName,pid,customerID,
+    (
+        select sum(balance) from cardInfo_你名字全拼 c
+    where c.customerID=u.customerID
+    ) 总账余额
+ from userInfo_你名字全拼 u
+
+    5、Where中的any 、all：
+    Why：与子查询结果批量比较
+    语法：where 列 > any|all(子查询)
+	any: 只要>子查询中任意一行就满足
+	all:必须>子查询中所有行   
+     1)all
+        step1:查询除张三外其他人的余额：
+            select balance from cardInfo_你名字全拼
+            where customerID!=1
+        step2:查询张三自己的银行可分别余额是多少
+            select * from cardInfo_你名字全拼
+            where customerID=1
+        step3:将Step2中查询出的每一行和Step1中查询出的每一行比较
+           --Step2
+ 	and balance > all
+	(
+               --Step1
+	)
+
+        2)、Any：
+        step1:查询除王五外其他人的余额：
+            select balance from cardInfo_你名字全拼
+            where customerID!=3
+        step2:查询王五自己的银行可分别余额是多少
+            select * from cardInfo_你名字全拼
+            where customerID=3
+        step3:将Step2中查询出的每一行和Step1中查询出的每一行比较
+           --Step2
+ 	and balance > any
+	(
+               --Step1
+	)
+
+十一、分页（不同数据库实现方法不同！）
+    Why：数据行数过多，一次性全部显示，客户浏览不方便。另一方面，会严重影响客户端的加载速度。
+    
+    必要技术：
+    1、行号：
+        What： 为结果每行自动发放的编号，仅与行数有关
+        Why：行号可以顺序唯一标示每一行，增强可读型和程序可操作性。
+        语法：
+            select rownum,列名1,列名2...
+        如：
+        select rownum,c.* 
+        from(
+             select *
+             from cardInfo_你名字全拼
+             order by balance desc;
+        ) c
+    2、分页：
+      如：每页3行，第一页,1-3
+	        第二页,4-6
+	        第三页,7-9
+	        。。。
+           每页n行，第r页
+               起始：(n-1)*r+1
+	    结束：n*r
+        *但rownum不支持>比较*
+
+        select 行号,t.*
+        from (
+        select rownum 行号,c.* 
+        from(
+             select *
+             from cardInfo_你名字全拼
+             order by balance desc;
+        ) c
+        where rownum <=6
+        ) t
+        where 行号>3;
+
+        
+
+
+
+
+
+
+

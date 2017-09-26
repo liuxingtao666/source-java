@@ -1,0 +1,420 @@
+1.1.	数据库
+1.1.1.	数据库【炎黄盈动】
+员工表的定义如下：
+Last_name VARCHAR2(25)
+First_name VARCHAR2(25)
+Salary NUMBER(7,2)
+现查询显示未达到平均工资的员工姓名.请考察下面的SQL语句:
+SELECT last_name, first_name FROM employee WHERE salary < avg(salary);
+对这条SQL做以下哪项修改能够达到目的?
+A.	改变WHERE子句
+B.	把聚合函数移到SELECT列表中,并增加GROUP子句
+C.	通过子查询得出平均工资水平并在父查询的WHERE子句中比较
+D.	把聚合函数移到SELECT列表中,并增加GROUP BY子句和HAVING子句
+1.1.2.	数据库【炎黄盈动】
+要从员工表中查询所有姓Smith的人，但是并不能确定所有Smith的大小写，以下哪条语句能解决问题?
+A.	SELECT last_name, first_name FROM emp WHERE last_name=’smith’
+B.	SELECT last_name, first_name FROM emp WHERE UPPER(last_name)=’smith’
+C.	SELECT last_name, first_name FROM emp WHERE last_name=UPPER(‘smith’)
+D.	SELECT last_name, first_name FROM emp WHERE LOWER(last_name)=’smith’
+1.1.3.	delete from tablea & truncate table tablea的区别 (  )  【中美寰宇】
+A.	没有区别
+B.	速度相同
+C.	速度不同
+D.	日志记录不同
+1.1.4.	下列哪些（或哪个）不是PL/SQL的组成部分（）【四川银海】
+A.	DECLARE
+B.	CATCH
+C.	THROW
+D.	EXCEPTION
+1.1.5.	SQL语句中修改表结构的命令是______。  【盈盛科技】【中科金财】
+A.	MODIFY TABLE 
+B.	MODIFY STRUCTURE 
+C.	ALTER TABLE 
+D.	ALTER STRUCTURE
+1.1.6.	对数据库中表null的理解错误的是(      )【德邦物流】
+A.	null 等价于没有任何值，是未知数。
+B.	对空值做加、减、乘、除等运算操作，结果仍为空
+C.	比较时使用关键字用“== null”和“！= null”
+D.	比其他数据都大所以降序排序时NULL值总是排在最前
+1.1.7.	对事务回滚的正确描述是_____。 【赢璟网络】
+A.	将该事务对数据库的修改进行恢复
+B.	将事务对数据库的更新写入硬盘
+C.	跳转到事务程序的开头重新执行
+D.	将事务中修改的变量值恢复到事务开始时的初值
+1.1.8.	sql语句 select  last_name||’ salary is’||salary   from employees 查询结果(    ) 【德邦物流】
+Employees表结构如下:
+ 
+A.	King ‘salary is’24000      
+B.	king24000
+C.	king salary is 24000      
+D.	sql语句语法错误
+1.1.9.	{SQL题目}在pubs 数据库 titles 表的 notes 列中搜索以字符串"50%"开头的所有记录，请选择以下正确的语句：（）(选择1项)【国研网络】
+A.	SELECT * FROM titles WHERE  notes  LIKE '50%'
+B.	SELECT * FROM titles WHERE  notes  LIKE '50/%%'  ESCAPE  '/'
+C.	SELECT * FROM titles WHERE  notes  LIKE '50%'  ESCAPE  '%'
+D.	SELECT * FROM titles WHERE  notes  LIKE '50%%%'  ESCAPE  '%'
+1.1.10.	如果A为null则返回B，否则返回A，应该使用下列哪个函数？（   ）【四川银海】
+A.	NULLIF(A,B)
+B.	NVL(A,B)
+C.	NVL2(A,B)
+D.	DECODE(A,B)
+1.1.11.	唯一标识表中的记录的一个或者一组列被称为(  )   【中软融鑫】
+A.	外键
+B.	主键
+C.	关系
+D.	度
+1.1.12.	只有满足联接条件的记录才包含在查询结果中，这种联接为(  )   【中软融鑫】
+A.	左联接
+B.	右联接
+C.	内部联接
+D.	完全联接
+1.1.13.	下列语句不属于ORACLE  DDL的是（）【掌中浩阅】
+A.	RENAME         
+B.	TRUNCATE       
+C.	MERGE          
+D.	Alter 
+1.1.14.	为简化用户的查询操作，又不增加数据的存储空间，常用方法为创建（）【中科金财】
+A.	另一个表（TABLE）
+B.	游标
+C.	视图
+D.	索引
+1.1.15.	____是DBMS的基本单位，它是用户定义的一组逻辑一致的程序序列。（C）【中科金财】
+A.	程序
+B.	命令
+C.	事务
+D.	文件
+1.1.16.	数据库中有以下数据 ：
+ID(pri)(Auto) name pass 
+ 1  aaa 111 
+ 2  bbb 222  
+ 3  ccc 333 
+a.请用一条SQL语句将现有的三条记录复制一下，达到以下的效果：
+ID(pri) (Auto) name pass 
+1  aaa 111 
+2  bbb 222 
+3  ccc 333 
+4  aaa 111 
+5  bbb 222 
+6  ccc 333 
+b. 再用sql语句删除重复记录。
+1.1.17.	表名：高考信息表
+准考证号   科目       成绩
+2006001     语文       119
+2006001     数学       108
+2006002     物理       142
+2006001     化学       136
+2006001     物理       127
+2006002     数学       149
+2006002     英语       110
+2006002    语文       105
+2006001   英语        98
+2006002    化学       129
+……
+给出高考总分在600以上的学生准考证号。
+1.1.18.	数据库有两张表一个学生表（id，name，sex），一个学生成绩表（id,chineses，English，math），要求查询学生基本信息以及各科成绩和总成绩，总成绩要求在200到300之间，学生姓名降序。 【锐志信息】
+1.1.19.	现有关系数据库表如下:
+学生表(学号 char(6), 姓名,性别,身份证号)
+课程表(课号 char(6), 名称)
+成绩表(id,学号,课号,分数)
+用sql实现下面2题：
+1.检索姓马的女同学情况(姓名,身份证号)
+2.检索有一门或一门以上课程成绩大于等于90的所有学生信息(学号,姓名)
+1.1.20.	有三张表,学生表 Student,课程 Coruse,学生课程表 SC,学生可以选修多门课程,一门课程可以被多个学生选修,通过 SC 表关联。
+1）写出建表语句；
+2）写出 SQL 语句,查询选修了所有选修课程的学生；
+3）写出 SQL 语句,查询选修了至少2门以上的课程的学生。
+1.1.21.	表class和student结构如下，请完成后续SQL语句【兴侯】
+表class
+属性	类型(长度)	默认值	约束	含义
+CLASSNO	数值 (2)	无	主键	班级编号
+CNAME	变长字符 (10)	无	非空	班级名称
+表student
+属性	类型(长度)	默认值	约束	含义
+STUNO	数值 (8)	无	主键	学号
+SNAME	变长字符 (12)	无	非空	姓名
+SEX	字符 (2)	男	无	性别
+BIRTHDAY	字符(8)	无	无	生日
+EMAIL	变长字符 (20)	无	唯一	电子邮件
+SCORE	数值 (5, 2)	无	检查	成绩
+CLASSNO	数值 (2)	无	外键，关联到表CLASS的CLASSNO主键	班级编号
+ 数据
+STUNO	SNAME	SEX	BIRTHDAY	EMAIL	SCORE	CLASSNO
+21	tom	男	19790203	tom@163.net	89.50	1
+56	jerry	默认值	空	空	空	2
+a.修改表student的数据，将所有一班的学生成绩加10分。
+b. 删除表student的数据，将所有3班出生日期晚于1981年5月12日的记录删除。
+c. 按班级升序排序，成绩降序排序，查询student表的所有记录。
+d. 查询student表中所有三班成绩为空的学生记录。
+e. 表student与class联合查询，要求查询所有学生的学号，姓名，成绩，班级名称。
+f. 按班级编号分组统计每个班的人数、最高分、最低分、平均分，按平均分降序排序。
+g. 查询一班学生记录中所有成绩高于本班学生平均分的记录。
+h. 查询所有学生记录中成绩前十名的学生的学号、姓名、成绩、班级编号。
+1.1.22.	有两张表student和score 【易特英才】
+Student:学号,姓名,性别,年龄
+Score:学号,语文,数学,英语
+1.查询张三的学号,姓名,性别, 语文,数学,英语
+2.查询语文比数学好的同学
+3.查出姓名相同的学生学号
+1.1.23.	对一个用户登录模块，要求每个用户只允许３次登陆错误，超过则将锁定此帐户。【炎黄盈动】
+1.1.24.	数据脚本
+create table test1
+(
+  pici     VARCHAR2(30),
+  busicode VARCHAR2(50),
+  amt      NUMBER,
+  flag     VARCHAR2(1)
+);
+-- Add comments to the columns comment on column test1.flag is '1表示成功 2表示失败';
+
+insert into test1 values('20130201','0201111',10,1);
+insert into test1 values('20130201','0201112',5,2);
+insert into test1 values('20130201','0201113',10,2);
+insert into test1 values('20130201','0201114',5,1);
+
+insert into test1 values('20130202','0202111',10,1);
+insert into test1 values('20130202','0202112',20,1);
+insert into test1 values('20130202','0202113',20,1);
+insert into test1 values('20130202','0202114',20,1);
+
+insert into test1 values('20130203','0203111',10,2);
+insert into test1 values('20130203','0203111',10,2);
+insert into test1 values('20130203','0203111',10,2);
+实现要求：标识位flag 1表示扣款成功2表示扣款失败一句sql 查询出每天扣款成功笔数，成功金额，失败笔数，失败金额
+1.1.25.	数据库    【深圳泛微软件】
+（1）创建sms表的语句
+（2）写出users与sms左关联的查询语句
+1.1.26.	【北京百悟】
+书表(books)
+book_id,book_name,creatdate,Lastmodifydate,decription
+001,三个人的世界,2005-02-02,2005-07-07,NULL
+作者表(authors)
+A_id,A_name
+01,王纷
+02,李尚
+03,泰和
+部门表(depts)
+d_id,d_name
+001,编辑一部
+002,编辑二部
+003,编辑三部
+书和作者关联表(bookmap)
+book_id,A_id
+001,01
+001,02
+001,03
+部门和作者关联表(depmap)
+d_id,a_id
+001,01
+002,02
+003,03
+找出每个部门的所写的总书量,比如,一本书有3个人写,如果三个人在不同的部门,则每个部门的总数量就是1.
+最后结果如下:
+部门,书量
+编辑一部,1
+编辑二部,1
+编辑三部,1
+1.1.27.	【北京百悟】
+两个表情况
+表名：wu_plan 
+ID   plan   model   corp_code  plannum  prixis
+1   00001   exx22   nokia    2000   2001
+2   00002   lc001   sony    3000   0
+表名：wu_bom
+ID     plan       pact          amount    
+1      00001      aa1            300
+2      00001      aa2            200
+3      00002      bb1            500
+4      00002      bb2            800
+5      00002      bb3            400
+查询这两个表中plan唯一，每一个plan中，amount最少的，plannum大于prixis的记录。
+结果是:
+ID    plan  model corp_code  plannum  prixis  pact   amount
+1    00001 exx22  nokia    2000    0      aa2   200
+2    00002 lc001  sony    3000    0      bb3   400
+1.1.28.	数据库方面：   【联盟优势】
+create table tbl_threat
+( pk_threat_id         int unsigned not null auto_increment,
+   dt_log_time          datetime,                   //发生时间
+   i_severity           int,                         //严重程度
+   i_device_id          int,                         //设备id
+   str_tr_type          varchar(64),                  //告警类型
+   str_tr_name          varchar(256),                //类型名称
+   i_work_id            int unsigned,                //工单id
+   dt_complete_time     datetime,                   //完成时间
+   i_status    tinyint default 0 comment '0-新分派,1-重新激活 2-完成',//告警状态
+   primary key (pk_threat_id)
+);
+
+create table tbl_work
+( pk_work_id           int not null auto_increment,
+   str_title            varchar(256),               //工单名称
+   i_owner_org_id       int unsigned,              //负责人组织id
+   i_owner_id           int,                      //负责人id
+   dt_dispatch_time     datetime,                   //派单时间
+   dt_finish_time       datetime,                   //完成时间
+   i_is_history         tinyint default 0,               //是否为历史工单
+   dt_expect_time       datetime,                 //期望完成时间
+   i_in_time            tinyint(1) default 0,           //及时性
+   i_priority           tinyint(1),                  //优先级
+   primary key (pk_work_id)
+);
+ps:    threat 告警         work 工单
+i_severity严重程度 0代表一般  1代表低危  2 代表中危 3 代表高危
+1.请查出当前日期前三天发生的告警的类型名称、告警类型、发生时间、严重程度及派单时间用日期按照降序排列。
+2.请查出当前日期前三天发生的告警的数量最多的告警类型及数量，数量按降序排列的前5个。
+1.1.29.	设有图书管理数据库：    【盈盛科技】
+图书(总编号C(6),分类号C(8),书名C(16),作者C(6),出版单位C(20),单价N(6,2))
+1.检索书价在15元至25元(含15元和25元)之间的图书的书名、作者、书价和分类号，结果按分类号升序排序。
+2.为图书表建立一个视图.  
+1.1.30.	写一个oracle 函数，输入参数（字符串  str ,整型 len ,字符  c）返回字符串 rstr 
+要求：如果字符串str的长度小于 len, 则返回的字符串rstr为在字符串str前填充字符c 达到长度为len的字符串。
+如果字符串str的长度大于等于len ,则返回的字符串rstr 为str。【盈盛科技】
+
+参考答案(oracle)：
+1.1.31.	表结构    【盈盛科技】
+（1）.表名： g_cardapply
+字段（字段名/类型/长度）:
+g_applyno      varchar    8;  //申请单号 (关键字)
+g_applydate    bigint     8; //申请日期
+g_state        varchar    2; //申请状态
+（2）.表名： g_cardapplydetail
+字段(字段名/类型/长度):
+g_applyno       varchar    8; // 申请单号
+g_name          varchar   30; //申请人姓名
+g_idcard        varchar    18; // 申请人身份证号
+g_state         varchar    2; // 申请状态
+其中，两个表的关联字段为申请单号
+题目：
+（1）.查询身份证号码为440401430103082 的申请日期
+（2）.查询同一个身份证号码有两条以上记录的身份证号码及记录个数
+（3）.将身份证号码为440401430103082的记录在两个表中的申请状态均改为07
+（4）.删除g_cardapplydetail表中的所有李姓记录
+1.1.32.	参见如下表结构回答问题（共15分）【盈盛科技】
+出版社: 
+出版社代码 char(2),
+出版社名称 varchar2(32)
+
+图书: 
+图书编号 char(8),
+图书名称 varchar2(128),
+出版社代码 char(2),
+作者代号 char(4),
+图书简介 varchar2(128)
+
+作者: 
+作者代号 char(4),
+作者名称 varchar2(10),
+性别 char(1),
+年龄 number(3),
+文学方向 varchar2(64)
+
+获奖名单: 
+获奖日期 date,
+获奖人员 char(4)
+
+1）.编写SQL语句，找出“作者”库中没有出现在“获奖名单”库中所有作者信息的SQL语句，要求使用not in、not exists以及外关联三种方法，并说明哪种方法最优。（6分）
+2）.“获奖名单”表，写出SQL语句，查询出在上一个月获奖的人员。(4分)
+1.1.33.	某公司信息管理系统的需求分析和部分关系模式的结果描述如下：（共15分）  【盈盛科技】
+（1）.公司有多个部门，每个部门有一名负责人、一间办公室、一部电话、多名职员，每个职员最多属于一个部门，负责人也是公司一名职员。
+（2）.数据库的部分关系模式设计如下：
+职员（职员号，职工姓名，月工资，部门号，办公室，电话）
+部门（部门号，部门名，负责人代码，任职时间）
+请回答下述问题。
+1).根据上述说明，请分别给出”职员”和”部门”关系模式的主键及外键。
+2).请编写SQL语句，针对人数大于等于10的部门创建视图D_View（Dept,D_num, D_Avgpay），其中，Dept为部门号，D_num为部门人数，D_Avgpay为平均工资。
+3).目前的“职员”关系模式存在什么问题？在不增加新关系模式的前提下，请给出修改后的“职员”和“部门”关系模式。
+1.1.34.	【赞同科技】
+1.建一个员工信息表employee, 表中 id （员工代码)、sex (员工性别)、name(姓名）、departmentid (部门代码) 、address (地址)，birthdate (生日)、postcode (邮编) 、salary〔薪水)、workdate (入职日期) 、remark （备注信息），其中 postcode 、  remark 可以为空，薪水需为numher 类型.，生日、入职日期为 date 类型。以员工代码作为主键。
+2.插入两条记录，id分别为0023, 1023，其余信息自己编造。
+3.查询员工总数、薪水总额。
+4.查询出各部门的最小年龄、最大年龄。
+5.统计每个部门的男女人数，按照部门代码排序。
+6.创建入职日期( workdate )索引employee_idx 。
+7.修改id为 0023 的员工的入职日期为2007-12-31 。
+8.删除id为1023的员工信息。
+9．使前面所做的修改,删除生效〔假定数据库设置不是自动生效)
+10.假定有一表结构和employee完全一样的表employee_bak ，把employee表的数据完全导入employee_bak表。
+11.假设还有一表duty,其记录为员工的级别 level，也是以员id为主键，根据表employee 、duty 查询出级别在10级以上的所有员工详细信息。
+12．不区分部门查询出入职日期最早的10位员工信息。
+13.删除索引 employee_idx 。
+1.1.35.	有一表格（T_user）有如下数据：  Id 	name	age		gender ----------------------------------------------------- 1    张三	20		   男 2    李四	22		   男 3    张三	20		   男 4    王五	21		   男 5    王五	20		   男 请用SQL查询出姓名相同而且年龄也相同的人员姓名。【广电银通】
+1.1.36.	下面是某班级进行期末考试的相关数据表   【掌中浩阅】
+学生信息表(T_Student)
+学生ID	学生姓名
+1	小明
+2	小刚
+3	小红
+课程信息表(T_Course)
+课程编号	课程名称
+A	语文
+B	数学
+C	英语
+考试成绩表(T_Score)
+学生ID	课程编号	分数
+1	A	82
+1	C	95
+2	A	54
+2	C	62
+1.按照区间对学生成绩进行优良评级，>=85对应“优”；>=75 并且<85对应“良”；>=60并且<75对应“及格”，<60对应“不及格”（输出列：学生姓名，课程名称，成绩级别）
+2.找出本次考试平均分高于70的学生姓名（输出列：学生姓名）
+1.1.37.	写出分页的SQL语句，要求每页输出20条，表结构用上题的（由于数据库的不同SQL语法不同，所以写出SQL语句后写上数据库类型）【科大国创】
+1.1.38.	阅读以下说明，回答问题 1 至问题 4，将解答填入答题纸的对应栏内。  【浪潮软件】
+说明：
+　　某宾馆需要建立一个住房管理系统，部分的需求分析结果如下：
+　　(1) 一个房间有多个床位，同一房间内的床位具有相同的收费标准。不同房间的床位收费标准可能不同。
+　　(2) 每个房间有房间号（如 201、202 等）、收费标准、床位数目等信息。
+　　(3) 每位客人有身份证号码、姓名、性别、出生日期和地址等信息。
+　　(4) 对每位客人的每次住宿，应该记录其入住日期、退房日期和预付款额信息。
+　　(5) 管理系统可查询出客人所住房间号。
+　　根据以上的需求分析结果，设计一种关系模型如图 2-1 所示：
+图 2-1 住房管理系统的实体联系图
+1.根据上述说明和实体-联系图，得到该住房管理系统的关系模式如下所示，请补充住宿关系。
+　　　房间(房间号，收费标准，床位数目)
+　　　客人(身份证号，姓名，性别，出生日期，地址)
+　　　住宿( _______、_______ ,入住日期，退房日期，预付款额)
+2.请给出问题 1 中住宿关系的主键和外键。
+3.若将上述各关系直接实现为对应的物理表，现需查询在 2005 年 1 月 1 日到 2005 年 12 月 31 日期间，在该宾馆住宿次数大于 5 次的客人身份证号，并且按照入住次数进行降序排列。下面是实现该功能的 SQL 语句，请填补语句中的空缺。
+　SELECT 住宿.身份证号,count(入住日期) FROM 住宿，客人
+　　　WHERE 入住日期>= ‘20050101’AND 入住日期<= ‘20051231’
+　　　　AND 住宿.身份证号 = 客人.身份证号
+　　　GROUP BY （2）
+　　　（3） count(入住日期) > 5
+　　　（4）
+
+4.为加快 SQL 语句的执行效率，可在相应的表上创建索引。根据问题 3 中的 SQL 语句，除主键和外键外，还需要在哪个表的哪些属性上创建索引，应该创建什么类型的索引，请说明原因。
+1.1.39.	假如有一个制造商生产若干种产品，并由不同的销售负责销售这些产品，产品和销售商之间是多对多的关系，数据库结构如下： 【夏尔软件】
+Table1 : 该制造商制造的产品表
+字段名称字段类型字段长度字段含义
+ProductID 文本 6 产品编号（Primary Key)
+ProductName 文本 20 产品名称
+ProductMemo 备注产品说明
+
+Table2 : 销售商表
+字段名称字段类型字段长度字段含义
+SalesID 文本 4 销售商编号（Primary Key)
+SalesName 文本 20 销售商名称
+SalesPhone 文本 15 销售商联系电话
+
+Table3 : 销售商销售的产品表
+字段名称字段类型字段长度字段含义
+SalesID 文本 4 销售商编号
+ProductID 文本 6 产品编码
+
+要求：用SQL语句实现以下功能
+1.查询所有负责销售编号为 p00001的产品的销售商的编号，名称和联系电话
+2.查询各种产品的销售的数量
+3.查询编号为 s001的销售商所不经销的产品的编码和名称
+1.1.40.	数据库编程   【宇信易诚】
+账户表
+CustNo	CustName	AccNo	AccBalance	LastModAmt	LastModDate
+21890001	Huawuque	100001	1000	+500	20110201
+21890001	Huawuque	100004	1500	-100	20110101
+21890002	Xiaoyuer	100002	2000	+200	20110301
+21890003	Zhangwuji	100003	3000	+1000	20110401
+21890004	Zhouxingchi	100005	5000	-300	20101231
+
+注：以客户号和卡号为联合主键
+1，现有一个客户新开户，客户号21890005，客户姓名刘帅，账号100006，同时该客户往账户中存了10元钱，请以此写一条insert语句；
+2，假设客户huawuque今天用银行卡100004在ATM机上取走了500元，写一条update语句更新该卡的余额信息
+3，请写一条select语句选出客户号一样的账户信息，并算出该客户所有卡的积累余额；

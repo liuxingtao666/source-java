@@ -1,0 +1,253 @@
+3、使用函数(continued)
+    1)、格式化：
+	Why:为今后编程需要或者向客户展示需要。
+	*不会改变数据表中原始数据*
+	格式化会作用于结果中的每一行
+	select cardid,
+to_char(openDate,'FMYYYY-MM-DD') 开户日期,
+to_char(balance,'L99G999D99') 余额
+	from cardInfo_你名字全拼
+    2)、数据类型相关的函数：
+        i、日期相关：
+	select customerID,cardID,
+	extract(year from sysdate)
+	-
+	extract(year from openDate)
+	开户年限
+	from cardInfo_你名字全拼
+        ii、字符串相关：
+	select customerID,
+	subStr(cardID,1,5)
+	||‘**** ****’||
+	subStr(cardID,-5,5) 卡号,
+	openDate
+	from cardInfo_你名字全拼
+	
+      3)、Select中的"if...else..."
+	Why：根据每行不同内容计算出不同的新值
+	语法：
+	i、Oracle特有：
+	    decode(列名,
+		值1,结果1,
+		值2,结果2,
+		...
+		[默认值]
+	    )
+
+    select cardID,savingType,balance,
+        decode(trim(savingType),
+           '活期', balance * 0.35/100,
+           '定期', balance * 3.25/100
+        ) 利息
+    from cardInfo_你名字全拼
+
+    select cardID,
+        decode(isreportloss,
+           '0', '正常',
+           '1', '挂失'
+        ),
+        case
+         when isReportLoss=‘1’ then '挂失'
+         else '正常'
+        end
+    from cardInfo_你名字全拼;
+
+      强调：*只能做=判断*
+
+    ii、标准SQL：
+	When：当条件中包含除=之外的比较时。
+	语法：
+	case
+	    when 条件1 then 显示值1
+	    when 条件2 then 显示值2
+	    ...
+	    else 默认值
+	end
+
+           相当于:
+	if(balance >=30000)
+	--balance <30000
+           else if(balance > 10000)
+	else if
+	else
+	
+select cardID,
+        case
+         when isReportLoss=‘1’ then '挂失'
+         else '正常'
+        end 是否挂失
+from cardInfo_你名字全拼;
+
+	select cardID,
+	case
+when balance>=30000 then '土豪'
+when balance>=10000 then ‘程序猿’
+else ‘屌丝’
+	end 等级
+	from cardInfo_你名字全拼
+
+     5)、Where中使用函数：
+	Why：某一列的值需要经过加工，才能作为条件。
+	select cardID,opendate
+	from cardInfo_你名字全拼
+where extract(year from openDate) < 2010
+    4、聚合函数：
+        What：对一组值计算，最后返回一行汇总值。
+        Why:汇总值，个数，平均。
+        1)、对整个表汇总：
+	语法：select 
+	     count(列名)|sum(列名)|avg(列名)
+	     from 表名
+        select count(*) 北京用户数--3 
+        from userInfo_你名字全拼--1
+        where telephone like '010%'
+	   or address like '%北京%'--2
+    强调：
+        单纯汇总结果，不能与未参与汇总的列混用。
+        *复杂查询分步写，分步原则按顺序*
+
+     select sum(balance)--3
+     from cardInfo_你名字全拼--1
+     where customerID='3'--2
+
+    2)、分组汇总：
+	Why：分组汇总，小计。
+	语法：
+	   select 聚合函数--4
+	   from--1
+	   where--2
+	   group by(列名)-3
+	强调；
+	    *上方四条语句的顺序不能改变*
+	    group by中的列将去除重复项，保持唯一。
+	    结果中的行数取决于分组合并后的剩余行数。
+	    空值不参与汇总。
+          如： 
+	group by customerID
+	按客户编号分组统计。。。
+	或统计每个客户的。。。
+    3--select customerID, 
+	count(customerID) 账号数,
+	sum(balance) 总账余额
+        from cardInfo_你名字全拼--1
+        group by customerID--2
+	强调：
+        *select中只能出现group by中的列*
+
+    3)Having：
+        What：使用聚合函数充当筛选条件时。要使用Having代替Where。但必须放在Group by后边。
+        *聚合函数不能放在Where中*
+        语法：
+	select
+	from
+	where
+	group by
+	having 条件
+
+     select customerID,
+     to_char(sum(balance),'L99G999D99')--4
+     From cardInfo_你名字全拼--1     
+     group by customerID--2
+     having sum(balance)>30000--3
+    4)、聚合函数和Group by的使用规则
+     i、聚合函数的执行次数取决于分组的个数。每组执行一次。
+    ii、如果没有group by。仅返回一个值。对列中的所有值汇总。
+    iii、查询语句最终返回的行数，取决于分组的个数。
+    *iv、除group by中的列和聚合函数的列外，其他列不允许混合在Select中。
+    5、排序：Order by 
+	What:按结果中指定列升序、降序排列。
+	Why：未排序的数据看起来不方便。数据多了，查找方便。
+    语法：
+	select--5
+	from--1
+	where--2
+	group by--3
+	having--4
+	
+       6--order by 列名 asc升序/desc降序
+
+    select customerID,--3
+     trim(to_char(sum(balance),'L99G999D99')) 总账余额
+     From cardInfo_你名字全拼--1     
+     group by customerID--2
+     order by sum(balance) desc;--4
+   --      按    总账余额   降序排列
+
+九、连接查询（join）
+    1、Why：为了得到完整的结果，需要从多个表中获取需要的列，按关联关系拼接成新的结果。
+      简单：存：分着存；取：合着取
+     2、语法：
+    select...
+    from 表名1 join 表名2 
+	on 表名1.列名1=表名2.列名2
+	*建议列名1=列名2
+	*等号两边建议为主外键
+     select *
+     from cardInfo_你名字全拼 c 
+         join userInfo_你名字全拼 u
+        on c.customerID = u.customerID
+    3)、内连接：
+        what:取数据的交集。交集意外的数据不显示。
+        语法：
+        from 表名1 [inner] join 表名2
+        如果关联的两个表中主外键名称相同
+        可使用:using(列名)代替on...
+        *using中的列名不允许带前缀*
+        如：
+    select customerID,u.customerName,u.telephone,u.address,c.cardID,c.opendate,c.balance
+    from cardInfo_你名字全拼 c 
+         join userInfo_你名字全拼 u
+        using(customerID)
+    where pid='321245678912345678'
+
+    4、外连接：包含左连接，右连接，全连接
+        What：两表交集+引入表中没有关联的数据。
+        Why:以其中一张表的完成信息作为基础、参照。
+     语法：
+         from 表A left|right|full [outer]             join 表B on/using
+     如：
+        select *
+        from userInfo_你名字全拼 
+	left join cardInfo_你名字全拼
+	using(customerID)
+     强调：
+        left/right：相对于两个表在join关键字左右的位置
+       右如：
+        from cardInfo_你名字全拼
+	right join userInfo_你名字全拼
+	using(customerID)
+
+     查询无银行卡的客户：
+     select customerID，customerName，Pid,telephone
+        from userInfo_你名字全拼 
+	left join cardInfo_你名字全拼
+	using(customerID)
+     where cardID is null
+
+    5、全连接：full join
+    6、全集-交集：
+	如：删除所有无卡的用户以及无主的银行卡
+    7、查询结果中的null值，如何显示：
+        Why：如果查询结果某个格中出现null值，需要替换为有意义的标识。
+        语法：
+         NVL(列名,'替换值')
+        如：
+        select customerID，customerName，Pid,telephone,nvl(cardID,'无卡') 卡号
+        from userInfo_你名字全拼 
+	left join cardInfo_你名字全拼
+	using(customerID)
+    8、合并重复记录：
+        why:主外键关联中，主键表的同一行有可能重复出现多次。需要合并重复的行
+        语法：
+	select distinct 列。。。
+        如：select distinct u.*
+from userInfo_你名字全拼 u join cardInfo_你名字全拼 c
+on u.customerID = c.customerID
+where balance > 20000;
+      *强调：distinct只能合并所有单元格都相同的两行。*
+
+
+
+
+
+
